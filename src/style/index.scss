@@ -24,8 +24,8 @@ html, body{
   padding: 1px 4px;
   position: absolute;
   top: 15px;
-  left: 15px;
-  right: 15px;
+  left: 50%;
+  transform: translate(-50%, 0%);
   z-index: 1;
   input {
     border: none;
@@ -47,8 +47,8 @@ html, body{
 .bottomTab {
   position: absolute;
   bottom: 15px;
-  left: 15px;
-  right: 15px;
+  left: 50%;
+  transform: translate(-50%, 0%);
   display: flex;
   justify-content: space-evenly;
   width: 90%;
