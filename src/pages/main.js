@@ -1,11 +1,11 @@
-import BottomTab from "../components/bottomTab"
-import Header from "../components/headers"
-import KakaoMap from "../components/kakaoMap"
+import BottomTab from '../components/bottomTab'
+import SearchBar from '../components/searchBar'
+import KakaoMap from '../components/kakaoMap'
 
 const Main = () => {
   return (
     <div>
-      <Header />
+      <SearchBar />
       <KakaoMap />
       <BottomTab />
     </div>
