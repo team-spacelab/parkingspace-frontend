@@ -1,5 +1,4 @@
-import { FaRegSmile } from 'react-icons/fa'
-import { BsFillEmojiDizzyFill } from 'react-icons/bs'
+import { FaRegSmile, FaDizzy } from 'react-icons/fa'
 import BottomTab from '../components/bottomTab'
 import { Link } from 'react-router-dom'
 const RequireLogin = () => {
@@ -12,7 +11,7 @@ const RequireLogin = () => {
         </Link>
       </div>
       <div>
-        <BsFillEmojiDizzyFill />
+        <FaDizzy />
         <p>
           로그인 전에는 해당 기능을
           <br />

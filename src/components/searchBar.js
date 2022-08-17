@@ -2,7 +2,7 @@ import { FaSearch, FaFilter } from 'react-icons/fa'
 const SearchBar = () => {
   const search = (e) => {}
   return (
-    <div className='headers'>
+    <div className='searchBar'>
       <input
         type={'text'}
         placeholder='검색'
