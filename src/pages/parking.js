@@ -1,10 +1,13 @@
-import BottomTab from "../components/bottomTab"
 import {FaPlus} from "react-icons/fa"
+import BottomTab from "../components/bottomTab"
+import Header from "../components/header"
 const ParkingSpace = () => {
   return (
+    <>
+    <Header />
     <div className="parkingspace">
       <div className="park-card">
-        d
+        
       </div>
       <div className="addPark">
         <FaPlus/>
@@ -12,6 +15,7 @@ const ParkingSpace = () => {
       </div>
       <BottomTab/>
     </div>
+    </>
   )
 }
 
