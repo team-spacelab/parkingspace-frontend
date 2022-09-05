@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { FaPencilAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import toastr from 'toastr'
+import Header from '../components/header'
 
-const Login = ({ setIsLogged, history }) => {
+const Login = ({ setIsLogged }) => {
   toastr.options = {
     closeButton: false,
     debug: false,
@@ -41,6 +42,7 @@ const Login = ({ setIsLogged, history }) => {
           toastr.success('로그인 성공')
           localStorage.setItem('token', res.data.token)
           console.log(localStorage.getItem('token'))
+          setIsLogged(true)
           navigate('/')
         }
         //data.false
@@ -50,6 +52,8 @@ const Login = ({ setIsLogged, history }) => {
       })
   }
   return (
+    <>
+    <Header/>
     <div className='login'>
       <h3>
         정보를 입력하고
@@ -84,6 +88,7 @@ const Login = ({ setIsLogged, history }) => {
         </p>
       </div>
     </div>
+    </>
   )
 }
 
