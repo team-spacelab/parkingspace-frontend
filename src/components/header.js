@@ -1,8 +1,16 @@
-import { FaTree } from "react-icons/fa"
+import { Link } from 'react-router-dom'
+
 const Header = () => {
   return (
-    <div className="header">
-      <h2>ParkingTree<FaTree/></h2>
+    <div className='header'>
+      <Link
+        to='/'
+        style={{
+          textDecoration: 'none',
+        }}
+      >
+        <h2>parkingspace</h2>
+      </Link>
     </div>
   )
 }
