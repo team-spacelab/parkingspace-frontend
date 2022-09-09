@@ -3,11 +3,15 @@ import React, { useEffect } from 'react'
 
 const KakaoMap = () => {
   useEffect(() => {
+    createMap()
+  }, [])
+
+  const createMap = () => {
     const container = document.getElementById('map')
     if (navigator.geolocation) {
       let lat = 0
       let lng = 0
-      navigator.geolocation.watchPosition(function (position) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         lat = position.coords.latitude
         lng = position.coords.longitude
         const options = {
@@ -23,15 +27,14 @@ const KakaoMap = () => {
         marker.setMap(map)
       })
     } else {
-      // 만약 geolocation을 쓰지 못한다면
+      // 만약 geolocation을 쓰지 못한다면 교장쌤 집을 찍자
       const options = {
         center: new kakao.maps.LatLng(36.301944076747795, 128.58436918356492),
         level: 4,
       }
       const map = new kakao.maps.Map(container, options)
     }
-  }, [])
-
+  }
   return (
     <div className='kakaomap'>
       <div

@@ -197,6 +197,13 @@ html, body{
     p {font-size: 1.3em;}
   }
 }
+
+.myInfo {
+  width: 92%;
+  display: block;
+  margin: 0 auto;
+  
+}
 //갤럭시 폴드...
 @media screen and (max-width:280px) {
   .searchBar, .bottomTab, .header, .addPark {
