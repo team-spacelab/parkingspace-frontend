@@ -39,12 +39,21 @@
     <link rel="apple-touch-startup-image" href="apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
   </head>
   <body>
-    <div id="root"></div>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #7648faff;
+      }
+    </style>
     <script type="module">
       import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
 
       const el = document.createElement('pwa-update');
       document.body.appendChild(el);
+    </script>
+    <script>
+      alert('오프라인 상태에서는 앱을 사용하실 수 없습니다. WIFI / 모바일 테더링이 켜져있는지 확인해주세요.')
     </script>
   </body>
 </html>
