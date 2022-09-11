@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - cd /app
+      - echo $(jq ".appVersionName = \"`date +%s`\"" twa-manifest.json -M) > twa-manifest.json
+      - bubblewrap update --skipVersionUpgrade --appVersionName="`date +%s`"
+
+  build:
+    commands:
+      - BUBBLEWRAP_KEYSTORE_PASSWORD="password"
+      - BUBBLEWRAP_KEY_PASSWORD="password"
+      - echo yes | bubblewrap build
+      - KEYCHAIN_SHA256=$(printf "password" | keytool -list -keystore android.keystore 2> /dev/null | awk 'END{print $4}')
+      - bubblewrap fingerprint add $KEYCHAIN_SHA256
+
+  post_build:
+    commands:
+      - mkdir packages .well-known
+      - cp ./app-release-signed.apk packages/android.apk
+      - cp ./app-release-bundle.aab packages/android.aab
+      - cp ./assetlinks.json .well-known/assetlinks.json
+
+artifacts:
+  base-directory: /app
+  files:
+    - 'packages/android.apk'
+    - 'packages/android.aab'
+    - '.well-known/assetlinks.json'
