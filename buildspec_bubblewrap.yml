@@ -23,6 +23,7 @@ phases:
       - cp ./assetlinks.json .well-known/assetlinks.json
 
 artifacts:
+  base-directory: /app
   files:
     - 'packages/android.apk'
     - 'packages/android.aab'
