@@ -90,7 +90,7 @@ const MyInfo = ({ isLogged }) => {
           <p className='myInfoFlexContainer'>
             <span>
               <FaCog />
-              주차장페이지를 메인페이지로 설정{' '}
+              &nbsp; 주차장페이지를 메인페이지로 설정{' '}
             </span>
             <button className='changeMainPageBtn' onClick={() => switchState()}>
               {/** 안되니까 지우든지 고치든지..? */}

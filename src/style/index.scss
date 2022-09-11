@@ -13,8 +13,8 @@ a:visited, a:active, a:hover, a:link {
   text-decoration: none;
 }
 html, body{
+  height:100%;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 }
 .searchBar {
@@ -216,10 +216,11 @@ html, body{
   } */
   & > p {
     border-bottom: 1px solid #ccc;
-    &:first-child, &:last-child {
+    &:first-child {
       border-bottom: none;
+      padding: 15px;
     }
-    padding: 15px;
+    padding: 20px 15px;
     &:first-child > span {
       vertical-align: 40%;
       font-size: 1.2em;
@@ -270,6 +271,22 @@ html, body{
     }
   }
 }
+.splashPage {
+  z-index: 100;
+  height: 100%;
+  img {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  background-color: #7748fa;
+  overflow: hidden
+  }
+  @media screen and (max-width:768px) {
+    .splashPage {
+      height: 100vh;
+    }
+  }
 //갤럭시 폴드...
 @media screen and (max-width:280px) {
   .searchBar, .bottomTab, .header, .addPark {
