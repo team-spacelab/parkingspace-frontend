@@ -4,8 +4,8 @@ phases:
   pre_build:
     commands:
       - cd /app
-      - echo $(jq ".appVersionCode = `date +%s` | .appVersionName = \"`date +%s`\"" twa-manifest.json -M) > twa-manifest.json
-      - echo yes | bubblewrap update
+      - echo $(jq ".appVersionName = \"`date +%s`\"" twa-manifest.json -M) > twa-manifest.json
+      - bubblewrap update --skipVersionUpgrade --appVersionName="`date +%s`"
 
   build:
     commands:
@@ -20,7 +20,7 @@ phases:
       - mkdir packages .well-known
       - cp ./app-release-signed.apk packages/android.apk
       - cp ./app-release-bundle.aab packages/android.aab
-      - cp ./assertlinks.json .well-known/assetlinks.json
+      - cp ./assetlinks.json .well-known/assetlinks.json
 
 artifacts:
   files:
