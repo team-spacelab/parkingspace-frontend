@@ -53,41 +53,41 @@ const Login = ({ setIsLogged }) => {
   }
   return (
     <>
-    <Header/>
-    <div className='login'>
-      <h3>
-        정보를 입력하고
-        <br /> 버튼을 눌러 로그인해주세요 <FaPencilAlt />
-      </h3>
-      <div>
-        <p>아이디</p>
-        <input
-          type={'text'}
-          name='login'
-          onChange={(e) =>
-            setLoginInputInfo({
-              ...loginInputInfo,
-              login: e.target.value,
-            })
-          }
-        />
-        <p>비밀번호</p>
-        <input
-          type={'password'}
-          name='password'
-          onChange={(e) =>
-            setLoginInputInfo({
-              ...loginInputInfo,
-              password: e.target.value,
-            })
-          }
-        />
-        <input type={'button'} value='로그인' onClick={() => login()} />
-        <p>
-          <Link to={'/register'}>회원가입</Link>
-        </p>
+      <Header />
+      <div className='login'>
+        <h3>
+          정보를 입력하고
+          <br /> 버튼을 눌러 로그인해주세요 <FaPencilAlt />
+        </h3>
+        <div>
+          <p>아이디</p>
+          <input
+            type={'text'}
+            name='login'
+            onChange={(e) =>
+              setLoginInputInfo({
+                ...loginInputInfo,
+                login: e.target.value,
+              })
+            }
+          />
+          <p>비밀번호</p>
+          <input
+            type={'password'}
+            name='password'
+            onChange={(e) =>
+              setLoginInputInfo({
+                ...loginInputInfo,
+                password: e.target.value,
+              })
+            }
+          />
+          <input type={'button'} value='로그인' onClick={() => login()} />
+          <p>
+            <Link to={'/register'}>회원가입</Link>
+          </p>
+        </div>
       </div>
-    </div>
     </>
   )
 }
