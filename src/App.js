@@ -15,8 +15,9 @@ const App = () => {
     localStorage.getItem('token') != null ? true : false
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
+  //강제로 3초 보여줄려 했더니 애가 일을 안할줄은...
   useEffect(() => {
-    setTimeout(setShowSplashPage(1), 1000)
+    setTimeout(setShowSplashPage(1), 3000)
   }, [])
 
   if (showSplashPage) {
