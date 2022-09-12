@@ -1,5 +1,6 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react'
+import ParkingspaceInfoModal from './parkingspaceInfoModal'
 const KakaoMap = () => {
   // const infoTitle = window.document.querySelectorAll('.info-title')
   // infoTitle.forEach(function (e) {
@@ -18,7 +19,7 @@ const KakaoMap = () => {
   }, [])
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-
+  const [showModal, setShowModal] = useState(0)
   const [positions, setpositions] = useState([
     {
       success: true,
@@ -92,6 +93,7 @@ const KakaoMap = () => {
 
     kakao.maps.event.addListener(marker, 'click', function () {
       console.log(position.data.name)
+      setShowModal(1)
     })
   }
 
@@ -129,10 +131,10 @@ const KakaoMap = () => {
   }
   return (
     <div className='kakaomap'>
-      <div
-        id='map'
-        style={{ width: '100vw', height: '100vh', zIndex: '0' }}
-      ></div>
+      <div id='map' style={{ width: '100vw', height: '100vh', zIndex: '0' }} />
+      {showModal === 1 ? (
+        <ParkingspaceInfoModal setShowModal={setShowModal} />
+      ) : null}
     </div>
   )
 }
