@@ -1,6 +1,5 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react'
-
 const KakaoMap = () => {
   // const infoTitle = window.document.querySelectorAll('.info-title')
   // infoTitle.forEach(function (e) {
@@ -19,6 +18,7 @@ const KakaoMap = () => {
   }, [])
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+
   const [positions, setpositions] = useState([
     {
       success: true,
@@ -26,6 +26,15 @@ const KakaoMap = () => {
         name: '교장쌤 집',
         id: 1,
         latlng: new kakao.maps.LatLng(36.301944076747795, 128.58436918356492),
+        price: 5000,
+      },
+    },
+    {
+      success: true,
+      data: {
+        name: '집',
+        id: 2,
+        latlng: new kakao.maps.LatLng(35.8456678, 128.6409426),
         price: 5000,
       },
     },
@@ -59,9 +68,20 @@ const KakaoMap = () => {
   ])
 
   const addMarker = (map, position) => {
+    const markerSize = 40
+    const imageSrc = './marker.png' // 마커이미지의 주소입니다
+    const imageSize = new kakao.maps.Size(markerSize, markerSize) // 마커이미지의 크기입니다
+
+    //   var markerImage = new daum.maps.MarkerImage(
+    //     '/IMG_FILENAME.png', new daum.maps.Size(WIDTH, HEIGHT));
+
+    // marker.setImage(markerImage);
+
+    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
     const marker = new kakao.maps.Marker({
       map: map,
       position: position.data.latlng,
+      image: markerImage,
     })
     const costBox = new kakao.maps.CustomOverlay({
       // map: map,
@@ -77,6 +97,7 @@ const KakaoMap = () => {
 
   const createMap = () => {
     const container = document.getElementById('map')
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const options = {
