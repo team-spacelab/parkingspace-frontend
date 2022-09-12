@@ -299,3 +299,16 @@ html, body{
     font-size: 1.1em;
   }
 }
+.markerCost {
+  background-color: #6232d3d7;
+  color: #fff;
+  font-size: 0.7em;
+  display: block;
+  position: relative;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  padding: 3px 10px;
+  box-sizing: content-box;
+  border-radius: 50px;
+}
