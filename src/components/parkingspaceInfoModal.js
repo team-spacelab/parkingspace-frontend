@@ -8,7 +8,8 @@ import {
 const ParkingspaceInfoModal = ({ id, setShowModal }) => {
   useEffect(() => {
     // id로 썸네일같은거 다 받아오라 이말이야
-  }, [])
+    console.log(id)
+  })
   return (
     <>
       <div className='parkingspaceInfoModal'>
@@ -24,11 +25,11 @@ const ParkingspaceInfoModal = ({ id, setShowModal }) => {
         </p>
         <p>경상북도 의성군 봉양면 봉호로 75-1</p>
         <div>
-          <button>
+          <button onClick={() => console.log('현장 예약')}>
             <FaQrcode />
             &nbsp; 현장 구매
           </button>
-          <button>
+          <button onClick={() => console.log('주차장 예약')}>
             <FaRegClock />
             &nbsp; 주차장 예약
           </button>

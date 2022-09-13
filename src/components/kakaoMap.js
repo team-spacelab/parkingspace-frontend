@@ -20,6 +20,7 @@ const KakaoMap = () => {
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
   const [showModal, setShowModal] = useState(0)
+  const [selectedId, setSelectedId] = useState(0)
   const [positions, setpositions] = useState([
     {
       success: true,
@@ -43,7 +44,7 @@ const KakaoMap = () => {
       success: true,
       data: {
         name: '생태연못',
-        id: 2,
+        id: 4,
         latlng: new kakao.maps.LatLng(33.450936, 126.569477),
         price: 50000,
       },
@@ -94,6 +95,7 @@ const KakaoMap = () => {
     kakao.maps.event.addListener(marker, 'click', function () {
       console.log(position.data.name)
       setShowModal(1)
+      setSelectedId(position.data.id)
     })
   }
 
@@ -107,7 +109,7 @@ const KakaoMap = () => {
             position.coords.latitude,
             position.coords.longitude
           ),
-          level: 4,
+          level: 3,
         }
         const map = new kakao.maps.Map(container, options)
         //현재 내위치
@@ -133,7 +135,7 @@ const KakaoMap = () => {
     <div className='kakaomap'>
       <div id='map' style={{ width: '100vw', height: '100vh', zIndex: '0' }} />
       {showModal === 1 ? (
-        <ParkingspaceInfoModal setShowModal={setShowModal} />
+        <ParkingspaceInfoModal id={selectedId} setShowModal={setShowModal} />
       ) : null}
     </div>
   )
