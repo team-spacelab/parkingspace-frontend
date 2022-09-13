@@ -313,18 +313,57 @@ html, body{
   border-radius: 50px;
 }
 .parkingspaceInfoModal {
-  z-index: 5;
+  .dragBar {
+    display: block;
+    margin:  0 auto;
+    width: 10%;
+    height: 5px;
+    border-radius: 50px;
+    background-color: #6232d3e3;
+  }
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  box-sizing: content-box;
+  z-index: 0;
   display: block;
+  position: relative;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100vw;
   background: #fff;
+  width: 93%;
+  padding: 5px 3.5%;
+  padding-bottom: 4.5em;
+  box-shadow: 0 -2px 5px #ccc;
   .address {
     color: #6232D3;
   }
-  img {
-    width: 50%;
+  .parkingspaceThum {
+    width: 100%;
+    height: 6em;
+    background-image: url('../assets/addParking.jpg');
+    background-size: cover;
+    display: block;
+    margin: 3px auto;
+    border-radius: 8px;
+  }
+  h3, p {margin: 3px 0;}
+  p {*{vertical-align: middle}}
+  p > svg {color: #6232D3;font-size:1.2em}
+  & > div{ 
+    margin: 5px 0;
+    display: flex;
+    justify-content:space-between;
+    button {
+      width: 46%;
+      background-color: #444444;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 11px;
+      * {vertical-align: middle}
+      svg {font-size:1.2em}
+    }
   }
 }
 .backgroundModal {
@@ -334,4 +373,5 @@ html, body{
   position: absolute;
   top: 0;
   left: 0;
+  
 }
