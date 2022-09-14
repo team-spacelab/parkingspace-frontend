@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import toastr from 'toastr';
-import Header from '../components/header';
+import { useState } from 'react'
+import { FaPencilAlt } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import toastr from 'toastr'
+import Header from '../components/header'
 
 const Register = () => {
   toastr.options = {
@@ -20,12 +20,12 @@ const Register = () => {
     hideEasing: 'linear',
     showMethod: 'slideDown',
     hideMethod: 'slideUp',
-  };
+  }
   const [registerInputInfo, setRegisterInputInfo] = useState({
     login: '',
     password: '',
     nickname: '',
-  });
+  })
   const register = () => {
     fetch('api/auth/v1/users', {
       method: 'POST',
@@ -39,14 +39,14 @@ const Register = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          window.location.href = 'http://localhost:3000/';
+          window.location.href = '/'
         }
         //data.false
         else {
-          toastr.warning('회원가입 실패', data.reason);
+          toastr.warning('회원가입 실패', data.reason)
         }
-      });
-  };
+      })
+  }
   return (
     <>
       <Header />
@@ -96,7 +96,7 @@ const Register = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

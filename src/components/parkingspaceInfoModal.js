@@ -24,6 +24,7 @@ const ParkingspaceInfoModal = ({ id, setShowModal }) => {
           <FaUserCircle /> {'orol4rang'}
         </p>
         <p>경상북도 의성군 봉양면 봉호로 75-1</p>
+        <p className='desc'>이것은 이다 교장선생님의 집 ( 사실 공장임.. )</p>
         <div>
           <button onClick={() => console.log('현장 예약')}>
             <FaQrcode />

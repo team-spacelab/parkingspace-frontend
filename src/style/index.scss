@@ -173,30 +173,40 @@ html, body{
     width: 92%;
     display: block;
     margin: 0 auto;
-    color: rgb(255, 255, 255);
-    height: 90px;
+    color: rgba(0, 0, 0, 0.7);
+    border: 1px rgba(0, 0, 0, 0.7) dashed;
+    // height: 90px;
     text-align: center;
-    padding: 25px 0;
+    padding: 15px 0;
     box-sizing: content-box;
     border-radius: 10px;
     position: relative;
-    &::before {
-      content: '';
-      background-image: url('../assets/addParking.jpg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.75;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-      border-radius: 10px;
-    }
+    // &::before {
+    //   content: '';
+    //   background-image: url('../assets/addParking.jpg');
+    //   background-size: cover;
+    //   background-position: center;
+    //   opacity: 0.75;
+    //   position: absolute;
+    //   top: 0px;
+    //   left: 0px;
+    //   right: 0px;
+    //   bottom: 0px;
+    //   border-radius: 10px;
+    // }
     * {position: relative;}
-    svg {font-size: 3.3em;}
-    p {font-size: 1.3em;}
+    // svg {font-size: 3.3em;}
+    // p {font-size: 1.3em;}
+      p {display: inline-block;}
   }
+}
+.parkingspaceCard {
+  width: 92%;
+  display: block;
+  margin: 0 auto;
+  padding: 15px 0;
+  box-sizing: content-box;
+  &::before {content:"adf"}
 }
 
 .myInfo {
@@ -337,6 +347,7 @@ html, body{
   box-shadow: 0 -2px 5px #ccc;
   .address {
     color: #6232D3;
+    font-size: 1.3em;
   }
   .parkingspaceThum {
     width: 100%;
@@ -350,6 +361,7 @@ html, body{
   h3, p {margin: 3px 0;}
   p {*{vertical-align: middle}}
   p > svg {color: #6232D3;font-size:1.2em}
+  .desc {opacity: 0.8;font-size:0.9em; font-weight: 500;}
   & > div{ 
     margin: 5px 0;
     display: flex;
@@ -360,9 +372,8 @@ html, body{
       color: #fff;
       border: none;
       border-radius: 10px;
-      padding: 9px 11px;
-      * {vertical-align: middle}
-      svg {font-size:1.2em}
+      padding: 7px 5px;
+      * {vertical-align: middle; font-size: 12px;}
     }
   }
 }
