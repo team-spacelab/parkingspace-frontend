@@ -89,6 +89,7 @@ const Register = () => {
               })
             }
           />
+          {/** 차 번호 */}
           <input type={'button'} value='회원가입' onClick={() => register()} />
           <p>
             <Link to={'/login'}>로그인</Link>
