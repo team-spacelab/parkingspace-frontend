@@ -39,6 +39,7 @@ const Register = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+          toastr.success('회원가입 성공')
           window.location.href = '/'
         }
         //data.false

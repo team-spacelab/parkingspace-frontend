@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import BottomTab from '../components/bottomTab'
 import Header from '../components/header'
 import Loading from './loading'
@@ -18,11 +19,24 @@ const ParkingSpace = () => {
       <Header />
       <div className='parkingspace'>
         <div className='park-card'></div>
-        <div className='parkingspaceCard'></div>
-        <div className='addPark'>
-          <FaPlus />
-          <p> &nbsp;주차장을 등록해보세요</p>
-        </div>
+        <Link to='/parkingspaceDetail' state={{ spaceId: 1234 }}>
+          <div className='parkingspaceCard'>
+            <p>
+              교장선생님 집 앞{' '}
+              <span className='address'>
+                ( 경상북도 의성군 봉양면 봉호로 75 - 1 )
+              </span>
+            </p>
+            <p>-</p>
+            <p className='status'>대여 중</p>
+          </div>
+        </Link>
+        <Link to='/registParkingspace'>
+          <div className='addPark'>
+            <FaPlus />
+            <p> &nbsp;주차장을 등록해보세요</p>
+          </div>
+        </Link>
         <BottomTab />
       </div>
     </>

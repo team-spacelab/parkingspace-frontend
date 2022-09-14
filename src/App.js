@@ -4,7 +4,9 @@ import Login from './pages/login'
 import Main from './pages/main'
 import MyInfo from './pages/myInfo'
 import ParkingSpace from './pages/parking'
+import ParkingSpaceDetail from './pages/parkspaceDetail'
 import Register from './pages/register'
+import RegistParkingSpace from './pages/registParkspace'
 import SplashPage from './pages/splash'
 import './style/index.scss'
 import './style/toastr.scss'
@@ -26,6 +28,8 @@ const App = () => {
         <Routes>
           <Route path={'/'} element={<Main />} />
           <Route path={'/parkingspace'} element={<ParkingSpace />} />
+          <Route path='/parkingspaceDetail' element={<ParkingSpaceDetail />} />
+          <Route path='/registParkingspace' element={<RegistParkingSpace />} />
           <Route
             path={'/login'}
             element={<Login setIsLogged={setIsLogged} />}

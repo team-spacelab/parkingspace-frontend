@@ -181,32 +181,45 @@ html, body{
     box-sizing: content-box;
     border-radius: 10px;
     position: relative;
-    // &::before {
-    //   content: '';
-    //   background-image: url('../assets/addParking.jpg');
-    //   background-size: cover;
-    //   background-position: center;
-    //   opacity: 0.75;
-    //   position: absolute;
-    //   top: 0px;
-    //   left: 0px;
-    //   right: 0px;
-    //   bottom: 0px;
-    //   border-radius: 10px;
-    // }
     * {position: relative;}
     // svg {font-size: 3.3em;}
     // p {font-size: 1.3em;}
-      p {display: inline-block;}
+    p {display: inline-block;}
   }
 }
 .parkingspaceCard {
-  width: 92%;
+  &::before {
+    content: '';
+    background-image: url('../assets/addParking.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 10px;
+  }
+  border: 0.3px solid rgba(100, 100, 100, 0.582);
+  position: relative;
+  border-radius: 10px;
+  opacity: 1;
+  color: rgb(255, 255, 255);
+  font-weight:  700;
+  // font-size: 0.9em;
+  position: relative;
+  width: 88%;
   display: block;
-  margin: 0 auto;
-  padding: 15px 0;
+  margin: 15px auto;
+  padding: 20px 2%;
   box-sizing: content-box;
-  &::before {content:"adf"}
+  display: flex;
+  justify-content: space-evenly;
+  & > p {
+    display: inline-block;
+  }
 }
 
 .myInfo {
@@ -291,24 +304,8 @@ html, body{
   }
   background-color: #7748fa;
   overflow: hidden
-  }
-  @media screen and (max-width:768px) {
-    .splashPage {
-      height: 100vh;
-    }
-  }
-//갤럭시 폴드...
-@media screen and (max-width:280px) {
-  .searchBar, .bottomTab, .header, .addPark {
-    width: 88%;
-    input {
-      width: 70%;
-    }
-  }
-  .login h3 {
-    font-size: 1.1em;
-  }
 }
+
 .markerCost {
   background-color: #6232d3d7;
   color: #fff;
@@ -385,4 +382,83 @@ html, body{
   top: 0;
   left: 0;
   
+}
+
+.warning {
+  color: red;
+}
+
+.parkingspaceDetail {
+  display: block;
+  width: 92%;
+  margin: 0 auto;
+  h3 {color: #6232D3;}
+  * {
+    vertical-align: middle;
+  }
+  svg {
+    font-size: 1.1em;
+  }
+  & > * {
+    margin: 8px 0;
+  }
+  .image {
+    display: block;
+    background-size: cover;
+    background-position: center;
+    
+    width: 100%;
+    height: 20vh;
+    border-radius: 10px;
+  }
+  .detailInfo {
+    & > p {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+    } 
+    svg {margin-right: 5px;}
+    .greenBtn {
+      background-color: rgb(0, 209, 0);
+      padding: 5px 8px;
+      font-size: 0.8em;
+      margin: 0 5px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: white;
+    }
+    .redBtn {
+      background-color: rgb(248, 82, 82);
+      padding: 5px 8px;
+      font-size: 0.8em;
+      margin: 0 5px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: white;
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  .splashPage {
+    height: 100vh;
+  }
+}
+//mobile
+@media screen and (max-width:481px) {
+  .parkingspaceCard  .address {display: none;}
+}
+//갤럭시 폴드...
+@media screen and (max-width:280px) {
+  .searchBar, .bottomTab, .header, .addPark {
+    width: 88%;
+    input {
+      width: 70%;
+    }
+  }
+  .login h3 {
+    font-size: 1.1em;
+  }
 }
