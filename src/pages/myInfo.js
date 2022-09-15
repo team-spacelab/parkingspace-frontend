@@ -14,7 +14,7 @@ import {
 import BottomTab from '../components/bottomTab'
 import Header from '../components/header'
 import RequireLogin from './requireLogin'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toastr from 'toastr'
 const MyInfo = ({ isLogged }) => {
   /** 
@@ -53,16 +53,32 @@ const MyInfo = ({ isLogged }) => {
     localStorage.setItem('mainPage', isClick)
   }
 
-  if (isLogged) {
-    const user = {
-      name: '최홍찬',
-      nickname: 'orol4rang',
-      tel: '010-6682-9325',
-      verified_tel: false,
-      birth: '2005-07-25',
-      point: 5500,
+  const [user, setUser] = useState({
+    name: '최홍찬',
+    nickname: 'orol4rang',
+    tel: '010-6682-9325',
+    verified_tel: false,
+    birth: '2005-07-25',
+    point: 5500,
+  })
+  const getUserInfo = async () => {
+    await fetch('/api/auth/v1/users/@me', {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        'Access-Control-Allow-Origin': 'no-cors',
+        Cookie: `SESSION_TOKEN=${localStorage.getItem('token')}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+  }
+  useEffect(() => {
+    if (isLogged) {
+      getUserInfo()
     }
-
+  }, [])
+  if (isLogged) {
     const logout = () => {
       // 모달 로그아웃 하시겠습니까?
       const doLogout = window.confirm('정말로 로그아웃 하시겠습니까?')
