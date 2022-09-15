@@ -441,6 +441,63 @@ html, body{
   }
 }
 
+.registParkingspaceForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 92%;
+  margin: 0 auto;
+  & > :is(input, textarea) {
+    border: none;
+    border-bottom: 1px solid rgb(184, 184, 184);
+    width: 96%;
+    padding: 2%;
+  }
+  & > input[type=file] {
+    //position: relative;
+    display: none;
+  }
+  .cancleBtn {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    margin: 5px 0;
+    opacity: 0.5;
+  }
+  .btnGroup {
+    display: flex;
+    justify-content: space-around;
+    margin: 4px 0;
+    button{
+      display: block;
+      width: 48%;
+      background-color: #6232d3ce;
+      border: 1px solid #6232D3;
+        border-radius: 5px;
+        padding: 5px 8px;
+        margin-bottom: 0px;
+        font-size: 0.9em;
+        font-weight: 700;
+        color: white;
+    }
+    button:only-child {
+      width: 100%;
+      background-color: #6232d3ce;
+      border: 1px solid #6232D3;
+      border-radius: 5px;
+      padding: 5px 8px;
+      margin-bottom: 0px;
+      font-size: 1em;
+      font-weight: 700;
+      color: white;
+    }
+    }
+
+  }
+
 @media screen and (max-width:768px) {
   .splashPage {
     height: 100vh;

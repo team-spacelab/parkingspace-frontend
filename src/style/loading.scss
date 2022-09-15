@@ -1,3 +1,16 @@
+.loadingPage {
+  display: block;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(228, 228, 228, 0.507);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
 @keyframes ldio-yco4x2zp24m {
   0% { opacity: 1 }
   100% { opacity: 0 }
@@ -66,7 +79,7 @@
   height: 124px;
   display: inline-block;
   overflow: hidden;
-  background: #f1f2f3;
+  background: #f1f2f300; //background color
 }
 .ldio-yco4x2zp24m {
   width: 100%;

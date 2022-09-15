@@ -19,7 +19,7 @@ const ParkingSpaceDetail = () => {
       <Header />
       <div className='parkingspaceDetail'>
         <h3>
-          <FaParking /> 교장 선생님 집 앞 주차장
+          <FaParking /> 교장 선생님 집 앞 주차장 ( id )
         </h3>
         <p> 경상북도 의성군 봉양면 봉호로 75-1</p>
         {/** 주차장 이미지 */}

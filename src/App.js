@@ -7,6 +7,7 @@ import ParkingSpace from './pages/parking'
 import ParkingSpaceDetail from './pages/parkspaceDetail'
 import Register from './pages/register'
 import RegistParkingSpace from './pages/registParkspace'
+import RegistParkingSpaceResult from './pages/registParkspaceResult'
 import SplashPage from './pages/splash'
 import './style/index.scss'
 import './style/toastr.scss'
@@ -30,6 +31,10 @@ const App = () => {
           <Route path={'/parkingspace'} element={<ParkingSpace />} />
           <Route path='/parkingspaceDetail' element={<ParkingSpaceDetail />} />
           <Route path='/registParkingspace' element={<RegistParkingSpace />} />
+          <Route
+            path='/registParkingspaceResult'
+            element={<RegistParkingSpaceResult />}
+          />
           <Route
             path={'/login'}
             element={<Login setIsLogged={setIsLogged} />}
