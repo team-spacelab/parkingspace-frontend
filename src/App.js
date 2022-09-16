@@ -28,6 +28,7 @@ const App = () => {
 
   const [userInfo, setUserInfo] = useState({
     data: {
+      id: 0,
       name: '',
       nickname: '',
       tel: '',
@@ -53,7 +54,10 @@ const App = () => {
       <>
         <Routes>
           <Route path={'/'} element={<Main />} />
-          <Route path={'/parkingspace'} element={<ParkingSpace />} />
+          <Route
+            path={'/parkingspace'}
+            element={<ParkingSpace isLogged={isLogged} />}
+          />
           <Route path='/parkingspaceDetail' element={<ParkingSpaceDetail />} />
           <Route
             path='/registParkingspace'
@@ -78,7 +82,7 @@ const App = () => {
             }
           />
           <Route path={'/register'} element={<Register />} />
-          <Route path={'/pay'} element={<Pay />} />
+          <Route path={'/pay'} element={<Pay userInfo={userInfo} />} />
         </Routes>
       </>
     )

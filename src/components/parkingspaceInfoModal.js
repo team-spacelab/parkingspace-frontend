@@ -1,15 +1,26 @@
-import React, { useEffect } from 'react'
+/* global kakao */
+import React, { useEffect, useState } from 'react'
 import {
   FaMapMarkedAlt,
   FaUserCircle,
   FaRegClock,
   FaQrcode,
 } from 'react-icons/fa'
-const ParkingspaceInfoModal = ({ id, setShowModal }) => {
+const ParkingspaceInfoModal = ({ parkInfo, setShowModal }) => {
+  const geocoder = new kakao.maps.services.Geocoder()
+  console.log(parkInfo)
+  const [address, setAddress] = useState()
   useEffect(() => {
-    // id로 썸네일같은거 다 받아오라 이말이야
-    console.log(id)
-  })
+    getAddress()
+  }, [])
+  const getAddress = () => {
+    let callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        setAddress(result[0].road_address.address_name)
+      }
+    }
+    geocoder.coord2Address(parkInfo.lng, parkInfo.lat, callback)
+  }
   return (
     <>
       <div className='parkingspaceInfoModal'>
@@ -17,14 +28,18 @@ const ParkingspaceInfoModal = ({ id, setShowModal }) => {
         <h3 className='address'>
           <FaMapMarkedAlt />
           &nbsp;
-          {'교장쌤 집 앞 주차장'}
+          {parkInfo.name}
         </h3>
         <div className='parkingspaceThum' /> {/** Image임 */}
         <p>
-          <FaUserCircle /> {'orol4rang'}
+          <FaUserCircle /> {parkInfo.manager.nickname}
         </p>
-        <p>경상북도 의성군 봉양면 봉호로 75-1</p>
-        <p className='desc'>이것은 이다 교장선생님의 집 ( 사실 공장임.. )</p>
+        <p>{address}</p>
+        <p className='desc'>
+          {parkInfo.description === ''
+            ? '작성된 설명이 없습니다.'
+            : parkInfo.description}
+        </p>
         <div>
           <button onClick={() => console.log('현장 예약')}>
             <FaQrcode />

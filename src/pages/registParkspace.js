@@ -35,22 +35,47 @@ const RegistParkingSpace = ({ isLogged }) => {
     lng: 0,
     defaultCost: 3000,
     timeUnit: 30, // 30분당 가격 체크
-    type: 0,
+    type: 'MANUALLY',
     description: '', // 주차장 설명
-    file: null,
+    // file: null,
   })
   const [inputAddress, setInputAddress] = useState('')
 
-  //입력값이 다음 컴포넌트에 넘어가는 일 방지
+  // 입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
     if (isLogged) {
+      //page핸들링 제대로 못하면 오류남
       const value =
-        page !== 4
+        page !== 3
           ? window.document.querySelector('input')
           : window.document.querySelector('textarea')
-      value.value = ''
+      if (value.value !== '' || value.value !== null) {
+        value.value = ''
+      }
     }
   }, [page])
+
+  const btnRef = useRef()
+  const [result, setResult] = useState(null)
+  const regist = () => {
+    console.log(registParkingSpace)
+    fetch(`/api/space/v1/spaces`, {
+      method: 'POST',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'no-cors',
+      },
+      body: JSON.stringify(registParkingSpace),
+    })
+      .then((res) => res.json())
+      .then((res) => setResult(res))
+  }
+  useEffect(() => {
+    if (page === 3) {
+      btnRef.current.click()
+    }
+  }, [result])
 
   const verifiedCheck = (key) => {
     // if
@@ -59,8 +84,6 @@ const RegistParkingSpace = ({ isLogged }) => {
     // console.log(typeof data)
     if (typeof data === 'number') {
       setPage(page + 1)
-      console.log(100)
-      return true
     } else if (typeof data === 'string') {
       if (data === '' || (data === 'address' && inputAddress === '')) {
         toastr.info('정보를 입력해주세요')
@@ -85,6 +108,7 @@ const RegistParkingSpace = ({ isLogged }) => {
         <input
           type={'text'}
           name='spaceName'
+          minLength={6}
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
@@ -102,7 +126,7 @@ const RegistParkingSpace = ({ isLogged }) => {
   }
 
   const getLatLng = (address) => {
-    console.log(address)
+    console.log(1, address)
     const geocoder = new kakao.maps.services.Geocoder()
     try {
       geocoder.addressSearch(address, function (result, status) {
@@ -111,10 +135,10 @@ const RegistParkingSpace = ({ isLogged }) => {
           if (result[0].y !== 0 && result[0].x !== 0) {
             setRegistParkingspace({
               ...registParkingSpace,
-              lat: result[0].y,
-              lng: result[0].x,
+              lat: result[0].y * 1,
+              lng: result[0].x * 1,
             })
-            alert(result[0])
+            console.log(result[0])
             setPage(page + 1)
           } else {
             toastr.warning('정확한 주소를 입력해주세요.')
@@ -234,18 +258,16 @@ const RegistParkingSpace = ({ isLogged }) => {
             <button onClick={() => setPage(page - 1)}>
               <FaArrowLeft />
             </button>
-            <button>
-              <Link
-                to={'/registParkingspaceResult'}
-                state={{ formData: registParkingSpace }}
-              >
-                주차장 등록
-              </Link>
-            </button>
+            <button onClick={() => regist()}>주차장 등록</button>
           </div>
           <button className='cancleBtn' onClick={() => cancle()}>
             취소
           </button>
+          <Link
+            to={'/registParkingspaceResult'}
+            ref={btnRef}
+            state={{ result: result }}
+          />
         </div>
       </>
     )
@@ -254,10 +276,11 @@ const RegistParkingSpace = ({ isLogged }) => {
   const inputComponents = [
     nameInput(),
     addressInput(),
-    parkingspaceThumnailInput(),
+    // parkingspaceThumnailInput(),
     costInput(),
     descInput(),
   ]
+
   if (isLogged) {
     return (
       <>

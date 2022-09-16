@@ -61,7 +61,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
     if (isLogged) {
       setIsLoading(1)
       getUserInfo()
-      setIsLoading(2)
+      setIsLoading(0)
     }
   }, [])
   if (isLogged) {

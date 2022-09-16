@@ -1,5 +1,5 @@
 /* global kakao */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ParkingspaceInfoModal from './parkingspaceInfoModal'
 import { FaMap } from 'react-icons/fa'
 const KakaoMap = () => {
@@ -15,26 +15,23 @@ const KakaoMap = () => {
   //   e.parentElement.parentElement.style.border = '0px'
   //   e.parentElement.parentElement.style.background = 'unset'
   // })
+  const btnRef = useRef()
   const [showModal, setShowModal] = useState(0)
   const [selectedId, setSelectedId] = useState(0)
-  const [positions, setpositions] = useState()
+  const [positions, setpositions] = useState({
+    data: {
+      spaces: [],
+    }, //tmp data
+  })
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      fetch(
-        `/api/space/v1/spaces?lat=${position.coords.latitude}&lng=${position.coords.longitude}&w=0.004&h=0.004`
-      )
-        .then((res) => res.json())
-        .then((res) => setpositions(res))
-        .catch((err) => console.log(err))
-    })
-    console.log(positions)
-
     createMap()
+    setTimeout(() => btnRef.current.click(), 300)
   }, [])
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
 
   const addMarker = (map, position) => {
+    console.log(position)
     const markerSize = 40
     const imageSrc = './marker.png' // 마커이미지의 주소입니다
     const imageSize = new kakao.maps.Size(markerSize, markerSize) // 마커이미지의 크기입니다
@@ -47,27 +44,35 @@ const KakaoMap = () => {
     const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
     const marker = new kakao.maps.Marker({
       map: map,
-      position: position.data.latlng,
+      position: new kakao.maps.LatLng(position.lat, position.lng),
       image: markerImage,
     })
     const costBox = new kakao.maps.CustomOverlay({
       // map: map,
-      position: position.data.latlng,
-      content: `<span class="markerCost">${position.data.price}</span>`, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
+      position: new kakao.maps.LatLng(position.lat, position.lng),
+      content: `<span class="markerCost">${position.defaultCost}</span>`, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     })
     costBox.setMap(map)
 
     kakao.maps.event.addListener(marker, 'click', function () {
-      console.log(position.data.name)
       setShowModal(1)
-      setSelectedId(position.data.id)
+      setSelectedId(position)
     })
   }
 
   const createMap = () => {
     const container = document.getElementById('map')
-
     if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position.coords.latitude, position.coords.longitude)
+        fetch(
+          `/api/space/v1/spaces?lat=${position.coords.latitude}&lng=${position.coords.longitude}&w=0.009&h=0.009`
+        )
+          .then((res) => res.json())
+          .then((res) => setpositions(res))
+          // .then((res) => setpositions(res))
+          .catch((err) => console.log(err))
+      })
       navigator.geolocation.getCurrentPosition((position) => {
         const options = {
           center: new kakao.maps.LatLng(
@@ -83,8 +88,8 @@ const KakaoMap = () => {
         //   position: currentPosition,
         // })
         // marker.setMap(map)
-        for (let i = 0; i < positions.length; i++) {
-          addMarker(map, positions[i])
+        for (let i = 0; i < positions.data.spaces.length; i++) {
+          addMarker(map, positions.data.spaces[i])
         }
       })
     } else {
@@ -100,10 +105,13 @@ const KakaoMap = () => {
     <div className='kakaomap'>
       <div id='map' style={{ width: '100vw', height: '100vh', zIndex: '0' }} />
       {showModal === 1 ? (
-        <ParkingspaceInfoModal id={selectedId} setShowModal={setShowModal} />
+        <ParkingspaceInfoModal
+          parkInfo={selectedId}
+          setShowModal={setShowModal}
+        />
       ) : null}
-      <button className='updateBtn'>
-        <FaMap onClick={() => createMap()} />
+      <button className='updateBtn' onClick={() => createMap()} ref={btnRef}>
+        <FaMap />
       </button>
     </div>
   )

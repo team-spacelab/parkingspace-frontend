@@ -1,20 +1,23 @@
-import { loadBrandPay } from "@tosspayments/brandpay-sdk"
-import { useEffect, useState } from "react"
-import Loading from "./loading"
+import { loadBrandPay } from '@tosspayments/brandpay-sdk'
+import { useEffect, useState } from 'react'
+import Loading from './loading'
 
-
-const Pay = () => {
+const Pay = ({ userInfo }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [brandPay, setBrandPay] = useState(null)
 
+  console.log(userInfo.data)
   useEffect(() => {
     console.log(process.env.REACT_APP_TOSS_REDIRECT)
     const importTosspayment = async () =>
-      setBrandPay(await loadBrandPay(
-        process.env.REACT_APP_TOSS_CLIENT,
-        'taehyunlim',
-        process.env.REACT_APP_TOSS_REDIRECT
-      ))
+      setBrandPay(
+        await loadBrandPay(
+          process.env.REACT_APP_TOSS_CLIENT,
+          // 'taehyunlim', //userid
+          userInfo.data.id,
+          process.env.REACT_APP_TOSS_REDIRECT
+        )
+      )
     importTosspayment()
   }, [])
 
@@ -24,7 +27,7 @@ const Pay = () => {
       brandPay.requestPayment({
         amount: 1000,
         orderId: 'aiowjef',
-        orderName: '주차요금'
+        orderName: '주차요금',
       })
     }
   }, [brandPay])
