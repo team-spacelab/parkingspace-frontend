@@ -5,6 +5,7 @@ import Main from './pages/main'
 import MyInfo from './pages/myInfo'
 import ParkingSpace from './pages/parking'
 import ParkingSpaceDetail from './pages/parkspaceDetail'
+import Pay from './pages/pay'
 import Register from './pages/register'
 import RegistParkingSpace from './pages/registParkspace'
 import RegistParkingSpaceResult from './pages/registParkspaceResult'
@@ -66,7 +67,6 @@ const App = () => {
             path={'/login'}
             element={<Login setIsLogged={setIsLogged} />}
           />
-          <Route path={'/register'} element={<Register />} />
           <Route
             path={'/myInfo'}
             element={
@@ -77,6 +77,8 @@ const App = () => {
               />
             }
           />
+          <Route path={'/register'} element={<Register />} />
+          <Route path={'/pay'} element={<Pay />} />
         </Routes>
       </>
     )
