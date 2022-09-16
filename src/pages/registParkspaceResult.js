@@ -6,7 +6,9 @@ const RegistParkingSpaceResult = () => {
   const [isLoading, setIsLoading] = useState(0)
   useEffect(() => {
     //  fetch
+    setIsLoading(1)
     console.log(data.formData)
+    setIsLoading(0)
   }, [])
 
   return (

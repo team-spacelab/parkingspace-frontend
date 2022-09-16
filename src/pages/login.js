@@ -27,7 +27,7 @@ const Login = ({ setIsLogged }) => {
     password: '',
   })
   const login = () => {
-    fetch('api/auth/v1/users/@login', {
+    fetch('/api/auth/v1/users/@login', {
       method: 'POST',
       headers: {
         Accept: '*/*',

@@ -6,8 +6,9 @@ import BottomTab from '../components/bottomTab'
 import Header from '../components/header'
 import toastr from 'toastr'
 import Loading from './loading'
+import RequireLogin from './requireLogin'
 
-const RegistParkingSpace = () => {
+const RegistParkingSpace = ({ isLogged }) => {
   toastr.options = {
     closeButton: false,
     debug: false,
@@ -42,11 +43,13 @@ const RegistParkingSpace = () => {
 
   //입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
-    const value =
-      page !== 4
-        ? window.document.querySelector('input')
-        : window.document.querySelector('textarea')
-    value.value = ''
+    if (isLogged) {
+      const value =
+        page !== 4
+          ? window.document.querySelector('input')
+          : window.document.querySelector('textarea')
+      value.value = ''
+    }
   }, [page])
 
   const verifiedCheck = (key) => {
@@ -255,17 +258,21 @@ const RegistParkingSpace = () => {
     costInput(),
     descInput(),
   ]
-  return (
-    <>
-      {isLoading && <Loading />}
-      <Header />
-      <div className='registParkingspaceForm'>
-        {page <= 3 ? <h2>Step.{page + 1}</h2> : null}
-        {inputComponents[page]}
-      </div>
-      <BottomTab />
-    </>
-  )
+  if (isLogged) {
+    return (
+      <>
+        {isLoading && <Loading />}
+        <Header />
+        <div className='registParkingspaceForm'>
+          {page <= 3 ? <h2>Step.{page + 1}</h2> : null}
+          {inputComponents[page]}
+        </div>
+        <BottomTab />
+      </>
+    )
+  } else {
+    return <RequireLogin />
+  }
 }
 
 export default React.memo(RegistParkingSpace)

@@ -30,7 +30,10 @@ const App = () => {
           <Route path={'/'} element={<Main />} />
           <Route path={'/parkingspace'} element={<ParkingSpace />} />
           <Route path='/parkingspaceDetail' element={<ParkingSpaceDetail />} />
-          <Route path='/registParkingspace' element={<RegistParkingSpace />} />
+          <Route
+            path='/registParkingspace'
+            element={<RegistParkingSpace isLogged={isLogged} />}
+          />
           <Route
             path='/registParkingspaceResult'
             element={<RegistParkingSpaceResult />}
