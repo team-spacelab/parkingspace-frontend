@@ -3,8 +3,10 @@ import { FaPencilAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import toastr from 'toastr'
 import Header from '../components/header'
+import { Cookies } from 'react-cookie'
 
 const Login = ({ setIsLogged }) => {
+  const cookie = new Cookies()
   toastr.options = {
     closeButton: false,
     debug: false,
@@ -40,8 +42,7 @@ const Login = ({ setIsLogged }) => {
       .then((res) => {
         if (res.success) {
           toastr.success('로그인 성공')
-          localStorage.setItem('token', res.data.token)
-          console.log(localStorage.getItem('token'))
+          cookie.set('SESSION_TOKEN', res.data.token)
           setIsLogged(true)
           navigate('/')
         }

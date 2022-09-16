@@ -9,7 +9,15 @@ const ParkingSpace = () => {
   useEffect(() => {
     // 내 추자장 목록을 가져옴
     setIsLoading(1)
-
+    fetch('/api/space/v1/spaces/@me', {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        'Access-Control-Allow-Origin': 'no-cors',
+      },
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(1, err))
     setIsLoading(0)
   }, [])
 

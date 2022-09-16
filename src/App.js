@@ -11,17 +11,41 @@ import RegistParkingSpaceResult from './pages/registParkspaceResult'
 import SplashPage from './pages/splash'
 import './style/index.scss'
 import './style/toastr.scss'
+import { Cookies } from 'react-cookie'
 
 const App = () => {
   //token 여부 검사 - 후에 수정
+  const cookie = new Cookies()
   const [isLogged, setIsLogged] = useState(
-    localStorage.getItem('token') != null ? true : false
+    cookie.get('SESSION_TOKEN') != null ? true : false
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
-  //강제로 3초 보여줄려 했더니 애가 일을 안할줄은...
+  // //강제로 3초 보여줄려 했더니 애가 일을 안할줄은...
   useEffect(() => {
     setTimeout(setShowSplashPage(1), 3000)
   }, [])
+
+  const [userInfo, setUserInfo] = useState({
+    data: {
+      name: '',
+      nickname: '',
+      tel: '',
+      verified_tel: false,
+      birthday: '0',
+      point: 0,
+    },
+  })
+  const getUserInfo = async () => {
+    await fetch('/api/auth/v1/users/@me', {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        'Access-Control-Allow-Origin': 'no-cors',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setUserInfo(res))
+  }
 
   if (showSplashPage) {
     return (
@@ -43,7 +67,16 @@ const App = () => {
             element={<Login setIsLogged={setIsLogged} />}
           />
           <Route path={'/register'} element={<Register />} />
-          <Route path={'/myInfo'} element={<MyInfo isLogged={isLogged} />} />
+          <Route
+            path={'/myInfo'}
+            element={
+              <MyInfo
+                getUserInfo={getUserInfo}
+                userInfo={userInfo}
+                isLogged={isLogged}
+              />
+            }
+          />
         </Routes>
       </>
     )

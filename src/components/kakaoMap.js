@@ -1,6 +1,7 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react'
 import ParkingspaceInfoModal from './parkingspaceInfoModal'
+import { FaMap } from 'react-icons/fa'
 const KakaoMap = () => {
   // const infoTitle = window.document.querySelectorAll('.info-title')
   // infoTitle.forEach(function (e) {
@@ -14,60 +15,24 @@ const KakaoMap = () => {
   //   e.parentElement.parentElement.style.border = '0px'
   //   e.parentElement.parentElement.style.background = 'unset'
   // })
+  const [showModal, setShowModal] = useState(0)
+  const [selectedId, setSelectedId] = useState(0)
+  const [positions, setpositions] = useState()
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      fetch(
+        `/api/space/v1/spaces?lat=${position.coords.latitude}&lng=${position.coords.longitude}&w=0.004&h=0.004`
+      )
+        .then((res) => res.json())
+        .then((res) => setpositions(res))
+        .catch((err) => console.log(err))
+    })
+    console.log(positions)
+
     createMap()
   }, [])
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-  const [showModal, setShowModal] = useState(0)
-  const [selectedId, setSelectedId] = useState(0)
-  const [positions, setpositions] = useState([
-    {
-      success: true,
-      data: {
-        name: '교장쌤 집',
-        id: 1,
-        latlng: new kakao.maps.LatLng(36.301944076747795, 128.58436918356492),
-        price: 5000,
-      },
-    },
-    {
-      success: true,
-      data: {
-        name: '집',
-        id: 2,
-        latlng: new kakao.maps.LatLng(35.8456678, 128.6409426),
-        price: 5000,
-      },
-    },
-    {
-      success: true,
-      data: {
-        name: '생태연못',
-        id: 4,
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477),
-        price: 50000,
-      },
-    },
-    {
-      success: true,
-      data: {
-        name: '텃밭',
-        id: 3,
-        latlng: new kakao.maps.LatLng(33.450879, 126.56994),
-        price: 500,
-      },
-    },
-    {
-      success: true,
-      data: {
-        name: '근린공원',
-        id: 1467,
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
-        price: 5000,
-      },
-    },
-  ])
 
   const addMarker = (map, position) => {
     const markerSize = 40
@@ -137,6 +102,9 @@ const KakaoMap = () => {
       {showModal === 1 ? (
         <ParkingspaceInfoModal id={selectedId} setShowModal={setShowModal} />
       ) : null}
+      <button className='updateBtn'>
+        <FaMap onClick={() => createMap()} />
+      </button>
     </div>
   )
 }

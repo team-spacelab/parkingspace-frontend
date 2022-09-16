@@ -497,7 +497,19 @@ html, body{
     }
 
   }
-
+.kakaomap {
+  .updateBtn {
+    position: fixed;
+    bottom: 80px;
+    right: 10px;
+    font-size: 1.3em;
+    border: none;
+    padding: 5px 10px;
+    background: #6232d3d5;
+    color: white;
+    border-radius: 50px;
+  }
+}
 @media screen and (max-width:768px) {
   .splashPage {
     height: 100vh;
