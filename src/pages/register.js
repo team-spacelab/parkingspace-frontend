@@ -1,32 +1,28 @@
 import { useState } from 'react'
-import { FaPencilAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import toastr from 'toastr'
-import Header from '../components/header'
+import { toast } from 'react-hot-toast'
+
+const Error = {
+  'USER_ALREADY_REGISTERD': '이미 등록된 아이디입니다.',
+  'PASSWORD_TOO_WEAK': '비밀번호가 너무 약합니다.'
+}
 
 const Register = () => {
-  toastr.options = {
-    closeButton: false,
-    debug: false,
-    newestOnTop: true,
-    progressBar: false,
-    positionClass: 'toast-top-left',
-    preventDuplicates: false,
-    showDuration: '300',
-    hideDuration: '400',
-    timeOut: '5000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'slideDown',
-    hideMethod: 'slideUp',
-  }
   const [registerInputInfo, setRegisterInputInfo] = useState({
     login: '',
     password: '',
+    passwordcheck: '',
     nickname: '',
   })
-  const register = () => {
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const { login, nickname, password, passwordcheck } = registerInputInfo
+
+    if (login.length < 5) return toast.error('아이디는 5자 이상이어야 합니다.')
+    if (nickname.length < 3) return toast.error('닉네임은 3자 이상이어야 합니다.')
+    if (password.length < 8) return toast.error('비밀번호는 8자 이상이어야 합니다.')
+    if (password !== passwordcheck) return toast.error('비밀번호 확인이 일치하지 않습니다.')
+
     fetch('api/auth/v1/users', {
       method: 'POST',
       headers: {
@@ -34,30 +30,28 @@ const Register = () => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'no-cors',
       },
-      body: JSON.stringify(registerInputInfo),
+      body: JSON.stringify({ login, nickname, password }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          toastr.success('회원가입 성공')
-          window.location.href = '/'
+          toast.success('회원가입 성공')
+          window.location.href = '/login'
         }
-        //data.false
         else {
-          toastr.warning('회원가입 실패', data.reason)
+          toast.error(Error[data.reason])
         }
       })
   }
   return (
     <>
-      <Header />
       <div className='register'>
-        <h3>
+        <h2>
           정보를 입력하고
-          <br /> 버튼을 눌러 회원가입해주세요 <FaPencilAlt />
-        </h3>
-        <div>
-          <p>아이디</p>
+          <br /> 버튼을 눌러 회원가입해주세요
+        </h2>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <label>아이디</label>
           <input
             type={'text'}
             name='login'
@@ -68,7 +62,7 @@ const Register = () => {
               })
             }
           />
-          <p>닉네임(별명)</p>
+          <label>닉네임(별명)</label>
           <input
             type={'text'}
             name='nickname'
@@ -79,7 +73,7 @@ const Register = () => {
               })
             }
           />
-          <p>비밀번호</p>
+          <label>비밀번호</label>
           <input
             type={'password'}
             name='password'
@@ -90,12 +84,22 @@ const Register = () => {
               })
             }
           />
-          {/** 차 번호 */}
-          <input type={'button'} value='회원가입' onClick={() => register()} />
+          <label>비밀번호 확인</label>
+          <input
+            type={'password'}
+            name='passwordchec'
+            onChange={(e) =>
+              setRegisterInputInfo({
+                ...registerInputInfo,
+                passwordcheck: e.target.value,
+              })
+            }
+          />
+          <input type={'submit'} value='회원가입' />
           <p>
             <Link to={'/login'}>로그인</Link>
           </p>
-        </div>
+        </form>
       </div>
     </>
   )

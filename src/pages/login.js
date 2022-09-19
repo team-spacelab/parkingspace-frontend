@@ -1,35 +1,25 @@
 import { useState } from 'react'
-import { FaPencilAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
-import toastr from 'toastr'
-import Header from '../components/header'
 import { Cookies } from 'react-cookie'
+import toast from 'react-hot-toast'
+
+const Error = {
+  'USER_NOT_FOUND_OR_PASSWORD_INVALID': '계정 정보를 다시 확인해주세요.'
+}
 
 const Login = ({ setIsLogged }) => {
   const cookie = new Cookies()
-  toastr.options = {
-    closeButton: false,
-    debug: false,
-    newestOnTop: true,
-    progressBar: false,
-    positionClass: 'toast-top-left',
-    preventDuplicates: false,
-    showDuration: '300',
-    hideDuration: '400',
-    timeOut: '5000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'slideDown',
-    hideMethod: 'slideUp',
-  }
   const navigate = useNavigate()
   const [loginInputInfo, setLoginInputInfo] = useState({
     login: '',
     password: '',
   })
-  const login = () => {
-    fetch('/api/auth/v1/users/@login', {
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const { login, password } = loginInputInfo
+    if (!login || !password) return toast.error('아이디와 비밀번호를 입력해주세요.')
+
+    const requst = await fetch('/api/auth/v1/users/@login', {
       method: 'POST',
       headers: {
         Accept: '*/*',
@@ -38,32 +28,30 @@ const Login = ({ setIsLogged }) => {
       },
       body: JSON.stringify(loginInputInfo),
     })
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.success) {
-          toastr.success('로그인 성공')
-          cookie.set('SESSION_TOKEN', res.data.token)
-          setIsLogged(true)
-          navigate('/')
-        }
-        //data.false
-        else {
-          toastr.warning('로그인 실패', res.reason)
-        }
-      })
+
+    const response = await requst.json()
+
+      if (response.success) {
+        toast.success('로그인 성공!', { position: 'top-right' })
+        cookie.set('SESSION_TOKEN', response.data.token)
+        setIsLogged(true)
+        navigate('/')
+      }
+      //data.false
+      else toast.error(Error[response.reason])
   }
   return (
     <>
-      <Header />
       <div className='login'>
-        <h3>
-          정보를 입력하고
-          <br /> 버튼을 눌러 로그인해주세요 <FaPencilAlt />
-        </h3>
-        <div>
-          <p>아이디</p>
+        <h2>
+          로그인하고 <br />
+          모든 서비스를 이용해보세요
+        </h2>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <label htmlFor='login'>아이디</label>
           <input
             type={'text'}
+            id='login'
             name='login'
             onChange={(e) =>
               setLoginInputInfo({
@@ -72,9 +60,10 @@ const Login = ({ setIsLogged }) => {
               })
             }
           />
-          <p>비밀번호</p>
+          <label htmlFor='password'>비밀번호</label>
           <input
             type={'password'}
+            id='password'
             name='password'
             onChange={(e) =>
               setLoginInputInfo({
@@ -83,11 +72,11 @@ const Login = ({ setIsLogged }) => {
               })
             }
           />
-          <input type={'button'} value='로그인' onClick={() => login()} />
+          <input type={'submit'} value='로그인'/>
           <p>
-            <Link to={'/register'}>회원가입</Link>
+            <Link to={'/register'}>계정이 없으신가요? 회원가입</Link>
           </p>
-        </div>
+        </form>
       </div>
     </>
   )

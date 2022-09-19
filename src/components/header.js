@@ -9,7 +9,7 @@ const Header = () => {
           textDecoration: 'none',
         }}
       >
-        <h2>parkingspace</h2>
+        <h2>Parking Space</h2>
       </Link>
     </div>
   )
