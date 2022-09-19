@@ -128,6 +128,11 @@ html, body{
   }
 }
 .login, .register {
+  p {
+    color: rgb(117, 116, 116);
+    font-size: 0.8em;
+    font-weight: 500;
+  }
   padding: 13px 14px;
   display: block;
   width: 100%;

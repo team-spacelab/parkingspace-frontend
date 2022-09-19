@@ -43,6 +43,7 @@ const Login = ({ setIsLogged }) => {
   return (
     <>
       <div className='login'>
+        <p onClick={() => window.history.back()}>돌아가기</p>
         <h2>
           로그인하고 <br />
           모든 서비스를 이용해보세요

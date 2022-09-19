@@ -5,19 +5,18 @@ import {
   FaSignInAlt,
   FaPhone,
   FaRegLightbulb,
-  FaAward,
   FaCog,
   FaToggleOff,
   FaToggleOn,
   FaUserAltSlash,
 } from 'react-icons/fa'
-import BottomTab from '../components/bottomTab'
-import Header from '../components/header'
-import RequireLogin from './requireLogin'
+import BottomTab from '../../components/bottomTab'
+import Header from '../../components/header'
+import RequireLogin from '../requireLogin'
 import { useEffect, useState } from 'react'
 import toastr from 'toastr'
 import { Cookies } from 'react-cookie'
-import Loading from './loading'
+import Loading from '../loading'
 const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
   const [isLoading, setIsLoading] = useState(0)
   /** 

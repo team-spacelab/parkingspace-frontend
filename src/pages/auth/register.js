@@ -14,7 +14,7 @@ const Register = () => {
     passwordcheck: '',
     nickname: '',
   })
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     const { login, nickname, password, passwordcheck } = registerInputInfo
 
@@ -23,7 +23,7 @@ const Register = () => {
     if (password.length < 8) return toast.error('비밀번호는 8자 이상이어야 합니다.')
     if (password !== passwordcheck) return toast.error('비밀번호 확인이 일치하지 않습니다.')
 
-    fetch('api/auth/v1/users', {
+    const request = await fetch('api/auth/v1/users', {
       method: 'POST',
       headers: {
         Accept: '*/*',
@@ -32,20 +32,21 @@ const Register = () => {
       },
       body: JSON.stringify({ login, nickname, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          toast.success('회원가입 성공')
-          window.location.href = '/login'
-        }
-        else {
-          toast.error(Error[data.reason])
-        }
-      })
+
+    const response = await request.json()
+
+    if (response.data.success) {
+      toast.success('회원가입 성공')
+      window.location.href = '/login'
+    }
+    else {
+      toast.error(Error[response.data.reason])
+    }
   }
   return (
     <>
       <div className='register'>
+        <p onClick={() => window.history.back()}>돌아가기</p>
         <h2>
           정보를 입력하고
           <br /> 버튼을 눌러 회원가입해주세요
