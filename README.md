@@ -13,4 +13,10 @@
 7. [ ] 로그인 회원가입
 8. [ ] 주차장 등록 절차 생성
 
+## 할 일 ( 2022/09/19 )
+
+1. [ ] 가이드 페이지
+2. [ ] 실시간 위치 추적
+3. [ ] 페이먼트 서버 연동
+
 [https://parking.spacelab.work/](https://parking.spacelab.work/)
