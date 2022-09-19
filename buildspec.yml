@@ -7,6 +7,10 @@ phases:
 
     commands:
       - n lts
+  
+  pre_build:
+    commands:
+      - aws ssm get-parameter --name "/parkingspace/frontend/enviroment" --output text  --query 'Parameter.Value' --with-decryption > .env.local
 
   build:
     commands:
