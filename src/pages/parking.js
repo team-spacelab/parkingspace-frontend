@@ -52,7 +52,9 @@ const ParkingSpace = ({ isLogged }) => {
                     </span> */}
                   </p>
                   <p>-</p>
-                  <p className='status'>대여 중</p>
+                  <p className='status'>
+                    {item.status ? '대여 중' : '대여 대기 중'}
+                  </p>
                 </div>
               </Link>
             )

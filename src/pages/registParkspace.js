@@ -132,17 +132,18 @@ const RegistParkingSpace = ({ isLogged }) => {
       geocoder.addressSearch(address, function (result, status) {
         console.log(result[0])
         if (status === kakao.maps.services.Status.OK) {
-          if (result[0].y !== 0 && result[0].x !== 0) {
+          if (typeof result[0] == undefined) {
+            toastr.warning('정확한 주소를 입력해주세요.11')
+            setPage(page)
+          } else if (result[0].y !== 0 && result[0].x !== 0) {
             setRegistParkingspace({
               ...registParkingSpace,
               lat: result[0].y * 1,
               lng: result[0].x * 1,
             })
-            console.log(result[0])
             setPage(page + 1)
           } else {
             toastr.warning('정확한 주소를 입력해주세요.')
-            console.log(result[0])
             setPage(page)
           }
         }
@@ -159,6 +160,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           ref={addressRef}
           type={'text'}
           name='spaceAddress'
+          placeholder='정확한 도로명주소를 입력해주세요'
           onChange={(e) => setInputAddress(e.target.value)}
         />
         <div>
