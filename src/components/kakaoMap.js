@@ -40,7 +40,6 @@ const KakaoMap = () => {
   })
 
   useEffect(() => {
-    console.log('create')
     const container = document.getElementById('map')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -64,7 +63,7 @@ const KakaoMap = () => {
       )
     } else {
       // 만약 geolocation을 쓰지 못한다면 교장쌤 집을 찍자
-      console.log('GPS를 활성화 시켜주세요')
+      alert('GPS를 활성화 시켜주세요')
     }
   }, [])
 
@@ -97,11 +96,7 @@ const KakaoMap = () => {
     })
   }
 
-  useEffect(() => {
-    console.log(positions)
-  }, [positions])
   const updateMap = () => {
-    console.log('update')
     const getCenter = map.current.getCenter()
     LatLng.current = {
       lat: getCenter.Ma,
@@ -114,7 +109,6 @@ const KakaoMap = () => {
       .then((res) => setpositions(res))
       .catch((err) => console.log(err))
     for (let i = 0; i < positions.data.spaces.length; i++) {
-      console.log(i)
       addMarker(positions.data.spaces[i])
     }
   }
