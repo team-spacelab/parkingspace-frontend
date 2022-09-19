@@ -3,19 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import ParkingspaceInfoModal from './parkingspaceInfoModal'
 import { FaMap } from 'react-icons/fa'
 const KakaoMap = () => {
-  // const infoTitle = window.document.querySelectorAll('.info-title')
-  // infoTitle.forEach(function (e) {
-  //   const w = e.offsetWidth + 10
-  //   const ml = w / 2
-  //   e.parentElement.style.top = '82px'
-  //   e.parentElement.style.left = '50%'
-  //   e.parentElement.style.marginLeft = -ml + 'px'
-  //   e.parentElement.style.width = w + 'px'
-  //   e.parentElement.previousSibling.style.display = 'none'
-  //   e.parentElement.parentElement.style.border = '0px'
-  //   e.parentElement.parentElement.style.background = 'unset'
-  // })
   const btnRef = useRef()
+  const [latLng, setLatLng] = useState({
+    lat: 0,
+    lng: 0,
+  })
   const [showModal, setShowModal] = useState(0)
   const [selectedId, setSelectedId] = useState(0)
   const [positions, setpositions] = useState({
@@ -35,11 +27,6 @@ const KakaoMap = () => {
     const markerSize = 40
     const imageSrc = './marker.png' // 마커이미지의 주소입니다
     const imageSize = new kakao.maps.Size(markerSize, markerSize) // 마커이미지의 크기입니다
-
-    //   var markerImage = new daum.maps.MarkerImage(
-    //     '/IMG_FILENAME.png', new daum.maps.Size(WIDTH, HEIGHT));
-
-    // marker.setImage(markerImage);
 
     const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
     const marker = new kakao.maps.Marker({
@@ -81,6 +68,10 @@ const KakaoMap = () => {
           ),
           level: 3,
         }
+        setLatLng({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
         const map = new kakao.maps.Map(container, options)
         //현재 내위치
         // const currentPosition = new kakao.maps.LatLng(lat, lng)
@@ -94,13 +85,13 @@ const KakaoMap = () => {
       })
     } else {
       // 만약 geolocation을 쓰지 못한다면 교장쌤 집을 찍자
-      const options = {
-        center: new kakao.maps.LatLng(36.301944076747795, 128.58436918356492),
-        level: 4,
-      }
-      const map = new kakao.maps.Map(container, options)
+      console.log('GPS를 활성화 시켜주세요')
     }
   }
+
+  // setInterval(() => {
+
+  // }, 5000)
   return (
     <div className='kakaomap'>
       <div id='map' style={{ width: '100vw', height: '100vh', zIndex: '0' }} />
@@ -110,7 +101,12 @@ const KakaoMap = () => {
           setShowModal={setShowModal}
         />
       ) : null}
-      <button className='updateBtn' onClick={() => createMap()} ref={btnRef}>
+      <button
+        className='updateBtn'
+        onClick={() => createMap()}
+        ref={btnRef}
+        style={{ display: 'none' }}
+      >
         <FaMap />
       </button>
     </div>

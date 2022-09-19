@@ -7,16 +7,16 @@ import {
   FaQrcode,
 } from 'react-icons/fa'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal }) => {
+  const [address, setAddress] = useState('')
   const geocoder = new kakao.maps.services.Geocoder()
-  console.log(parkInfo)
-  const [address, setAddress] = useState()
   useEffect(() => {
     getAddress()
   }, [])
+  console.log(parkInfo)
   const getAddress = () => {
     let callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
-        setAddress(result[0].road_address.address_name)
+        setAddress(result[0].address.address_name)
       }
     }
     geocoder.coord2Address(parkInfo.lng, parkInfo.lat, callback)

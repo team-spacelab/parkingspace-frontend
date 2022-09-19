@@ -17,6 +17,9 @@ const RequireLogin = () => {
           <br />
           사용하실 수 없습니다.
         </p>
+        <Link to={'/login'}>
+          <p style={{ textDecoration: 'underline', margin: '4px 0' }}>로그인</p>
+        </Link>
       </div>
       <BottomTab />
     </div>
