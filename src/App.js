@@ -22,7 +22,7 @@ const App = () => {
     cookie.get('SESSION_TOKEN') != null ? true : false
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
-  // //강제로 3초 보여줄려 했더니 애가 일을 안할줄은...
+  // 스플래시 3초 보여줌
   useEffect(() => {
     setTimeout(setShowSplashPage(1), 3000)
   }, [])
@@ -48,12 +48,13 @@ const App = () => {
     })
       .then((res) => res.json())
       .then((res) => setUserInfo(res))
+      .catch()
   }
 
   if (showSplashPage) {
     return (
       <>
-        <Toaster position='bottom-center'/>
+        <Toaster position='bottom-center' />
         <AnimatePresence>
           <Routes>
             <Route path={'/'} element={<Main />} />
@@ -61,7 +62,10 @@ const App = () => {
               path={'/parkingspace'}
               element={<ParkingSpace isLogged={isLogged} />}
             />
-            <Route path='/parkingspaceDetail' element={<ParkingSpaceDetail />} />
+            <Route
+              path='/parkingspaceDetail'
+              element={<ParkingSpaceDetail />}
+            />
             <Route
               path='/registParkingspace'
               element={<RegistParkingSpace isLogged={isLogged} />}

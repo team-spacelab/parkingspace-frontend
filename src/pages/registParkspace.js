@@ -39,18 +39,22 @@ const RegistParkingSpace = ({ isLogged }) => {
     description: '', // 주차장 설명
     // file: null,
   })
+  const [isCashed, setIsCashed] = useState()
   const [inputAddress, setInputAddress] = useState('')
-
+  const [startAt, setStartAt] = useState()
+  const [endAt, setSEndAt] = useState()
   // 입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
     if (isLogged) {
       //page핸들링 제대로 못하면 오류남
-      const value =
-        page !== 3
-          ? window.document.querySelector('input')
-          : window.document.querySelector('textarea')
-      if (value.value !== '' || value.value !== null) {
-        value.value = ''
+      if (page != 0) {
+        const value =
+          page !== 4
+            ? window.document.querySelector('input')
+            : window.document.querySelector('textarea')
+        if (value.value !== '' || value.value !== null) {
+          value.value = ''
+        }
       }
     }
   }, [page])
@@ -101,6 +105,15 @@ const RegistParkingSpace = ({ isLogged }) => {
       window.location.href = '/registParkingspace'
     }
   }
+
+  const registPay = () => {
+    return (
+      <div>
+        <p>주차장을 등록하고 싶으면 돈을 내라..!</p>
+      </div>
+    )
+  }
+
   const nameInput = () => {
     return (
       <>
@@ -276,6 +289,7 @@ const RegistParkingSpace = ({ isLogged }) => {
   }
 
   const inputComponents = [
+    registPay(),
     nameInput(),
     addressInput(),
     // parkingspaceThumnailInput(),

@@ -1,5 +1,10 @@
 const Guide = () => {
-  return <p>암튼 가이드 임</p>
+  return (
+    <div>
+      <p>암튼 가이드 임</p>
+      <button onClick={() => localStorage.setItem('guide', true)}>as</button>
+    </div>
+  )
 }
 
 export default Guide
