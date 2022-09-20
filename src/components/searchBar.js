@@ -6,6 +6,10 @@ const SearchBar = () => {
       method: 'GET',
     })
     //검색결과페이지를 만드세요 휴-먼
+    /**
+     * 키워드 검색 => 좌표 변환 => setCenter()
+     * 주소 검색 => 검색 결과 페이지 이동 => 리스트에서 선택 => 선택한 주차장 모달 on
+     */
   }
   const [searchInput, setSerchInput] = useState('')
   return (

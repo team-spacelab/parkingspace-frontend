@@ -54,7 +54,7 @@ const KakaoMap = () => {
           console.log(options.center)
           map.current = new kakao.maps.Map(container, options)
 
-          updateMap()
+          btnRef.current.click()
         },
         (err) => {
           console.log(err)
@@ -69,35 +69,42 @@ const KakaoMap = () => {
 
   useInterval(() => {
     btnRef.current.click()
-  }, 10000)
+  }, 5000)
 
   // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-  const addMarker = (position) => {
-    const markerSize = 40
-    const imageSrc = './marker.png' // 마커이미지의 주소입니다
-    const imageSize = new kakao.maps.Size(markerSize, markerSize) // 마커이미지의 크기입니다
+  const addMarker = () => {
+    positions.data.spaces.map((position) => {
+      const markerSize = 40
+      const imageSrc = './marker.png' // 마커이미지의 주소입니다
+      const imageSize = new kakao.maps.Size(markerSize, markerSize) // 마커이미지의 크기입니다
 
-    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
-    const marker = new kakao.maps.Marker({
-      map: map.current,
-      position: new kakao.maps.LatLng(position.lat, position.lng),
-      image: markerImage,
-    })
-    const costBox = new kakao.maps.CustomOverlay({
-      // map: map,
-      position: new kakao.maps.LatLng(position.lat, position.lng),
-      content: `<span class="markerCost">${position.defaultCost}</span>`, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
-    })
-    costBox.setMap(map.current)
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
+      const marker = new kakao.maps.Marker({
+        map: map.current,
+        position: new kakao.maps.LatLng(position.lat, position.lng),
+        image: markerImage,
+      })
+      const costBox = new kakao.maps.CustomOverlay({
+        // map: map,
+        position: new kakao.maps.LatLng(position.lat, position.lng),
+        content: `<span class="markerCost">${position.defaultCost}</span>`, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
+      })
+      costBox.setMap(map.current)
 
-    kakao.maps.event.addListener(marker, 'click', function () {
-      setShowModal(1)
-      setSelectedId(position)
+      kakao.maps.event.addListener(marker, 'click', function () {
+        setShowModal(1)
+        setSelectedId(position)
+      })
     })
   }
 
+  useEffect(() => {
+    // console.log(positions)
+    addMarker()
+  }, [positions])
   const updateMap = () => {
     const getCenter = map.current.getCenter()
+    console.log(getCenter, 1818)
     LatLng.current = {
       lat: getCenter.Ma,
       lng: getCenter.La,
@@ -108,9 +115,9 @@ const KakaoMap = () => {
       .then((res) => res.json())
       .then((res) => setpositions(res))
       .catch((err) => console.log(err))
-    for (let i = 0; i < positions.data.spaces.length; i++) {
-      addMarker(positions.data.spaces[i])
-    }
+    // for (let i = 0; i < positions.data.spaces.length; i++) {
+    //   addMarker(positions.data.spaces[i])
+    // }
   }
   return (
     <div className='kakaomap'>
