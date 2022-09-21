@@ -27,7 +27,7 @@ const RegistParkingSpace = ({ isLogged }) => {
   }
   const addressRef = useRef()
   const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [parkingspcaeThumnail, setParkingspcaeThumnail] = useState()
   const [registParkingSpace, setRegistParkingspace] = useState({
     name: '',

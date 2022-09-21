@@ -516,14 +516,105 @@ html, body{
     border-radius: 50px;
   }
 }
+
+.Guide {
+  width: 100vw;
+  height: 100vh;
+  background-color: #7748fa;
+  .guideWindow {
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    position: relative;
+    height: 94.3vh;
+    overflow-x: scroll;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    & > * {
+      width: 100vw;
+      flex: none;
+      scroll-snap-align: center;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 3px;
+      background-color: rgba(255, 255, 255, 0.6); /* 또는 트랙에 추가한다 */
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #4C00FF;
+      border-radius: 5px;
+    }
+  }
+  .skipContainer {
+    height: 5.7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    box-sizing: content-box;
+    color: white;
+    &  svg {
+      vertical-align: sub;
+      font-size: 1.2em;
+    }
+    & * {font-size: 0.9em;}
+    button {
+      color: white;
+      background-color: #44444400;
+      border: none;
+    }
+    span {
+      margin: 0 5px;
+    }
+  }
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    //text-align: center;
+    div:last-child {
+      width: 30%;
+      margin: 15px 0;
+      text-align: left;
+      h2 {
+        font-size: 2.2em;
+      }
+      h4 {
+        font-size: 1.5em;
+      }
+    }
+    img {
+      width: 30%;
+    }
+    
+  }
+}
+
 @media screen and (max-width:768px) {
   .splashPage {
     height: 100vh;
+  }
+  .Guide {
+    .intro {
+      div:last-child {
+        width: 60%;
+        h2, h4 {
+          text-align: left;
+        }
+      }
+      img {
+        width: 60%;
+      }
+      
+    }
   }
 }
 //mobile
 @media screen and (max-width:481px) {
   .parkingspaceCard  .address {display: none;}
+  
 }
 //갤럭시 폴드...
 @media screen and (max-width:280px) {

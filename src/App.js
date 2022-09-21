@@ -14,6 +14,7 @@ import './style/index.scss'
 import './style/toastr.scss'
 import { Cookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
+import Guide from './pages/guide'
 
 const App = () => {
   //token 여부 검사 - 후에 수정
@@ -22,9 +23,19 @@ const App = () => {
     cookie.get('SESSION_TOKEN') != null ? true : false
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
+  const [guide, setGuide] = useState(
+    localStorage.getItem('guide') === null ? true : false
+  )
   // 스플래시 3초 보여줌
+
+  const offline = () => {
+    alert('네트워크를 확인해주세요.')
+    window.close()
+  }
+
   useEffect(() => {
     setTimeout(setShowSplashPage(1), 3000)
+    fetch('/api/auth/v1/health').catch(offline)
   }, [])
 
   const [userInfo, setUserInfo] = useState({
@@ -52,6 +63,8 @@ const App = () => {
   }
 
   if (showSplashPage) {
+    if (guide) return <Guide setGuide={setGuide} />
+
     return (
       <>
         <Toaster position='bottom-center' />
