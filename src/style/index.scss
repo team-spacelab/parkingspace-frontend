@@ -28,7 +28,7 @@ html, body{
     background-color: white;
     border-radius: 10px;
     box-sizing: content-box;
-    padding: 3px 4px;
+    padding: 3px 10px;
 
     transform: translate(-50%, 0%);
     input {
@@ -156,7 +156,8 @@ html, body{
   }
   padding: 13px 14px;
   display: block;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   box-sizing: border-box;
   h2 {
     color: $theme-color;
@@ -617,123 +618,6 @@ html, body{
       font-size: 1em;
       font-weight: 700;
       color: white;
-    }
-  }
-}
-
-.Guide {
-  width: 100vw;
-  height: 100vh;
-  background-color: #7748fa;
-  color: white;
-  .guideWindow {
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    position: relative;
-    height: 93.3vh;
-    overflow-x: scroll;
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    & > * {
-      width: 90vw;
-      flex: none;
-      scroll-snap-align: center;
-    }
-    &::-webkit-scrollbar {
-      width: 5px;
-      height: 3px;
-      background-color: rgba(255, 255, 255, 0.6); /* 또는 트랙에 추가한다 */
-    }
-    &::-webkit-scrollbar-thumb {
-      background: #4C00FF;
-      border-radius: 5px;
-    }
-  }
-  .skipContainer {
-    height: 6.7vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 10px;
-    box-sizing: content-box;
-    color: white;
-    &  svg {
-      vertical-align: sub;
-      font-size: 1.3em;
-    }
-    & * {font-size: 0.95em;}
-    button {
-      color: white;
-      background-color: #44444400;
-      border: none;
-    }
-    span {
-      margin: 0 5px;
-      cursor: pointer;
-    }
-  }
-  .intro {
-    padding: 0 5vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    //text-align: center;
-    div:last-child {
-      width: 30%;
-      margin: 15px 0;
-      text-align: left;
-      h2 {
-        font-size: 2em;
-      }
-      h4 {
-        font-size: 1.5em;
-      }
-    }
-    img {
-      width: 30%;
-    }
-    
-  }
-  .guidePage {
-    padding: 2px 5vw;
-    img {
-      height: 75vh;
-      //width: 75vw;
-      display: block;
-      margin: 5px auto;
-    }
-    ul, li {
-      list-style: none;
-      font-size: 1em;
-    }
-  }
-}
-
-@media screen and (max-width:768px) {
-  .splashPage {
-    height: 100vh;
-  }
-  .Guide {
-    .intro {
-      div:last-child {
-        width: 80%;
-        h2, h4 {
-          text-align: left;
-        }
-        h2 {
-          font-size: 2em;
-        }
-        h4 {
-          font-size: 1.2em;
-        }
-      }
-      img {
-        width: 80%;
-      }
-      
     }
   }
 }

@@ -26,10 +26,8 @@ specifiers:
   react-scripts: 5.0.1
   react-simple-image-slider: ^2.4.1
   react-use: ^17.4.0
-  react-use-draggable-scroll: ^0.4.5
   sass: ^1.54.0
   scroll-snap: ^4.0.3
-  toastr: ^2.1.4
   web-vitals: ^2.1.4
 
 dependencies:
@@ -58,10 +56,8 @@ dependencies:
   react-scripts: 5.0.1_react@18.2.0+sass@1.54.9
   react-simple-image-slider: 2.4.1
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
-  react-use-draggable-scroll: 0.4.5_react@18.2.0
   sass: 1.54.9
   scroll-snap: 4.0.3
-  toastr: 2.1.4
   web-vitals: 2.1.4
 
 packages:
@@ -7015,10 +7011,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /jquery/3.6.1:
-    resolution: {integrity: sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw==}
-    dev: false
-
   /js-cookie/2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
     dev: false
@@ -9124,15 +9116,6 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /react-use-draggable-scroll/0.4.5_react@18.2.0:
-    resolution: {integrity: sha512-hx5VaqCP0NhLQO0mcSjvkikJ0riYvx0ReKGqDznCQvoERF8JycrC8Fh0Y49nIZyTWpycj/XorhRBwmpDlyCBuw==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: '>=16'
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /react-use/17.4.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-TgbNTCA33Wl7xzIJegn1HndB4qTS9u03QUwyNycUnXaweZkE4Kq2SB+Yoxx8qbshkZGYBDvUXbXWRUmQDcZZ/Q==}
     peerDependencies:
@@ -10205,12 +10188,6 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
-    dev: false
-
-  /toastr/2.1.4:
-    resolution: {integrity: sha512-LIy77F5n+sz4tefMmFOntcJ6HL0Fv3k1TDnNmFZ0bU/GcvIIfy6eG2v7zQmMiYgaalAiUv75ttFrPn5s0gyqlA==}
-    dependencies:
-      jquery: 3.6.1
     dev: false
 
   /toggle-selection/1.0.6:

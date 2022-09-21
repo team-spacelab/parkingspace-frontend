@@ -46,9 +46,7 @@ const KakaoMap = () => {
         },
         (err) => {
           toast.remove()
-          toast.error('위치 정보를 가져올 수 없습니다.', {
-            style: { marginBottom: '80px' }
-          })
+          toast.error('위치 정보를 가져올 수 없습니다.')
           setState((prev) => ({
             ...prev,
             errMsg: err.message,
@@ -58,9 +56,7 @@ const KakaoMap = () => {
       )
     } else {
       toast.remove()
-      toast.error('위치 정보를 가져올 수 없습니다.', {
-        style: { marginBottom: '80px' }
-      })
+      toast.error('위치 정보를 가져올 수 없습니다.')
       setState((prev) => ({
         ...prev,
         isLoading: false
@@ -75,9 +71,7 @@ const KakaoMap = () => {
 
       if (level > 5) {
         toast.remove()
-        toast.error('보고계신 지도가 너무 큽니다.', {
-          style: { marginBottom: '80px' }
-        })
+        toast.error('보고계신 지도가 너무 큽니다.')
         setSpaces([])
         return
       }
@@ -87,9 +81,7 @@ const KakaoMap = () => {
       const data = await res.json()
       if (!data.success) {
         toast.remove()
-        toast.error('주차장을 가져올 수 없습니다.', {
-          style: { marginBottom: '80px' }
-        })
+        toast.error('주차장을 가져올 수 없습니다.')
         return
       }
 
@@ -108,7 +100,7 @@ const KakaoMap = () => {
       setState((prev) => ({
         ...prev,
         center: {
-          lat: space.lat - 0.0007,
+          lat: space.lat,
           lng: space.lng
         }
       }))
@@ -166,7 +158,7 @@ const KakaoMap = () => {
                   className={`label label-size-${state.level}`}
                   onClick={() => onClick(space)}
                 >
-                  <p className='cost'>{space.defaultCost} ₩</p>
+                  <p className='cost'>{space.defaultCost}원</p>
                 </button>
               </CustomOverlayMap>
             ))}

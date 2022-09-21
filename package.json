@@ -29,10 +29,8 @@
     "react-scripts": "5.0.1",
     "react-simple-image-slider": "^2.4.1",
     "react-use": "^17.4.0",
-    "react-use-draggable-scroll": "^0.4.5",
     "sass": "^1.54.0",
     "scroll-snap": "^4.0.3",
-    "toastr": "^2.1.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

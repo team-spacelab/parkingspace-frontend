@@ -20,9 +20,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
     )
     const data = await res.json()
     if (!data.success) {
-      toast.error('이미지를 가져올 수 없습니다.', {
-        style: { marginBottom: '80px' }
-      })
+      toast.error('이미지를 가져올 수 없습니다.')
       return
     }
 
@@ -76,7 +74,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                   <p>{address}</p>
                 </div>
               </div>
-              <div className='image'>
+              {/* <div className='image'>
                 {images.length > 0 && (
                   <SimpleImageSlider
                     width={'100%'}
@@ -88,7 +86,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                     autoPlayDelay={3000}
                   />
                 )}
-              </div>
+              </div> */}
             </div>
           </Sheet.Content>
         </Sheet.Container>

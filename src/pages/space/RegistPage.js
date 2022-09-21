@@ -4,30 +4,13 @@ import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
-import toastr from 'toastr'
 import Loading from '../../components/Loading'
+import toast from 'react-hot-toast'
 
 const RegistParkingSpace = ({ isLogged }) => {
-  toastr.options = {
-    closeButton: false,
-    debug: false,
-    newestOnTop: true,
-    progressBar: false,
-    positionClass: 'toast-top-left',
-    preventDuplicates: false,
-    showDuration: '300',
-    hideDuration: '400',
-    timeOut: '5000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'slideDown',
-    hideMethod: 'slideUp'
-  }
   const addressRef = useRef()
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
-  const [parkingspcaeThumnail, setParkingspcaeThumnail] = useState()
   const [registParkingSpace, setRegistParkingspace] = useState({
     name: '',
     lat: 0,
@@ -42,15 +25,12 @@ const RegistParkingSpace = ({ isLogged }) => {
     thumnail: null,
     ownerDocs: null
   })
-  const [isCashed, setIsCashed] = useState()
   const [inputAddress, setInputAddress] = useState('')
-  const [startAt, setStartAt] = useState()
-  const [endAt, setSEndAt] = useState()
   // 입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
     if (isLogged) {
       // page핸들링 제대로 못하면 오류남
-      if (page != 0 && page !== 4 && page !== 5) {
+      if (page !== 0 && page !== 4 && page !== 5) {
         const value =
           page !== 6
             ? window.document.querySelector('input')
@@ -60,7 +40,7 @@ const RegistParkingSpace = ({ isLogged }) => {
         }
       }
     }
-  }, [page])
+  }, [isLogged, page])
 
   useEffect(() => {
     console.log(registFileParkingspace.thumnail)
@@ -75,18 +55,13 @@ const RegistParkingSpace = ({ isLogged }) => {
   const result = useRef()
   const regist = async () => {
     // console.log(registFileParkingspace.ownerDocs[0].name)
-<<<<<<< HEAD:src/pages/registParkspace.js
     const data1 = await fetch(`/api/space/v1/spaces`, {
-=======
-    fetch('/api/space/v1/spaces', {
->>>>>>> 91e3f45 (feat: update filename):src/pages/space/RegistPage.js
       method: 'POST',
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'no-cors'
       },
-<<<<<<< HEAD:src/pages/registParkspace.js
       body: JSON.stringify(registParkingSpace),
     }).then((res) => res.json())
     result.current = data1
@@ -131,56 +106,6 @@ const RegistParkingSpace = ({ isLogged }) => {
           method: 'PUT',
           body: registFileParkingspace.ownerDocs[0],
         })
-=======
-      body: JSON.stringify(registParkingSpace)
-    })
-      .then((res) => res.json())
-      .then((res) => (result.current = res))
-      .then(() => console.log(188, result.current.data.space.id))
-      .then(() => {
-        for (const data of registFileParkingspace.thumnail) {
-          fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
-            method: 'POST',
-            headers: {
-              Accept: '*/*',
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': 'no-cors'
-            },
-            body: JSON.stringify({
-              type: 'SPACE_PICTURE', // 주차장 소유 증명 자료
-              filename: data.name
-            })
-          })
-            .then((res) => res.json())
-            .then((res) =>
-              fetch(res.data.url, {
-                method: 'PUT',
-                body: data
-              })
-            )
-        }
-      })
-      .then(() =>
-        fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
-          method: 'POST',
-          headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'no-cors'
-          },
-          body: JSON.stringify({
-            type: 'SPACE_OWNERSHIP_DOCS',
-            filename: registFileParkingspace.ownerDocs[0].name
-          })
-        })
-          .then((res) => res.json())
-          .then((res) =>
-            fetch(res.data.url, {
-              method: 'PUT',
-              body: registFileParkingspace.ownerDocs[0]
-            })
-          )
->>>>>>> 91e3f45 (feat: update filename):src/pages/space/RegistPage.js
       )
 
     console.log(result.current)
@@ -196,7 +121,7 @@ const RegistParkingSpace = ({ isLogged }) => {
       setPage(page + 1)
     } else if (typeof data === 'string') {
       if (data === '' || (data === 'address' && inputAddress === '')) {
-        toastr.info('정보를 입력해주세요')
+        toast.info('정보를 입력해주세요')
         return false
       }
       setPage(page + 1)
@@ -251,8 +176,8 @@ const RegistParkingSpace = ({ isLogged }) => {
       geocoder.addressSearch(address, function (result, status) {
         console.log(result[0])
         if (status === kakao.maps.services.Status.OK) {
-          if (typeof result[0] === undefined) {
-            toastr.warning('정확한 주소를 입력해주세요.11')
+          if (typeof result[0] === 'undefined') {
+            toast.error('정확한 주소를 입력해주세요.11')
             setPage(page)
           } else if (result[0].y !== 0 && result[0].x !== 0) {
             setRegistParkingspace({
@@ -262,7 +187,7 @@ const RegistParkingSpace = ({ isLogged }) => {
             })
             setPage(page + 1)
           } else {
-            toastr.warning('정확한 주소를 입력해주세요.')
+            toast.error('정확한 주소를 입력해주세요.')
             setPage(page)
           }
         }

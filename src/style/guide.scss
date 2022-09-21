@@ -1,0 +1,83 @@
+@import './index.scss';
+
+.Guide {
+  width: 100vw;
+  height: 100vh;
+  background-color: $theme-color;
+  color: white;
+  img {
+    width: 25vw;
+  }
+  .guideWindow {
+    position: relative;
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+    & > * {
+      width: 100vw;
+      flex: none;
+      scroll-snap-align: center;
+    }
+    .guideContainer {
+      width: 100vw;
+      height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .skipContainer {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    gap: 10px;
+    span {
+      text-align: center;
+      background-color: white;
+      color: $theme-color;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 5vw;
+      font-weight: bold;
+      box-shadow: 5px 5px 15px 5px #00000025;
+    }
+  }
+}
+
+.guideContainer > .intro {
+  width: 80%;
+  text-align: center;
+}
+
+.guideContainer > .select {
+  width: 80%;
+  svg {
+    font-size: 35px;
+  }
+  .selected {
+    background-color: white !important;
+  }
+  .selectItem {
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    width: 100%;
+    text-align: left;
+    background-color: rgb(173, 173, 173);
+    color: $theme-color;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px 5px #00000025;
+    .selectTitle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      h3 { font-size: 5vw; }
+    }
+    p {
+      font-size: 3.3vw;
+    }
+  }
+}

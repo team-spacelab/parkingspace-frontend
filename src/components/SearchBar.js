@@ -4,7 +4,8 @@ import SearchModal from './SearchModal'
 const SearchBar = ({ map, setMap }) => {
   const [data, setData] = useState([])
 
-  const search = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault()
     const data = await fetch(`/api/space/v1/spaces?search=${searchInput}&lat=${map.center.lat}&lng=${map.center.lng}`, {
       method: 'GET'
     }).then((res) => res.json())
@@ -12,28 +13,24 @@ const SearchBar = ({ map, setMap }) => {
 
     setData(data.data.spaces)
     setShowModal(true)
-    // 검색결과페이지를 만드세요 휴-먼
-    /*
-     * 주소 검색 => 검색 결과 페이지 이동 => 리스트에서 선택 => 선택한 주차장 모달 on
-     */
   }
   const [searchInput, setSerchInput] = useState('')
   const [showModal, setShowModal] = useState(false)
   return (
     <>
     <div className="searchBarOUT">
-      <div className='searchBar'>
+      <form className='searchBar' onSubmit={(e) => onSubmit(e)}>
         <input
           type={'text'}
-          placeholder='검색'
+          placeholder='여기를 눌러 주차장을 검색하세요'
           name='search'
           autoComplete='on'
           onChange={(e) => setSerchInput(e.target.value)}
         />
-        <button>
-          <FaSearch onClick={search} />
+        <button type={'submit'}>
+          <FaSearch />
         </button>
-      </div>
+      </form>
     </div>
     <SearchModal setMap={setMap} parkInfo={data} setShowModal={setShowModal} showModal={showModal} />
     </>

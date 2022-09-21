@@ -11,15 +11,15 @@ import RegistParkingSpace from './pages/space/RegistPage'
 import RegistParkingSpaceResult from './pages/registParkspaceResult'
 import SplashPage from './components/Splash'
 import './style/index.scss'
-import './style/toastr.scss'
 import { Cookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import Guide from './pages/GuidePage'
 import Order from './pages/OrderPage'
+import AuthRoute from './components/AuthRoute'
 
 const App = () => {
   const cookie = new Cookies()
-  const [isLogged, setIsLogged] = useState(
+  const [authenticated, setAuthenticated] = useState(
     cookie.get('SESSION_TOKEN') != null
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
@@ -38,26 +38,18 @@ const App = () => {
   }, [])
 
   const [userInfo, setUserInfo] = useState({
-    data: {
-      id: 0,
-      name: '',
-      nickname: '',
-      tel: '',
-      verified_tel: false,
-      birthday: '0',
-      point: 0
-    }
+    id: 0,
+    name: '',
+    nickname: '',
+    tel: '',
+    verified_tel: false,
+    birthday: '0',
+    point: 0
   })
   const getUserInfo = async () => {
-    await fetch('/api/auth/v1/users/@me', {
-      method: 'GET',
-      headers: {
-        Accept: '*/*',
-        'Access-Control-Allow-Origin': 'no-cors'
-      }
-    })
+    await fetch('/api/auth/v1/users/@me', { method: 'GET' })
       .then((res) => res.json())
-      .then((res) => setUserInfo(res))
+      .then((res) => setUserInfo(res.data))
       .catch()
   }
 
@@ -66,42 +58,40 @@ const App = () => {
 
     return (
       <>
-        <Toaster position='bottom-center' />
+        <Toaster position='bottom-center' containerStyle={{ marginBottom: '80px' }} />
         <AnimatePresence>
           <Routes>
             <Route path={'/'} element={<Main />} />
-            <Route
-              path={'/parkingspace'}
-              element={<ParkingSpace isLogged={isLogged} />}
-            />
+            <Route path={'/login'} element={<Login setIsLogged={setAuthenticated} />} />
+            <Route path={'/register'} element={<Register />} />
+            <Route exact path='/' element={<AuthRoute authenticated={authenticated} />}>
+              <Route
+                path='/parkingspace'
+                element={<ParkingSpace />}
+              />
+              <Route
+                path='/registParkingspace'
+                element={<RegistParkingSpace />}
+              />
+              <Route
+                path={'/myInfo'}
+                element={
+                  <MyInfo
+                    getUserInfo={getUserInfo}
+                    userInfo={userInfo}
+                  />
+                }
+              />
+              <Route path={'/order'} element={<Order/>} />
+              <Route
+                path='/registParkingspaceResult'
+                element={<RegistParkingSpaceResult />}
+              />
+            </Route>
             <Route
               path='/parkingspaceDetail'
               element={<ParkingSpaceDetail />}
             />
-            <Route
-              path='/registParkingspace'
-              element={<RegistParkingSpace isLogged={isLogged} />}
-            />
-            <Route
-              path='/registParkingspaceResult'
-              element={<RegistParkingSpaceResult />}
-            />
-            <Route
-              path={'/login'}
-              element={<Login setIsLogged={setIsLogged} />}
-            />
-            <Route
-              path={'/myInfo'}
-              element={
-                <MyInfo
-                  getUserInfo={getUserInfo}
-                  userInfo={userInfo}
-                  isLogged={isLogged}
-                />
-              }
-            />
-            <Route path={'/register'} element={<Register />} />
-            <Route path={'/order'} element={<Order/>} />
           </Routes>
         </AnimatePresence>
       </>

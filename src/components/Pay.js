@@ -17,7 +17,7 @@ const Pay = ({ userId, orderId, orderName, amount }) => {
         )
       )
     importTosspayment()
-  }, [])
+  }, [amount, orderId, orderName, userId])
 
   useEffect(() => {
     if (brandPay) {

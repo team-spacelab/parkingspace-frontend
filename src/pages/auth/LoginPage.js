@@ -22,9 +22,7 @@ const Login = ({ setIsLogged }) => {
     const requst = await fetch('/api/auth/v1/users/@login', {
       method: 'POST',
       headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'no-cors'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(loginInputInfo)
     })
@@ -43,7 +41,7 @@ const Login = ({ setIsLogged }) => {
   return (
     <>
       <div className='login'>
-        <p onClick={() => window.history.back()}>돌아가기</p>
+        <p onClick={() => navigate('/')}>돌아가기</p>
         <h2>
           로그인하고 <br />
           모든 서비스를 이용해보세요

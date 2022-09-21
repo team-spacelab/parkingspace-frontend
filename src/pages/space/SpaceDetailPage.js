@@ -1,15 +1,13 @@
 import { useLocation } from 'react-router-dom'
-import BottomTab from '../../components/BottomTab'
-import Header from '../../components/Header'
+import BottomTab from '../components/bottomTab'
+import Header from '../components/header'
 import {
   FaParking,
   FaCoins,
   FaShareAltSquare,
-  FaStar,
   FaStoreSlash
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 
 const ParkingSpaceDetail = () => {
   const data = useLocation().state
@@ -40,25 +38,6 @@ const ParkingSpaceDetail = () => {
       .then((res) => setImgUrl(res.data.files[0].url))
   }, [data])
 
-  const delParkingspace = () => {
-    fetch(`/api/space/v1/spaces/${data.spaceId}`, {
-      method: 'DELETE',
-    })
-      .then(() => (window.location.href = '/parkingspace'))
-      .then(() => {
-        toast.remove()
-        toast.success('주차장을 삭제하였습니다.', {
-          style: { marginBottom: '80px' },
-        })
-      })
-      .catch(() => {
-        toast.remove()
-        toast.error('주차장을 가져올 수 없습니다.', {
-          style: { marginBottom: '80px' },
-        })
-      })
-  }
-
   return (
     <>
       <Header />
@@ -72,14 +51,11 @@ const ParkingSpaceDetail = () => {
         <div
           className='image'
           style={{
-            backgroundImage: `url('${imgUrl}')`,
+            backgroundImage: `url(${imgUrl})`
           }}
         />
         <div className='detailInfo'>
           <p>{spaceInfo.data.space.description}</p>
-          <p>
-            <FaStar /> 등급 : 5 등급
-          </p>
           <p>
             <FaCoins /> 가격(30분당) : {spaceInfo.data.space.defaultCost}원
           </p>
@@ -93,7 +69,7 @@ const ParkingSpaceDetail = () => {
               <span className='redBtn'>승인 대기 중</span>
                 )}
           </p>
-          *<p className='warning' onClick={delParkingspace}>
+          <p className='warning'>
             <FaStoreSlash /> 주차장 삭제하기
           </p>
         </div>
