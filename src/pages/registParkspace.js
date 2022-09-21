@@ -73,9 +73,9 @@ const RegistParkingSpace = ({ isLogged }) => {
   }, [registFileParkingspace])
 
   const btnRef = useRef()
-  const [result, setResult] = useState(null)
+  const result = useRef(null)
   const regist = () => {
-    console.log(registParkingSpace)
+    // console.log(registFileParkingspace.ownerDocs[0].name)
     fetch(`/api/space/v1/spaces`, {
       method: 'POST',
       headers: {
@@ -86,13 +86,53 @@ const RegistParkingSpace = ({ isLogged }) => {
       body: JSON.stringify(registParkingSpace),
     })
       .then((res) => res.json())
-      .then((res) => setResult(res))
+      .then((res) => (result.current = res))
+      .then(() => console.log(188, result.current.data.space.id))
+      .then(() => {
+        for (const data of registFileParkingspace.thumnail) {
+          fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'no-cors',
+            },
+            body: JSON.stringify({
+              type: 'SPACE_PICTURE', //주차장 소유 증명 자료
+              filename: data.name,
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) =>
+              fetch(res.data.url, {
+                method: 'PUT',
+                body: data,
+              })
+            )
+        }
+      })
+      .then(() =>
+        fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
+          method: 'POST',
+          headers: {
+            Accept: '*/*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'no-cors',
+          },
+          body: JSON.stringify({
+            type: 'SPACE_OWNERSHIP_DOCS',
+            filename: registFileParkingspace.ownerDocs[0].name,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) =>
+            fetch(res.data.url, {
+              method: 'PUT',
+              body: registFileParkingspace.ownerDocs[0],
+            })
+          )
+      )
   }
-  useEffect(() => {
-    if (page === 3) {
-      btnRef.current.click()
-    }
-  }, [result])
 
   const verifiedCheck = (key) => {
     // if
@@ -339,7 +379,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           <Link
             to={'/registParkingspaceResult'}
             ref={btnRef}
-            state={{ result: result }}
+            state={{ result: result.current }}
           />
         </div>
       </>

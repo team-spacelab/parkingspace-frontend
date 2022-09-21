@@ -84,15 +84,14 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
           },
           body: JSON.stringify({
             password: doUserDelete,
-          })
+          }),
         })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
               toastr.success('회원탈퇴 성공')
               window.location.href = '/'
-            }
-            else {
+            } else {
               toastr.warning('회원탈퇴 실패', data.reason)
             }
           })
@@ -112,12 +111,15 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
             <p>잔여 포인트량</p>
             <h2>{userInfo.data.point}P</h2>
           </div>
-          <p>
+          {/* <p>
             <FaPhone />
             &nbsp;전화번호 :{' '}
             {userInfo.data.isVerified
               ? userInfo.data.phone
               : '전화번호 인증을 해주세요'}
+          </p> */}
+          <p onClick={() => localStorage.removeItem('guide')}>
+            <FaPhone /> 가이드 보기
           </p>
           <p className='myInfoFlexContainer'>
             <span>
