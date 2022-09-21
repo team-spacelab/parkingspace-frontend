@@ -39,6 +39,10 @@ const RegistParkingSpace = ({ isLogged }) => {
     description: '', // 주차장 설명
     // file: null,
   })
+  const [registFileParkingspace, setRegistFileParkingSpace] = useState({
+    thumnail: null,
+    ownerDocs: null,
+  })
   const [isCashed, setIsCashed] = useState()
   const [inputAddress, setInputAddress] = useState('')
   const [startAt, setStartAt] = useState()
@@ -47,9 +51,9 @@ const RegistParkingSpace = ({ isLogged }) => {
   useEffect(() => {
     if (isLogged) {
       //page핸들링 제대로 못하면 오류남
-      if (page != 0) {
+      if (page != 0 && page !== 4 && page !== 5) {
         const value =
-          page !== 4
+          page !== 6
             ? window.document.querySelector('input')
             : window.document.querySelector('textarea')
         if (value.value !== '' || value.value !== null) {
@@ -58,6 +62,15 @@ const RegistParkingSpace = ({ isLogged }) => {
       }
     }
   }, [page])
+
+  useEffect(() => {
+    console.log(registFileParkingspace.thumnail)
+    if (registFileParkingspace.thumnail !== null) {
+      for (let i = 0; i < registFileParkingspace.thumnail.length; i++) {
+        console.log(registFileParkingspace.thumnail.item(i))
+      }
+    }
+  }, [registFileParkingspace])
 
   const btnRef = useRef()
   const [result, setResult] = useState(null)
@@ -193,6 +206,17 @@ const RegistParkingSpace = ({ isLogged }) => {
     )
   }
 
+  const getFiles = () => {
+    if (registFileParkingspace.thumnail !== null) {
+      let result = []
+      for (let i = 0; i < registFileParkingspace.thumnail.length; i++) {
+        console.log(12, typeof registFileParkingspace.thumnail.item(i).name)
+        result += `${registFileParkingspace.thumnail.item(i).name}`
+      }
+      return result
+    }
+  }
+
   const parkingspaceThumnailInput = () => {
     return (
       <>
@@ -204,11 +228,45 @@ const RegistParkingSpace = ({ isLogged }) => {
           type={'file'}
           name='spaceThum'
           id='thumnail'
+          multiple
           accept='image/jpg, image/png, image/jpeg'
           onChange={(e) =>
-            setRegistParkingspace({
-              ...registParkingSpace,
-              file: e.target.files[0],
+            setRegistFileParkingSpace({
+              ...registFileParkingspace,
+              thumnail: e.target.files,
+            })
+          }
+        />
+        <div className='inputFiles'>
+          {registFileParkingspace.thumnail !== null ? getFiles() : null}
+        </div>
+        <div className='btnGroup'>
+          <button onClick={() => setPage(page - 1)}>
+            <FaArrowLeft />
+          </button>
+          <button onClick={() => setPage(page + 1)}>
+            <FaArrowRight />
+          </button>
+        </div>
+      </>
+    )
+  }
+
+  const ownershipDocsInput = () => {
+    return (
+      <>
+        <h3>등록하실 주차장의 소유를 증명할 파일을 등록해주세요.</h3>
+        <label htmlFor='ownershipDocs'>
+          <div>파일 업로드</div>
+        </label>
+        <input
+          type={'file'}
+          name='spaceownershipDocs'
+          id='ownershipDocs'
+          onChange={(e) =>
+            setRegistFileParkingSpace({
+              ...registFileParkingspace,
+              ownerDocs: e.target.files,
             })
           }
         />
@@ -292,8 +350,9 @@ const RegistParkingSpace = ({ isLogged }) => {
     registPay(),
     nameInput(),
     addressInput(),
-    // parkingspaceThumnailInput(),
     costInput(),
+    parkingspaceThumnailInput(),
+    ownershipDocsInput(),
     descInput(),
   ]
 

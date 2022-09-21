@@ -14,10 +14,15 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
   const [address, setAddress] = useState('')
 
   const fetchImage = async () => {
-    const res= await fetch(`/api/space/v1/spaces/${parkInfo.id}/files?type=SPACE_PICTURE`, { method: 'GET' })
+    const res = await fetch(
+      `/api/space/v1/spaces/${parkInfo.id}/files?type=SPACE_PICTURE`,
+      { method: 'GET' }
+    )
     const data = await res.json()
     if (!data.success) {
-      toast.error('이미지를 가져올 수 없습니다.', { style: { marginBottom: '80px' } })
+      toast.error('이미지를 가져올 수 없습니다.', {
+        style: { marginBottom: '80px' },
+      })
       return
     }
 
@@ -41,8 +46,13 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
 
   return (
     <>
-      <Sheet isOpen={showModal} onClose={() => setShowModal(false)} snapPoints={[850, 650]} initialSnap={ 1 }>
-        <Sheet.Container >
+      <Sheet
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        snapPoints={[850, 650]}
+        initialSnap={1}
+      >
+        <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
             <div className='container'>
@@ -67,15 +77,17 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                 </div>
               </div>
               <div className='image'>
-                { images.length > 0 && <SimpleImageSlider
-                  width={'100%'}
-                  height={'200px'}
-                  images={images}
-                  showNavs={ images.length < 1 ? true : false }
-                  loop={true}
-                  autoPlay={true}
-                  autoPlayDelay={3000}
-                /> }
+                {images.length > 0 && (
+                  <SimpleImageSlider
+                    width={'100%'}
+                    height={'200px'}
+                    images={images}
+                    showNavs={images.length < 1 ? true : false}
+                    loop={true}
+                    autoPlay={true}
+                    autoPlayDelay={3000}
+                  />
+                )}
               </div>
             </div>
           </Sheet.Content>
