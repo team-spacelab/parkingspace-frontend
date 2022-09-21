@@ -5,6 +5,7 @@ import { Cookies } from 'react-cookie'
 import DatePicker from "react-datepicker"
 import toast from 'react-hot-toast'
 import "react-datepicker/dist/react-datepicker.css";
+import Pay from '../components/pay'
 
 const Error = {
   'USER_NOT_FOUND_OR_PASSWORD_INVALID': '계정 정보를 다시 확인해주세요.'
@@ -16,6 +17,9 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
   const [address, setAddress] = useState('')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
+  const [price, setPrice] = useState(0)
+  const [order, setOrder] = useState(false)
+  const [userData, setUserData] = useState({})
 
   const navigation = useNavigate()
   const fetchSpace = () =>
@@ -34,6 +38,14 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
         setCars(data.data.cars)
       })
 
+  const fetchMe = () =>
+    fetch(`/api/auth/v1/@me`)
+      .then((res) => res.json())
+      .then((data) => {
+        if(!data.success)return
+        setUserData(data.data.success)
+      })
+
   const fetchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.coord2Address(space.lng, space.lat, (result, status) => {
@@ -41,6 +53,16 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
         setAddress(result[0].address.address_name)
       }
     })
+  }
+
+  function changeStartDate (date){
+    setStartDate(date)
+    setPrice(Math.floor((endDate.getTime() - startDate.getTime()) / (space.timeUnit * 60 * 1000) * space.defaultCost))
+  }
+
+  function changeEndDate (date){
+    setEndDate(date)
+    setPrice(Math.floor((endDate.getTime() - startDate.getTime()) / (space.timeUnit * 60 * 1000) * space.defaultCost))
   }
 
   useEffect(() => {
@@ -71,12 +93,14 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
           <select>
             {cars.length < 1 && <option>등록된 차량이 없습니다.</option>}
             {cars.map(car => (
-              <option value={car.id}>{car.name}</option>
+              <option value={car.id}>{car.alias} ({car.num})</option>
             ))}
           </select>
-          <DatePicker showTimeSelect timeIntervals={10} />
+          <DatePicker onChange={changeStartDate} selected={startDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
+          <DatePicker onChange={changeEndDate} selected={endDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <div className='button_area'>
-            <input type={'submit'} value='로그인'/>
+            <input onClick={() => setOrder(true)} disabled={!price} style={!price ? { backgroundColor: '#ccc' } :{}} type={'submit'} value={price + "원 결제"}/>
+            {order && <Pay amount={price} orderName={"[파킹스페이스] " + space.name} userId={userData.id} />}
           </div>
         </form>
       </div>
