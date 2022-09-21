@@ -521,6 +521,7 @@ html, body{
   width: 100vw;
   height: 100vh;
   background-color: #7748fa;
+  color: white;
   .guideWindow {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -531,7 +532,7 @@ html, body{
     display: flex;
     flex-direction: row;
     & > * {
-      width: 100vw;
+      width: 90vw;
       flex: none;
       scroll-snap-align: center;
     }
@@ -568,6 +569,7 @@ html, body{
     }
   }
   .intro {
+    padding: 0 5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -589,6 +591,18 @@ html, body{
       width: 30%;
     }
     
+  }
+  .guidePage {
+    padding: 10px 5vw;
+    img {
+      width: 80vw;
+      display: block;
+      margin: 5px auto;
+    }
+    ul, li {
+      list-style: none;
+      font-size: 0.9em;
+    }
   }
 }
 

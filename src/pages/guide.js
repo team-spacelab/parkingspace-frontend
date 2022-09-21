@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useDraggable } from 'react-use-draggable-scroll'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 
@@ -8,10 +8,11 @@ import myPage from '../assets/My.png'
 import parkingspacePage from '../assets/parkingspace.png'
 
 const Guide = ({ setGuide }) => {
+  const [page, setPage] = useState(0)
   const guideWindow = useRef()
   const { event } = useDraggable(guideWindow)
 
-  const completeGuide = () => {
+  const skipGuide = () => {
     const doComplete = window.confirm('정말로 가이드를 스킵하시겠습니까?')
     if (doComplete) {
       localStorage.setItem('guide', 'complete')
@@ -35,22 +36,40 @@ const Guide = ({ setGuide }) => {
   }
   const mapGuide = () => {
     return (
-      <div>
-        <h2>메인 페이지 가이드</h2>
+      <div className='guidePage'>
+        <h2>맵 페이지</h2>
+        <img src={mapPage} alt='맵 페이지 예시' />
+        <ul>
+          <li>지도를 통해서 내 주변 주차장을 확인할 수 있어요!</li>
+          <li>만약 주차장을 빌리고 싶다면?</li>
+          <li>지도에 있는 마커 클릭!</li>
+        </ul>
       </div>
     )
   }
   const parkingspaceGuide = () => {
     return (
-      <div>
-        <h2>주차장 페이지 가이드</h2>
+      <div className='guidePage'>
+        <h2>주차장 페이지</h2>
+        <img src={parkingspacePage} alt='주차장 페이지 예시' />
+        <ul>
+          <li>혹시 주차장을 공유하고 싶으신가요?</li>
+          <li>그럼 주차장을 등록해보세요!</li>
+          <li>주차장 관리를 열심히 하면 좋은 일이 생길수도?</li>
+        </ul>
       </div>
     )
   }
   const myInfoGuide = () => {
     return (
-      <div>
-        <h2>내 정보 페이지 가이드</h2>
+      <div className='guidePage'>
+        <h2>내 정보 페이지</h2>
+        <img src={myPage} alt='주차장 페이지 예시' />
+        <ul>
+          <li>내 정보가 궁금할 땐? My 페이지!</li>
+          <li>로그아웃이 하고 싶을 땐? My 페이지!</li>
+          <li>무언가 허전할때도? My페이지!</li>
+        </ul>
       </div>
     )
   }
@@ -58,11 +77,30 @@ const Guide = ({ setGuide }) => {
   const guideList = [Intro(), mapGuide(), parkingspaceGuide(), myInfoGuide()]
 
   const scrollNext = () => {
+    if (page > 2) {
+      const doComplete = window.confirm('가이드를 종료하시겠습니까?')
+      if (doComplete) {
+        localStorage.setItem('guide', 'complete')
+        setGuide(false)
+        return
+      } else return
+    }
+    setPage(page + 1)
+
     guideWindow.current.scrollLeft += window.innerWidth
   }
   const scrollPrev = () => {
+    setPage(page - 1)
+
     guideWindow.current.scrollLeft -= window.innerWidth
   }
+
+  useEffect(() => {
+    console.log(page)
+
+    return () => {}
+  }, [page])
+
   return (
     <div className='Guide'>
       <div
@@ -76,13 +114,13 @@ const Guide = ({ setGuide }) => {
         })}
       </div>
       <div className='skipContainer'>
-        <button onClick={() => completeGuide()}>건너뛰기</button>
+        <button onClick={skipGuide}>건너뛰기</button>
         <div>
           <span onClick={scrollPrev}>
             <FaAngleLeft /> prev
           </span>
           <span onClick={scrollNext}>
-            next <FaAngleRight />
+            {page < 3 ? 'next' : 'exit'} <FaAngleRight />
           </span>
         </div>
       </div>
