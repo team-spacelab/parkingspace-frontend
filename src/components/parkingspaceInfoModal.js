@@ -1,59 +1,87 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react'
+import SimpleImageSlider from 'react-simple-image-slider'
+import Sheet from 'react-modal-sheet'
 import {
   FaMapMarkedAlt,
   FaUserCircle,
   FaRegClock,
   FaQrcode,
 } from 'react-icons/fa'
-const ParkingspaceInfoModal = ({ parkInfo, setShowModal }) => {
+import toast from 'react-hot-toast'
+const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
+  const [images, setImages] = useState([])
   const [address, setAddress] = useState('')
-  const geocoder = new kakao.maps.services.Geocoder()
-  useEffect(() => {
-    getAddress()
-  }, [])
-  console.log(parkInfo)
-  const getAddress = () => {
-    let callback = function (result, status) {
+
+  const fetchImage = async () => {
+    const res= await fetch(`/api/space/v1/spaces/${parkInfo.id}/files?type=SPACE_PICTURE`, { method: 'GET' })
+    const data = await res.json()
+    if (!data.success) {
+      toast.error('이미지를 가져올 수 없습니다.', { style: { marginBottom: '80px' } })
+      return
+    }
+
+    setImages(data.data.files)
+  }
+
+  const getAdress = async () => {
+    const geocoder = new kakao.maps.services.Geocoder()
+    geocoder.coord2Address(parkInfo.lng, parkInfo.lat, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         setAddress(result[0].address.address_name)
       }
-    }
-    geocoder.coord2Address(parkInfo.lng, parkInfo.lat, callback)
+    })
   }
 
-  if (!parkInfo) <></>
+  useEffect(() => {
+    if (!showModal) return
+    fetchImage()
+    getAdress()
+  }, [showModal, parkInfo])
+
   return (
     <>
-      <div className='parkingspaceInfoModal'>
-        <div className='dragBar' />
-        <h3 className='address'>
-          <FaMapMarkedAlt />
-          &nbsp;
-          {parkInfo.name}
-        </h3>
-        <div className='parkingspaceThum' /> {/** Image임 */}
-        <p>
-          <FaUserCircle /> {parkInfo.manager.nickname}
-        </p>
-        <p>{address}</p>
-        <p className='desc'>
-          {parkInfo.description === ''
-            ? '작성된 설명이 없습니다.'
-            : parkInfo.description}
-        </p>
-        <div>
-          <button onClick={() => console.log('현장 예약')}>
-            <FaQrcode />
-            &nbsp; 현장 구매
-          </button>
-          <button onClick={() => console.log('주차장 예약')}>
-            <FaRegClock />
-            &nbsp; 주차장 예약
-          </button>
-        </div>
-      </div>
-      <div className='backgroundModal' onClick={() => setShowModal(0)} />
+      <Sheet isOpen={showModal} onClose={() => setShowModal(false)} snapPoints={[850, 650]} initialSnap={ 1 }>
+        <Sheet.Container >
+          <Sheet.Header />
+          <Sheet.Content>
+            <div className='container'>
+              <div className='title'>
+                <h2>{parkInfo.name}</h2>
+                <h3>{parkInfo.description}</h3>
+              </div>
+              <div className='information'>
+                <div className='info'>
+                  <div className='info-title'>
+                    <FaMapMarkedAlt />
+                    <span>주소</span>
+                  </div>
+                  <p>{address}</p>
+                </div>
+                <div className='info'>
+                  <div className='info-title'>
+                    <FaMapMarkedAlt />
+                    <span></span>
+                  </div>
+                  <p>{address}</p>
+                </div>
+              </div>
+              <div className='image'>
+                { images.length > 0 && <SimpleImageSlider
+                  width={'100%'}
+                  height={'200px'}
+                  images={images}
+                  showNavs={ images.length < 1 ? true : false }
+                  loop={true}
+                  autoPlay={true}
+                  autoPlayDelay={3000}
+                /> }
+              </div>
+            </div>
+          </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop />
+      </Sheet>
     </>
   )
 }

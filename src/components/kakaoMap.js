@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import toast from 'react-hot-toast'
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
+import ParkingspaceInfoModal from './parkingspaceInfoModal';
 
 const useDebouncedEffect = (func, delay, deps) => {
   const callback = useCallback(func, deps);
@@ -18,13 +19,15 @@ const useDebouncedEffect = (func, delay, deps) => {
 }
 
 const KakaoMap = () => {
+  const [showModal, setShowModal] = useState(false)
+  const [parkInfo, setParkInfo] = useState({})
   const [state, setState] = useState({
     center: {
       lat: 36.30301568116367,
       lng: 128.58510055431705,
     },
     level: 3,
-    isLoading: true,
+    isLoading: true
   })
   const [spaces, setSpaces] = useState([])
 
@@ -53,7 +56,7 @@ const KakaoMap = () => {
       )
     } else {
       toast.remove()
-      toast.error('위치 정보를 가져올 수 없습니다.', { style: { marginBottom: '20px' } })
+      toast.error('위치 정보를 가져올 수 없습니다.', { style: { marginBottom: '80px' } })
       setState((prev) => ({
         ...prev,
         isLoading: false,
@@ -65,20 +68,50 @@ const KakaoMap = () => {
     const { lat, lng } = state.center
     const { level } = state
     
+    if (level > 5) {
+      toast.remove()
+      toast.error('보고계신 지도가 너무 큽니다.', { style: { marginBottom: '80px' } })
+      setSpaces([])
+      return 
+    }
     const res = await fetch('/api/space/v1/spaces?lat=' + lat + '&lng=' + lng + '&w=0.009&h=0.009')
     const data = await res.json()
     if (!data.success) {
       toast.remove()
-      toast.error('주차장을 가져올 수 없습니다.', { style: { marginBottom: '20px' } })
+      toast.error('주차장을 가져올 수 없습니다.', { style: { marginBottom: '80px' } })
       return
     }
 
     setSpaces(data.data.spaces)
   }, 500, [state.center, state.level])
 
+  const onClick = (space) => {
+    setState((prev) => ({
+      ...prev,
+      level: 1,
+    }))
+    setTimeout(() => {
+      setState((prev) => ({
+        ...prev,
+        center: {
+          lat: space.lat - 0.0007,
+          lng: space.lng,
+        },
+      }))
+      setParkInfo(space)
+      setShowModal(true)
+    }, 500)
+  }
+
   return (
     <div className='kakaomap'>
+      <ParkingspaceInfoModal 
+        setShowModal={setShowModal}
+        showModal={showModal}
+        parkInfo={parkInfo}
+      />
       <Map
+        isPanto={true}
         level={state.level}
         center={state.center}
         style={{
@@ -97,14 +130,16 @@ const KakaoMap = () => {
       >
         {spaces.map((space) => (
           <CustomOverlayMap
+            key={space.id}
             position={{
               lat: space.lat,
               lng: space.lng,
             }}
+            clickable={true} 
           >
-            <div className="label">
+            <button className={`label label-size-${state.level}`} onClick={() => onClick(space)}>
               {space.defaultCost} ₩
-            </div>
+            </button>
           </CustomOverlayMap>
         ))}
       </Map>
