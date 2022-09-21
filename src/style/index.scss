@@ -237,6 +237,14 @@ html, body{
   }
 }
 
+.kakaomap .label {
+  color: white;
+  padding: 5px 20px;
+  border-radius: 50px;
+  box-shadow: 5px 5px 15px 5px #0000005b;
+  background-color: $theme-color;
+}
+
 .myInfo {
   width: 92%;
   display: block;
@@ -630,6 +638,7 @@ html, body{
     }
   }
 }
+
 //mobile
 @media screen and (max-width:481px) {
   .parkingspaceCard  .address {display: none;}

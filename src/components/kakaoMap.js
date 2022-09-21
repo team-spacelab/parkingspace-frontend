@@ -1,8 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ParkingspaceInfoModal from './parkingspaceInfoModal'
-import { FaMap } from 'react-icons/fa'
+import React, { useEffect, useCallback, useState } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import toast from 'react-hot-toast'
+import { CustomOverlayMap } from 'react-kakao-maps-sdk';
+
+const useDebouncedEffect = (func, delay, deps) => {
+  const callback = useCallback(func, deps);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      callback();
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [callback, delay]);
+}
+
 const KakaoMap = () => {
   const [state, setState] = useState({
     center: {
@@ -12,6 +26,7 @@ const KakaoMap = () => {
     level: 3,
     isLoading: true,
   })
+  const [spaces, setSpaces] = useState([])
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -46,37 +61,20 @@ const KakaoMap = () => {
     }
   }, [])
 
-  const onCenterChanged = (e) => {
-    const lat = e.getCenter().getLat()
-    const lng = e.getCenter().getLng()
-    const level = e.getLevel()
+  useDebouncedEffect(async () => {
+    const { lat, lng } = state.center
+    const { level } = state
+    
+    const res = await fetch('/api/space/v1/spaces?lat=' + lat + '&lng=' + lng + '&w=0.009&h=0.009')
+    const data = await res.json()
+    if (!data.success) {
+      toast.remove()
+      toast.error('주차장을 가져올 수 없습니다.', { style: { marginBottom: '20px' } })
+      return
+    }
 
-    setState((prev) => ({
-      ...prev,
-      center: {
-        lat: e.getCenter().getLat(),
-        lng: e.getCenter().getLng(),
-      },
-      level: e.getLevel()
-    }))
-
-    const prev = Object.freeze({
-      lat: e.getCenter().getLat(),
-      lng: e.getCenter().getLng(),
-      level: e.getLevel()
-    })
-    setTimeout(() => {
-      if (state.center.lat !== lat && prev.lng !== lng && prev.level !== level) return
-      fetch('/api/space/v1/spaces?lat=' + lat + '&lng=' + lng + '&level=' + level)
-        .then((res) => res.json())
-        .then((res) => {
-          setState((prev) => ({
-            ...prev,
-            spaces: res.data.spaces,
-          }))
-        })
-    }, 1000)
-  }
+    setSpaces(data.data.spaces)
+  }, 500, [state.center, state.level])
 
   return (
     <div className='kakaomap'>
@@ -88,8 +86,27 @@ const KakaoMap = () => {
           height: '100vh',
           zIndex: 0
         }}
-        onCenterChanged={(map) => onCenterChanged(map)}
+        onCenterChanged={(map) => setState({
+          level: map.getLevel(),
+          center: {
+            lat: map.getCenter().getLat(),
+            lng: map.getCenter().getLng(),
+          },
+          isLoading: false
+        })}
       >
+        {spaces.map((space) => (
+          <CustomOverlayMap
+            position={{
+              lat: space.lat,
+              lng: space.lng,
+            }}
+          >
+            <div className="label">
+              {space.defaultCost} ₩
+            </div>
+          </CustomOverlayMap>
+        ))}
       </Map>
     </div>
   )
