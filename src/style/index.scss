@@ -524,7 +524,7 @@ html, body{
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     position: relative;
-    height: 94.3vh;
+    height: 93.3vh;
     overflow-x: scroll;
     width: 100vw;
     display: flex;
@@ -545,7 +545,7 @@ html, body{
     }
   }
   .skipContainer {
-    height: 5.7vh;
+    height: 6.7vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -554,9 +554,9 @@ html, body{
     color: white;
     &  svg {
       vertical-align: sub;
-      font-size: 1.2em;
+      font-size: 1.3em;
     }
-    & * {font-size: 0.9em;}
+    & * {font-size: 0.95em;}
     button {
       color: white;
       background-color: #44444400;
@@ -579,7 +579,7 @@ html, body{
       margin: 15px 0;
       text-align: left;
       h2 {
-        font-size: 2.2em;
+        font-size: 2em;
       }
       h4 {
         font-size: 1.5em;
@@ -591,7 +591,7 @@ html, body{
     
   }
   .guidePage {
-    padding: 10px 5vw;
+    padding: 2px 5vw;
     img {
       width: 80vw;
       display: block;
@@ -611,13 +611,19 @@ html, body{
   .Guide {
     .intro {
       div:last-child {
-        width: 60%;
+        width: 80%;
         h2, h4 {
           text-align: left;
         }
+        h2 {
+          font-size: 2em;
+        }
+        h4 {
+          font-size: 1.2em;
+        }
       }
       img {
-        width: 60%;
+        width: 80%;
       }
       
     }
