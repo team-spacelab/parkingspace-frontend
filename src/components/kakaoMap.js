@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import toast from 'react-hot-toast'
 import ParkingspaceInfoModal from './parkingspaceInfoModal';
+import SearchBar from './searchBar';
 
 const useDebouncedEffect = (func, delay, deps) => {
   const callback = useCallback(func, deps);
@@ -103,6 +104,8 @@ const KakaoMap = () => {
   }
 
   return (
+    <>
+      <SearchBar map={state}/>
     <div className='kakaomap'>
       <ParkingspaceInfoModal 
         setShowModal={setShowModal}
@@ -149,6 +152,7 @@ const KakaoMap = () => {
         </MarkerClusterer>
       </Map>
     </div>
+</>
   )
 }
 

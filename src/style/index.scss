@@ -20,36 +20,47 @@ html, body{
   width: 100%;
   overflow: hidden;
 }
-.searchBar {
-  text-align: center;
+.searchBarOUT {
+  .searchBar {
+    text-align: center;
+    display: flex;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    border-radius: 10px;
+    box-sizing: content-box;
+    padding: 3px 4px;
+
+    transform: translate(-50%, 0%);
+    input {
+      border: none;
+      font-size: 1em;
+      background-color: rgba(255, 255, 255, 0);
+      padding: 10px;
+      width: 95%;
+    }
+    button{
+      vertical-align: sub;
+      font-size: 1em;
+      margin: 0 4px;
+      color: $theme-color;
+      border: none;
+      background-color: rgba(255, 255, 255, 0);
+    }
+  }
+
   display: flex;
-  width: 90%;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  background-color: white;
-  border-radius: 10px;
-  box-sizing: content-box;
-  padding: 3px 4px;
+  flex-direction: column;
   position: absolute;
   top: 15px;
+  width: 90%;
   left: 50%;
-  transform: translate(-50%, 0%);
   z-index: 1;
-  input {
-    border: none;
-    font-size: 1em;
-    background-color: rgba(255, 255, 255, 0);
-    padding: 10px;
-    width: 95%;
-  }
-  button{
-    vertical-align: sub;
-    font-size: 1em;
-    margin: 0 4px;
-    color: $theme-color;
-    border: none;
-    background-color: rgba(255, 255, 255, 0);
+
+  .searchResult{
+    transform: translate(-50%, 0%);
   }
 }
+
 .header {
   display: block;
   margin: 15px auto;
