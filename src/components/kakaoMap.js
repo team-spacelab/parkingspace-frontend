@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import toast from 'react-hot-toast'
-import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import ParkingspaceInfoModal from './parkingspaceInfoModal';
 
 const useDebouncedEffect = (func, delay, deps) => {
@@ -128,20 +127,26 @@ const KakaoMap = () => {
           isLoading: false
         })}
       >
-        {spaces.map((space) => (
-          <CustomOverlayMap
-            key={space.id}
-            position={{
-              lat: space.lat,
-              lng: space.lng,
-            }}
-            clickable={true} 
-          >
-            <button className={`label label-size-${state.level}`} onClick={() => onClick(space)}>
-              {space.defaultCost} ₩
-            </button>
-          </CustomOverlayMap>
-        ))}
+        <MarkerClusterer
+          averageCenter={true} // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+          minLevel={4} // 클러스터 할 최소 지도 레벨
+          
+        >
+          {spaces.map((space) => (
+            <CustomOverlayMap
+              key={`${space.lat}-${space.lng}`}
+              position={{
+                lat: space.lat,
+                lng: space.lng,
+              }}
+              clickable={true} 
+            >
+              <button className={`label label-size-${state.level}`} onClick={() => onClick(space)}>
+                {space.defaultCost} ₩
+              </button>
+            </CustomOverlayMap>
+          ))}
+        </MarkerClusterer>
       </Map>
     </div>
   )
