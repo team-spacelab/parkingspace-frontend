@@ -5,7 +5,7 @@ import KakaoMap from '../components/kakaoMap'
 const Main = () => {
   return (
     <div>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <KakaoMap />
       <BottomTab />
     </div>
