@@ -20,6 +20,14 @@ const Guide = ({ setGuide }) => {
     }
   }
 
+  const completeGuide = () => {
+    const doComplete = window.confirm('가이드를 종료하시겠습니까?')
+    if (doComplete) {
+      localStorage.setItem('guide', 'complete')
+      setGuide(false)
+    }
+  }
+
   const setMainPage = () => {}
   const Intro = () => {
     return (
@@ -64,13 +72,16 @@ const Guide = ({ setGuide }) => {
   }
   const myInfoGuide = () => {
     return (
-      <div className='guidePage' key={'myInfoGuide'}>
+      <div className='guidePage' key={'myInfoGuide'} onClick={completeGuide}>
         <h2>내 정보 페이지</h2>
         <img src={myPage} alt='주차장 페이지 예시' />
         <ul>
           <li>내 정보가 궁금할 땐? My 페이지!</li>
           <li>로그아웃이 하고 싶을 땐? My 페이지!</li>
           <li>가이드를 다시 보고 싶을 때도? My 페이지!</li>
+          <li style={{ opacity: '0.6' }}>
+            해당 페이지 클릭 시 가이드가 종료됩니다.
+          </li>
         </ul>
       </div>
     )
@@ -80,12 +91,8 @@ const Guide = ({ setGuide }) => {
 
   const scrollNext = () => {
     if (page > 2) {
-      const doComplete = window.confirm('가이드를 종료하시겠습니까?')
-      if (doComplete) {
-        localStorage.setItem('guide', 'complete')
-        setGuide(false)
-        return
-      } else return
+      completeGuide()
+      return
     }
     setPage(page + 1)
 
@@ -96,12 +103,6 @@ const Guide = ({ setGuide }) => {
 
     guideWindow.current.scrollLeft -= window.innerWidth
   }
-
-  useEffect(() => {
-    console.log(page)
-
-    return () => {}
-  }, [page])
 
   return (
     <div className='Guide'>

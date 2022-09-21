@@ -14,22 +14,12 @@ import {
 import BottomTab from '../../components/bottomTab'
 import Header from '../../components/header'
 import RequireLogin from '../requireLogin'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import toastr from 'toastr'
 import { Cookies } from 'react-cookie'
 import Loading from '../loading'
 const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
   const [isLoading, setIsLoading] = useState(true)
-  /** 
-  const [mainPage, setMainPage] = useState(
-    localStorage.getItem('mainPage') != null
-      ? localStorage.getItem('mainPage')
-      : false
-  )
-  useEffect(() => {
-    console.log(mainPage)
-    return localStorage.setItem('mainPage', mainPage)
-  }, [mainPage])*/
   const cookie = new Cookies()
   toastr.options = {
     closeButton: false,
@@ -47,15 +37,6 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
     showMethod: 'slideDown',
     hideMethod: 'slideUp',
   }
-  const [isClick, setIsClick] = useState(
-    localStorage.getItem('mainPage') != null
-      ? localStorage.getItem('mainPage')
-      : 0
-  )
-  function switchState() {
-    setIsClick(isClick === 1 ? 0 : 1)
-    localStorage.setItem('mainPage', isClick)
-  }
 
   useEffect(() => {
     if (isLogged) {
@@ -63,6 +44,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       setIsLoading(false)
     }
   }, [isLogged, getUserInfo])
+
   if (isLogged) {
     const logout = () => {
       // 모달 로그아웃 하시겠습니까?
@@ -143,15 +125,14 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
           {/* <p>
             <FaAward /> 생년월일 : {userInfo.data.birthday}
           </p> */}
-          {/* <p className='myInfoFlexContainer'>
+          {/**
+           * <p className='myInfoFlexContainer'>
             <span>
               <FaCog />
-              &nbsp; 주차장페이지를 메인페이지로 설정{' '}
+              &nbsp;{'주차장페이지'}를 메인페이지로 설정{' '}
             </span>
-            <button className='changeMainPageBtn' onClick={() => switchState()}>
-              {isClick === 0 && 1 ? <FaToggleOff /> : <FaToggleOn />}
-            </button>
-          </p> */}
+          </p>
+           */}
 
           <p className='warning' onClick={() => logout()}>
             <FaSignInAlt />
