@@ -15,6 +15,7 @@ import './style/toastr.scss'
 import { Cookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import Guide from './pages/guide'
+import Order from './pages/Order'
 
 const App = () => {
   //token 여부 검사 - 후에 수정
@@ -102,6 +103,7 @@ const App = () => {
               }
             />
             <Route path={'/register'} element={<Register />} />
+            <Route path={'/order'} element={<Order/>} />
           </Routes>
         </AnimatePresence>
       </>
