@@ -105,7 +105,7 @@ const KakaoMap = () => {
 
   return (
     <>
-      <SearchBar map={state}/>
+      <SearchBar map={state} setMap={(lat, lng) => setState({ ...state, center: {lat, lng } })}/>
     <div className='kakaomap'>
       <ParkingspaceInfoModal 
         setShowModal={setShowModal}
