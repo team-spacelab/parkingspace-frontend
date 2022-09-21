@@ -19,9 +19,11 @@ const Guide = ({ setGuide }) => {
       setGuide(false)
     }
   }
+
+  const setMainPage = () => {}
   const Intro = () => {
     return (
-      <div className='intro'>
+      <div className='intro' key={'intro'}>
         <img src={parkingspaceIcon} alt='logo' />
         <div>
           <h2>파킹스페이스</h2>
@@ -36,7 +38,7 @@ const Guide = ({ setGuide }) => {
   }
   const mapGuide = () => {
     return (
-      <div className='guidePage'>
+      <div className='guidePage' key={'mapGuide'}>
         <h2>맵 페이지</h2>
         <img src={mapPage} alt='맵 페이지 예시' />
         <ul>
@@ -49,7 +51,7 @@ const Guide = ({ setGuide }) => {
   }
   const parkingspaceGuide = () => {
     return (
-      <div className='guidePage'>
+      <div className='guidePage' key={'parkingspaceGuide'}>
         <h2>주차장 페이지</h2>
         <img src={parkingspacePage} alt='주차장 페이지 예시' />
         <ul>
@@ -62,13 +64,13 @@ const Guide = ({ setGuide }) => {
   }
   const myInfoGuide = () => {
     return (
-      <div className='guidePage'>
+      <div className='guidePage' key={'myInfoGuide'}>
         <h2>내 정보 페이지</h2>
         <img src={myPage} alt='주차장 페이지 예시' />
         <ul>
           <li>내 정보가 궁금할 땐? My 페이지!</li>
           <li>로그아웃이 하고 싶을 땐? My 페이지!</li>
-          <li>무언가 허전할때도? My페이지!</li>
+          <li>가이드를 다시 보고 싶을 때도? My 페이지!</li>
         </ul>
       </div>
     )

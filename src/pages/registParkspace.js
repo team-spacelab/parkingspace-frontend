@@ -73,10 +73,10 @@ const RegistParkingSpace = ({ isLogged }) => {
   }, [registFileParkingspace])
 
   const btnRef = useRef()
-  const result = useRef(null)
-  const regist = () => {
+  const result = useRef()
+  const regist = async () => {
     // console.log(registFileParkingspace.ownerDocs[0].name)
-    fetch(`/api/space/v1/spaces`, {
+    const data1 = await fetch(`/api/space/v1/spaces`, {
       method: 'POST',
       headers: {
         Accept: '*/*',
@@ -84,55 +84,53 @@ const RegistParkingSpace = ({ isLogged }) => {
         'Access-Control-Allow-Origin': 'no-cors',
       },
       body: JSON.stringify(registParkingSpace),
+    }).then((res) => res.json())
+    result.current = data1
+
+    for (const imgFile of registFileParkingspace.thumnail) {
+      await fetch(`/api/space/v1/spaces/${data1.data.space.id}/files`, {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'no-cors',
+        },
+        body: JSON.stringify({
+          type: 'SPACE_PICTURE', //주차장 소유 증명 자료
+          filename: imgFile.name,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) =>
+          fetch(res.data.url, {
+            method: 'PUT',
+            body: imgFile,
+          })
+        )
+    }
+
+    await fetch(`/api/space/v1/spaces/${data1.data.space.id}/files`, {
+      method: 'POST',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'no-cors',
+      },
+      body: JSON.stringify({
+        type: 'SPACE_OWNERSHIP_DOCS',
+        filename: registFileParkingspace.ownerDocs[0].name,
+      }),
     })
       .then((res) => res.json())
-      .then((res) => (result.current = res))
-      .then(() => console.log(188, result.current.data.space.id))
-      .then(() => {
-        for (const data of registFileParkingspace.thumnail) {
-          fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
-            method: 'POST',
-            headers: {
-              Accept: '*/*',
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': 'no-cors',
-            },
-            body: JSON.stringify({
-              type: 'SPACE_PICTURE', //주차장 소유 증명 자료
-              filename: data.name,
-            }),
-          })
-            .then((res) => res.json())
-            .then((res) =>
-              fetch(res.data.url, {
-                method: 'PUT',
-                body: data,
-              })
-            )
-        }
-      })
-      .then(() =>
-        fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
-          method: 'POST',
-          headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'no-cors',
-          },
-          body: JSON.stringify({
-            type: 'SPACE_OWNERSHIP_DOCS',
-            filename: registFileParkingspace.ownerDocs[0].name,
-          }),
+      .then((res) =>
+        fetch(res.data.url, {
+          method: 'PUT',
+          body: registFileParkingspace.ownerDocs[0],
         })
-          .then((res) => res.json())
-          .then((res) =>
-            fetch(res.data.url, {
-              method: 'PUT',
-              body: registFileParkingspace.ownerDocs[0],
-            })
-          )
       )
-      .then(() => btnRef.current.click())
+
+    console.log(result.current)
+    btnRef.current.click()
   }
 
   const verifiedCheck = (key) => {
@@ -380,7 +378,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           <Link
             to={'/registParkingspaceResult'}
             ref={btnRef}
-            state={{ result: result.current }}
+            state={{ result: result }}
           />
         </div>
       </>

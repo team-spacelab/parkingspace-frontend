@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import BottomTab from '../components/bottomTab'
@@ -22,7 +23,12 @@ const ParkingSpace = ({ isLogged }) => {
     })
       .then((res) => res.json())
       .then((res) => setParkingspace(res))
-      .catch((err) => console.log(1, err))
+      .catch(() => {
+        toast.remove()
+        toast.error('주차장 목록을 가져올 수 없습니다.', {
+          style: { marginBottom: '80px' },
+        })
+      })
   }
   useEffect(() => {
     // 내 추자장 목록을 가져옴
@@ -31,9 +37,6 @@ const ParkingSpace = ({ isLogged }) => {
     setIsLoading(0)
   }, [])
 
-  useEffect(() => {
-    console.log(parkingspace)
-  }, [parkingspace])
   if (isLogged) {
     return (
       <>
