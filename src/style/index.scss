@@ -722,6 +722,63 @@ html, body{
   }
 }
 
+.order {
+  p {
+    color: rgb(117, 116, 116);
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0px 0px 2em;
+  }
+  padding: 13px 14px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  h2 {
+    color: $theme-color;
+    font-weight: 900;
+    line-height: 45px;
+    font-size: 40px;
+  }
+  & > form {
+    & > label {
+      color: rgb(99, 99, 99);
+    }
+    h3 {
+      color: $theme-color;
+      font-weight: 900;
+      font-size: 20px;
+    }
+    p {
+      color: black;
+    }
+    input {
+      display: block;
+      width: 100%;
+      border: none;
+      border-bottom: 0.2px solid #ccc;
+      margin-bottom: 14px;
+      padding: 3px;
+      box-sizing: border-box;
+      &[type=submit] {
+        background-color: $theme-color;
+        border-radius: 5px;
+        padding: 8px;
+        margin-bottom: 0px;
+        font-size: 1em;
+        font-weight: 700;
+        bottom: 10px;
+        color: white;
+        cursor: pointer;
+      }
+    }
+    & > p:last-child {
+      text-align: center;
+      color: rgba(0, 0, 0, 0.322);
+      font-size: 0.8em;
+    }
+  }
+}
+
 //mobile
 @media screen and (max-width:481px) {
   .parkingspaceCard  .address {display: none;}
