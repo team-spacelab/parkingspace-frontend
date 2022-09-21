@@ -6,7 +6,7 @@ import {
   FaMapMarkedAlt,
   FaUserCircle,
   FaRegClock,
-  FaQrcode,
+  FaQrcode
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
@@ -21,7 +21,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
     const data = await res.json()
     if (!data.success) {
       toast.error('이미지를 가져올 수 없습니다.', {
-        style: { marginBottom: '80px' },
+        style: { marginBottom: '80px' }
       })
       return
     }
@@ -82,7 +82,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                     width={'100%'}
                     height={'200px'}
                     images={images}
-                    showNavs={images.length < 1 ? true : false}
+                    showNavs={images.length < 1}
                     loop={true}
                     autoPlay={true}
                     autoPlayDelay={3000}

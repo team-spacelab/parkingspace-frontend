@@ -6,7 +6,7 @@ const Header = () => {
       <Link
         to='/'
         style={{
-          textDecoration: 'none',
+          textDecoration: 'none'
         }}
       >
         <p>Parking Space</p>

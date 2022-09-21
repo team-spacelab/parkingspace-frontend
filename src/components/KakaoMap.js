@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import toast from 'react-hot-toast'
-import ParkingspaceInfoModal from './parkingspaceInfoModal'
-import SearchBar from './searchBar'
+import ParkingspaceInfoModal from './SpaceInfoModal'
+import SearchBar from './SearchBar'
 
 const useDebouncedEffect = (func, delay, deps) => {
   const callback = useCallback(func, deps)
@@ -24,10 +24,10 @@ const KakaoMap = () => {
   const [state, setState] = useState({
     center: {
       lat: 36.30301568116367,
-      lng: 128.58510055431705,
+      lng: 128.58510055431705
     },
     level: 3,
-    isLoading: true,
+    isLoading: true
   })
   const [spaces, setSpaces] = useState([])
 
@@ -39,31 +39,31 @@ const KakaoMap = () => {
             ...prev,
             center: {
               lat: position.coords.latitude, // 위도
-              lng: position.coords.longitude, // 경도
+              lng: position.coords.longitude // 경도
             },
-            isLoading: false,
+            isLoading: false
           }))
         },
         (err) => {
           toast.remove()
           toast.error('위치 정보를 가져올 수 없습니다.', {
-            style: { marginBottom: '80px' },
+            style: { marginBottom: '80px' }
           })
           setState((prev) => ({
             ...prev,
             errMsg: err.message,
-            isLoading: false,
+            isLoading: false
           }))
         }
       )
     } else {
       toast.remove()
       toast.error('위치 정보를 가져올 수 없습니다.', {
-        style: { marginBottom: '80px' },
+        style: { marginBottom: '80px' }
       })
       setState((prev) => ({
         ...prev,
-        isLoading: false,
+        isLoading: false
       }))
     }
   }, [])
@@ -76,7 +76,7 @@ const KakaoMap = () => {
       if (level > 5) {
         toast.remove()
         toast.error('보고계신 지도가 너무 큽니다.', {
-          style: { marginBottom: '80px' },
+          style: { marginBottom: '80px' }
         })
         setSpaces([])
         return
@@ -88,7 +88,7 @@ const KakaoMap = () => {
       if (!data.success) {
         toast.remove()
         toast.error('주차장을 가져올 수 없습니다.', {
-          style: { marginBottom: '80px' },
+          style: { marginBottom: '80px' }
         })
         return
       }
@@ -102,15 +102,15 @@ const KakaoMap = () => {
   const onClick = (space) => {
     setState((prev) => ({
       ...prev,
-      level: 1,
+      level: 1
     }))
     setTimeout(() => {
       setState((prev) => ({
         ...prev,
         center: {
           lat: space.lat - 0.0007,
-          lng: space.lng,
-        },
+          lng: space.lng
+        }
       }))
       setParkInfo(space)
       setShowModal(true)
@@ -136,16 +136,16 @@ const KakaoMap = () => {
           style={{
             width: '100vw',
             height: '100vh',
-            zIndex: 0,
+            zIndex: 0
           }}
           onCenterChanged={(map) =>
             setState({
               level: map.getLevel(),
               center: {
                 lat: map.getCenter().getLat(),
-                lng: map.getCenter().getLng(),
+                lng: map.getCenter().getLng()
               },
-              isLoading: false,
+              isLoading: false
             })
           }
         >
@@ -158,7 +158,7 @@ const KakaoMap = () => {
                 key={`${space.lat}-${space.lng}`}
                 position={{
                   lat: space.lat,
-                  lng: space.lng,
+                  lng: space.lng
                 }}
                 clickable={true}
               >

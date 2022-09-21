@@ -4,7 +4,7 @@ import { Cookies } from 'react-cookie'
 import toast from 'react-hot-toast'
 
 const Error = {
-  'USER_NOT_FOUND_OR_PASSWORD_INVALID': '계정 정보를 다시 확인해주세요.'
+  USER_NOT_FOUND_OR_PASSWORD_INVALID: '계정 정보를 다시 확인해주세요.'
 }
 
 const Login = ({ setIsLogged }) => {
@@ -12,7 +12,7 @@ const Login = ({ setIsLogged }) => {
   const navigate = useNavigate()
   const [loginInputInfo, setLoginInputInfo] = useState({
     login: '',
-    password: '',
+    password: ''
   })
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -24,21 +24,21 @@ const Login = ({ setIsLogged }) => {
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'no-cors',
+        'Access-Control-Allow-Origin': 'no-cors'
       },
-      body: JSON.stringify(loginInputInfo),
+      body: JSON.stringify(loginInputInfo)
     })
 
     const response = await requst.json()
 
-      if (response.success) {
-        toast.success('로그인 성공!', { position: 'top-right' })
-        cookie.set('SESSION_TOKEN', response.data.token)
-        setIsLogged(true)
-        navigate('/')
-      }
-      //data.false
-      else toast.error(Error[response.reason])
+    if (response.success) {
+      toast.success('로그인 성공!', { position: 'top-right' })
+      cookie.set('SESSION_TOKEN', response.data.token)
+      setIsLogged(true)
+      navigate('/')
+    }
+    // data.false
+    else toast.error(Error[response.reason])
   }
   return (
     <>
@@ -57,7 +57,7 @@ const Login = ({ setIsLogged }) => {
             onChange={(e) =>
               setLoginInputInfo({
                 ...loginInputInfo,
-                login: e.target.value,
+                login: e.target.value
               })
             }
           />
@@ -69,7 +69,7 @@ const Login = ({ setIsLogged }) => {
             onChange={(e) =>
               setLoginInputInfo({
                 ...loginInputInfo,
-                password: e.target.value,
+                password: e.target.value
               })
             }
           />

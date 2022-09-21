@@ -1,25 +1,24 @@
-// import { useParams } from "react-router-dom"
-import { Link } from 'react-router-dom'
 import {
   FaUserCircle,
   FaSignInAlt,
-  FaPhone,
-  FaRegLightbulb,
-  FaCog,
-  FaToggleOff,
-  FaToggleOn,
-  FaUserAltSlash,
-  FaRoad,
+  FaUserAltSlash
 } from 'react-icons/fa'
+<<<<<<< HEAD:src/pages/auth/myInfo.js
 import BottomTab from '../../components/bottomTab'
 import Header from '../../components/header'
 import RequireLogin from '../requireLogin'
 import { useEffect, useRef, useState } from 'react'
+=======
+import BottomTab from '../../components/BottomTab'
+import Header from '../../components/Header'
+import { useEffect, useState } from 'react'
+>>>>>>> 91e3f45 (feat: update filename):src/pages/auth/InfoPage.js
 import toastr from 'toastr'
 import { Cookies } from 'react-cookie'
-import Loading from '../loading'
+
 const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
   const [isLoading, setIsLoading] = useState(true)
+<<<<<<< HEAD:src/pages/auth/myInfo.js
   const cookie = new Cookies()
   toastr.options = {
     closeButton: false,
@@ -36,6 +35,27 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
     hideEasing: 'linear',
     showMethod: 'slideDown',
     hideMethod: 'slideUp',
+=======
+  /**
+  const [mainPage, setMainPage] = useState(
+    localStorage.getItem('mainPage') != null
+      ? localStorage.getItem('mainPage')
+      : false
+  )
+  useEffect(() => {
+    console.log(mainPage)
+    return localStorage.setItem('mainPage', mainPage)
+  }, [mainPage]) */
+  const cookie = new Cookies()
+  const [isClick, setIsClick] = useState(
+    localStorage.getItem('mainPage') != null
+      ? localStorage.getItem('mainPage')
+      : 0
+  )
+  function switchState () {
+    setIsClick(isClick === 1 ? 0 : 1)
+    localStorage.setItem('mainPage', isClick)
+>>>>>>> 91e3f45 (feat: update filename):src/pages/auth/InfoPage.js
   }
 
   useEffect(() => {
@@ -44,6 +64,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       setIsLoading(false)
     }
   }, [isLogged, getUserInfo])
+<<<<<<< HEAD:src/pages/auth/myInfo.js
 
   if (isLogged) {
     const logout = () => {
@@ -53,6 +74,14 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
         cookie.remove('SESSION_TOKEN')
         window.location.href = '/'
       }
+=======
+  const logout = () => {
+    // 모달 로그아웃 하시겠습니까?
+    const doLogout = window.confirm('정말로 로그아웃 하시겠습니까?')
+    if (doLogout) {
+      cookie.remove('SESSION_TOKEN')
+      window.location.href = '/'
+>>>>>>> 91e3f45 (feat: update filename):src/pages/auth/InfoPage.js
     }
 
     const userDelete = () => {
@@ -60,14 +89,9 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       if (doUserDelete) {
         fetch('api/auth/v1/users/@me', {
           method: 'DELETE',
-          headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'no-cors',
-          },
           body: JSON.stringify({
-            password: doUserDelete,
-          }),
+            password: doUserDelete
+          })
         })
           .then((response) => response.json())
           .then((data) => {
@@ -81,12 +105,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       }
     }
 
-    const reshowGuide = () => {
-      localStorage.removeItem('guide')
-      window.location.reload()
-    }
-
-    if (isLoading) return <Loading />
+    if (isLoading) return <div></div>
 
     return (
       <>
@@ -106,9 +125,9 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
               ? userInfo.data.phone
               : '전화번호 인증을 해주세요'}
           </p> */}
-          <p onClick={reshowGuide}>
+          {/* <p onClick={reshowGuide}>
             <FaRoad /> 가이드 다시보기
-          </p>
+          </p> */}
           {/* <p className='myInfoFlexContainer'>
             <span>
               <FaRegLightbulb />
@@ -134,20 +153,18 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
           </p>
            */}
 
-          <p className='warning' onClick={() => logout()}>
-            <FaSignInAlt />
-            &nbsp;<span>로그아웃</span>
-          </p>
-          <p className='warning' onClick={() => userDelete()}>
-            <FaUserAltSlash />
-            &nbsp;<span>회원탈퇴</span>
-          </p>
-          <BottomTab />
-        </div>
-      </>
+        <p className='warning' onClick={() => logout()}>
+          <FaSignInAlt />
+          &nbsp;<span>로그아웃</span>
+        </p>
+        <p className='warning' onClick={() => userDelete()}>
+          <FaUserAltSlash />
+          &nbsp;<span>회원탈퇴</span>
+        </p>
+        <BottomTab />
+      </div>
+    </>
     )
-  } else {
-    return <RequireLogin />
   }
 }
 

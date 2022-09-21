@@ -1,13 +1,16 @@
 import { useLocation } from 'react-router-dom'
-import BottomTab from '../components/bottomTab'
-import Header from '../components/header'
+import BottomTab from '../../components/BottomTab'
+import Header from '../../components/Header'
 import {
   FaParking,
   FaCoins,
   FaShareAltSquare,
   FaStoreSlash,
+<<<<<<< HEAD:src/pages/parkspaceDetail.js
   FaTv,
   FaStar,
+=======
+>>>>>>> 91e3f45 (feat: update filename):src/pages/space/DetailPage.js
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -26,9 +29,9 @@ const ParkingSpaceDetail = () => {
         lng: 0,
         defaultCost: 0,
         type: 1,
-        status: 0,
-      },
-    },
+        status: 0
+      }
+    }
   })
 
   useEffect(() => {
@@ -73,7 +76,11 @@ const ParkingSpaceDetail = () => {
         <div
           className='image'
           style={{
+<<<<<<< HEAD:src/pages/parkspaceDetail.js
             backgroundImage: `url('${imgUrl}')`,
+=======
+            backgroundImage: `url(${imgUrl})`
+>>>>>>> 91e3f45 (feat: update filename):src/pages/space/DetailPage.js
           }}
         />
         <div className='detailInfo'>
@@ -86,11 +93,13 @@ const ParkingSpaceDetail = () => {
           </p>
           <p>
             <FaShareAltSquare /> 대여 상태 :{' '}
-            {spaceInfo.data.space.status ? (
+            {spaceInfo.data.space.status
+              ? (
               <span className='greenBtn'>승인 됨</span>
-            ) : (
+                )
+              : (
               <span className='redBtn'>승인 대기 중</span>
-            )}
+                )}
           </p>
           {/**<p className='warning' onClick={delParkingspace}>
             <FaStoreSlash /> 주차장 삭제하기

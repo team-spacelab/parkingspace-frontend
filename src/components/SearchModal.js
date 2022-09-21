@@ -8,7 +8,7 @@ import {
   FaRegClock,
   FaQrcode,
   FaXing,
-  FaExclamationCircle,
+  FaExclamationCircle
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
@@ -35,7 +35,7 @@ const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
     const space = parkInfo.find((v) => v.id === id)
     setMap(space.lat, space.lng)
     setShowModal(false)
-  } 
+  }
 
   useEffect(() => {
     if (!showModal) return
@@ -66,7 +66,7 @@ const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
                 <div className="result">
                   <div className="info">
                     <div className="name">{v.name}</div>
-                    <div className="price"><strong>{v.defaultCost*2}</strong>원/시간</div>
+                    <div className="price"><strong>{v.defaultCost * 2}</strong>원/시간</div>
                   </div>
 
                   <button onClick={onClick(v.id)}>

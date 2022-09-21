@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 
 const Error = {
-  'USER_ALREADY_REGISTERD': '이미 등록된 아이디입니다.',
-  'PASSWORD_TOO_WEAK': '비밀번호가 너무 약합니다.'
+  USER_ALREADY_REGISTERD: '이미 등록된 아이디입니다.',
+  PASSWORD_TOO_WEAK: '비밀번호가 너무 약합니다.'
 }
 
 const Register = () => {
@@ -12,7 +12,7 @@ const Register = () => {
     login: '',
     password: '',
     passwordcheck: '',
-    nickname: '',
+    nickname: ''
   })
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -25,12 +25,7 @@ const Register = () => {
 
     const request = await fetch('api/auth/v1/users', {
       method: 'POST',
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'no-cors',
-      },
-      body: JSON.stringify({ login, nickname, password }),
+      body: JSON.stringify({ login, nickname, password })
     })
 
     const response = await request.json()
@@ -38,8 +33,7 @@ const Register = () => {
     if (response.data.success) {
       toast.success('회원가입 성공')
       window.location.href = '/login'
-    }
-    else {
+    } else {
       toast.error(Error[response.data.reason])
     }
   }
@@ -59,7 +53,7 @@ const Register = () => {
             onChange={(e) =>
               setRegisterInputInfo({
                 ...registerInputInfo,
-                login: e.target.value,
+                login: e.target.value
               })
             }
           />
@@ -70,7 +64,7 @@ const Register = () => {
             onChange={(e) =>
               setRegisterInputInfo({
                 ...registerInputInfo,
-                nickname: e.target.value,
+                nickname: e.target.value
               })
             }
           />
@@ -81,7 +75,7 @@ const Register = () => {
             onChange={(e) =>
               setRegisterInputInfo({
                 ...registerInputInfo,
-                password: e.target.value,
+                password: e.target.value
               })
             }
           />
@@ -92,7 +86,7 @@ const Register = () => {
             onChange={(e) =>
               setRegisterInputInfo({
                 ...registerInputInfo,
-                passwordcheck: e.target.value,
+                passwordcheck: e.target.value
               })
             }
           />

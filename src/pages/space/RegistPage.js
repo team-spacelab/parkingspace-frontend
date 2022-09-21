@@ -2,11 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import BottomTab from '../components/bottomTab'
-import Header from '../components/header'
+import BottomTab from '../../components/BottomTab'
+import Header from '../../components/Header'
 import toastr from 'toastr'
-import Loading from './loading'
-import RequireLogin from './requireLogin'
+import Loading from '../../components/Loading'
 
 const RegistParkingSpace = ({ isLogged }) => {
   toastr.options = {
@@ -23,7 +22,7 @@ const RegistParkingSpace = ({ isLogged }) => {
     showEasing: 'swing',
     hideEasing: 'linear',
     showMethod: 'slideDown',
-    hideMethod: 'slideUp',
+    hideMethod: 'slideUp'
   }
   const addressRef = useRef()
   const [isLoading, setIsLoading] = useState(false)
@@ -36,12 +35,12 @@ const RegistParkingSpace = ({ isLogged }) => {
     defaultCost: 3000,
     timeUnit: 30, // 30분당 가격 체크
     type: 'MANUALLY',
-    description: '', // 주차장 설명
+    description: '' // 주차장 설명
     // file: null,
   })
   const [registFileParkingspace, setRegistFileParkingSpace] = useState({
     thumnail: null,
-    ownerDocs: null,
+    ownerDocs: null
   })
   const [isCashed, setIsCashed] = useState()
   const [inputAddress, setInputAddress] = useState('')
@@ -50,7 +49,7 @@ const RegistParkingSpace = ({ isLogged }) => {
   // 입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
     if (isLogged) {
-      //page핸들링 제대로 못하면 오류남
+      // page핸들링 제대로 못하면 오류남
       if (page != 0 && page !== 4 && page !== 5) {
         const value =
           page !== 6
@@ -76,13 +75,18 @@ const RegistParkingSpace = ({ isLogged }) => {
   const result = useRef()
   const regist = async () => {
     // console.log(registFileParkingspace.ownerDocs[0].name)
+<<<<<<< HEAD:src/pages/registParkspace.js
     const data1 = await fetch(`/api/space/v1/spaces`, {
+=======
+    fetch('/api/space/v1/spaces', {
+>>>>>>> 91e3f45 (feat: update filename):src/pages/space/RegistPage.js
       method: 'POST',
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'no-cors',
+        'Access-Control-Allow-Origin': 'no-cors'
       },
+<<<<<<< HEAD:src/pages/registParkspace.js
       body: JSON.stringify(registParkingSpace),
     }).then((res) => res.json())
     result.current = data1
@@ -127,6 +131,56 @@ const RegistParkingSpace = ({ isLogged }) => {
           method: 'PUT',
           body: registFileParkingspace.ownerDocs[0],
         })
+=======
+      body: JSON.stringify(registParkingSpace)
+    })
+      .then((res) => res.json())
+      .then((res) => (result.current = res))
+      .then(() => console.log(188, result.current.data.space.id))
+      .then(() => {
+        for (const data of registFileParkingspace.thumnail) {
+          fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'no-cors'
+            },
+            body: JSON.stringify({
+              type: 'SPACE_PICTURE', // 주차장 소유 증명 자료
+              filename: data.name
+            })
+          })
+            .then((res) => res.json())
+            .then((res) =>
+              fetch(res.data.url, {
+                method: 'PUT',
+                body: data
+              })
+            )
+        }
+      })
+      .then(() =>
+        fetch(`/api/space/v1/spaces/${result.current.data.space.id}/files`, {
+          method: 'POST',
+          headers: {
+            Accept: '*/*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'no-cors'
+          },
+          body: JSON.stringify({
+            type: 'SPACE_OWNERSHIP_DOCS',
+            filename: registFileParkingspace.ownerDocs[0].name
+          })
+        })
+          .then((res) => res.json())
+          .then((res) =>
+            fetch(res.data.url, {
+              method: 'PUT',
+              body: registFileParkingspace.ownerDocs[0]
+            })
+          )
+>>>>>>> 91e3f45 (feat: update filename):src/pages/space/RegistPage.js
       )
 
     console.log(result.current)
@@ -177,7 +231,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              name: e.target.value,
+              name: e.target.value
             })
           }
         />
@@ -197,14 +251,14 @@ const RegistParkingSpace = ({ isLogged }) => {
       geocoder.addressSearch(address, function (result, status) {
         console.log(result[0])
         if (status === kakao.maps.services.Status.OK) {
-          if (typeof result[0] == undefined) {
+          if (typeof result[0] === undefined) {
             toastr.warning('정확한 주소를 입력해주세요.11')
             setPage(page)
           } else if (result[0].y !== 0 && result[0].x !== 0) {
             setRegistParkingspace({
               ...registParkingSpace,
               lat: result[0].y * 1,
-              lng: result[0].x * 1,
+              lng: result[0].x * 1
             })
             setPage(page + 1)
           } else {
@@ -272,7 +326,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistFileParkingSpace({
               ...registFileParkingspace,
-              thumnail: e.target.files,
+              thumnail: e.target.files
             })
           }
         />
@@ -305,7 +359,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistFileParkingSpace({
               ...registFileParkingspace,
-              ownerDocs: e.target.files,
+              ownerDocs: e.target.files
             })
           }
         />
@@ -332,7 +386,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              defaultCost: e.target.value * 1,
+              defaultCost: e.target.value * 1
             })
           }
         />
@@ -361,7 +415,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              description: e.target.value,
+              description: e.target.value
             })
           }
         ></textarea>
@@ -392,24 +446,20 @@ const RegistParkingSpace = ({ isLogged }) => {
     costInput(),
     parkingspaceThumnailInput(),
     ownershipDocsInput(),
-    descInput(),
+    descInput()
   ]
 
-  if (isLogged) {
-    return (
-      <>
-        {isLoading && <Loading />}
-        <Header />
-        <div className='registParkingspaceForm'>
-          {page <= 3 ? <h2>Step.{page + 1}</h2> : null}
-          {inputComponents[page]}
-        </div>
-        <BottomTab />
-      </>
-    )
-  } else {
-    return <RequireLogin />
-  }
+  return (
+    <>
+      {isLoading && <Loading />}
+      <Header />
+      <div className='registParkingspaceForm'>
+        {page <= 3 ? <h2>Step.{page + 1}</h2> : null}
+        {inputComponents[page]}
+      </div>
+      <BottomTab />
+    </>
+  )
 }
 
 export default React.memo(RegistParkingSpace)

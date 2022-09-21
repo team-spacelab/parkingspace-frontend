@@ -1,33 +1,31 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import Login from './pages/auth/login'
-import Main from './pages/main'
-import MyInfo from './pages/auth/myInfo'
-import ParkingSpace from './pages/parking'
-import ParkingSpaceDetail from './pages/parkspaceDetail'
-import Register from './pages/auth/register'
-import RegistParkingSpace from './pages/registParkspace'
+import Login from './pages/auth/LoginPage'
+import Main from './pages/MainPage'
+import MyInfo from './pages/auth/InfoPage'
+import ParkingSpace from './pages/ParkingPage'
+import ParkingSpaceDetail from './pages/space/DetailPage'
+import Register from './pages/auth/RegisterPage'
+import RegistParkingSpace from './pages/space/RegistPage'
 import RegistParkingSpaceResult from './pages/registParkspaceResult'
-import SplashPage from './pages/splash'
+import SplashPage from './components/Splash'
 import './style/index.scss'
 import './style/toastr.scss'
 import { Cookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
-import Guide from './pages/guide'
-import Order from './pages/Order'
+import Guide from './pages/GuidePage'
+import Order from './pages/OrderPage'
 
 const App = () => {
-  //token 여부 검사 - 후에 수정
   const cookie = new Cookies()
   const [isLogged, setIsLogged] = useState(
-    cookie.get('SESSION_TOKEN') != null ? true : false
+    cookie.get('SESSION_TOKEN') != null
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
   const [guide, setGuide] = useState(
-    localStorage.getItem('guide') === null ? true : false
+    localStorage.getItem('guide') === null
   )
-  // 스플래시 3초 보여줌
 
   const offline = () => {
     alert('네트워크를 확인해주세요.')
@@ -47,16 +45,16 @@ const App = () => {
       tel: '',
       verified_tel: false,
       birthday: '0',
-      point: 0,
-    },
+      point: 0
+    }
   })
   const getUserInfo = async () => {
     await fetch('/api/auth/v1/users/@me', {
       method: 'GET',
       headers: {
         Accept: '*/*',
-        'Access-Control-Allow-Origin': 'no-cors',
-      },
+        'Access-Control-Allow-Origin': 'no-cors'
+      }
     })
       .then((res) => res.json())
       .then((res) => setUserInfo(res))

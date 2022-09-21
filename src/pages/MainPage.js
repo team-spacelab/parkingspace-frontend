@@ -1,6 +1,6 @@
-import BottomTab from '../components/bottomTab'
-import SearchBar from '../components/searchBar'
-import KakaoMap from '../components/kakaoMap'
+import BottomTab from '../components/BottomTab'
+import SearchBar from '../components/SearchBar'
+import KakaoMap from '../components/KakaoMap'
 
 const Main = () => {
   return (
