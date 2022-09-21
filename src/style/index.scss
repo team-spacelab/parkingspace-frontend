@@ -593,7 +593,8 @@ html, body{
   .guidePage {
     padding: 2px 5vw;
     img {
-      width: 80vw;
+      height: 75vh;
+      //width: 75vw;
       display: block;
       margin: 5px auto;
     }
@@ -623,7 +624,7 @@ html, body{
         }
       }
       img {
-        width: 60%;
+        width: 80%;
       }
       
     }
