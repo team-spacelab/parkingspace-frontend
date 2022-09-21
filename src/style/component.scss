@@ -1,0 +1,18 @@
+.component {
+  p {
+    color: rgb(117, 116, 116);
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0px 0px 2em;
+  }
+  padding: 13px 14px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  h2 {
+    color: $theme-color;
+    font-weight: 900;
+    line-height: 45px;
+    font-size: 40px;
+  }
+}
