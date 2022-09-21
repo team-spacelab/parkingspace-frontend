@@ -18,7 +18,7 @@ import toastr from 'toastr'
 import { Cookies } from 'react-cookie'
 import Loading from '../loading'
 const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
-  const [isLoading, setIsLoading] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
   /** 
   const [mainPage, setMainPage] = useState(
     localStorage.getItem('mainPage') != null
@@ -58,11 +58,10 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
 
   useEffect(() => {
     if (isLogged) {
-      setIsLoading(1)
       getUserInfo()
-      setIsLoading(0)
+      setIsLoading(false)
     }
-  }, [])
+  }, [isLogged, getUserInfo])
   if (isLogged) {
     const logout = () => {
       // 모달 로그아웃 하시겠습니까?
@@ -74,7 +73,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
     }
 
     const userDelete = () => {
-      const doUserDelete = window.confirm('정말로 탈퇴 하시겠습니까?')
+      const doUserDelete = window.prompt('비밀번호를 입력하세요')
       if (doUserDelete) {
         fetch('api/auth/v1/users/@me', {
           method: 'DELETE',
@@ -83,6 +82,9 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'no-cors',
           },
+          body: JSON.stringify({
+            password: doUserDelete,
+          })
         })
           .then((response) => response.json())
           .then((data) => {
@@ -90,7 +92,6 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
               toastr.success('회원탈퇴 성공')
               window.location.href = '/'
             }
-            //data.false
             else {
               toastr.warning('회원탈퇴 실패', data.reason)
             }
@@ -98,9 +99,10 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       }
     }
 
+    if (isLoading) return <div></div>
+
     return (
       <>
-        {isLoading === 1 ? <Loading /> : null}
         <Header />
         <div className='myInfo'>
           <p>
@@ -133,20 +135,19 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
           {/* <p>
             <FaAward /> 생년월일 : {userInfo.data.birthday}
           </p> */}
-          <p className='myInfoFlexContainer'>
+          {/* <p className='myInfoFlexContainer'>
             <span>
               <FaCog />
               &nbsp; 주차장페이지를 메인페이지로 설정{' '}
             </span>
             <button className='changeMainPageBtn' onClick={() => switchState()}>
-              {/** 안되니까 지우든지 고치든지..? */}
               {isClick === 0 && 1 ? <FaToggleOff /> : <FaToggleOn />}
             </button>
-          </p>
+          </p> */}
 
           <p className='warning' onClick={() => logout()}>
             <FaSignInAlt />
-            &nbsp;<span>Logout</span>
+            &nbsp;<span>로그아웃</span>
           </p>
           <p className='warning' onClick={() => userDelete()}>
             <FaUserAltSlash />

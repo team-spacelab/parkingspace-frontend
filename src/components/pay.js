@@ -2,7 +2,7 @@ import { loadBrandPay } from '@tosspayments/brandpay-sdk'
 import { useEffect, useState } from 'react'
 import Loading from '../pages/loading'
 
-const Pay = ({ userId, orderId, orderName, amount, orderMethod }) => {
+const Pay = ({ userId, orderId, orderName, amount }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [brandPay, setBrandPay] = useState(null)
 

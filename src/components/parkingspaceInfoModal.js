@@ -21,6 +21,8 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal }) => {
     }
     geocoder.coord2Address(parkInfo.lng, parkInfo.lat, callback)
   }
+
+  if (!parkInfo) <></>
   return (
     <>
       <div className='parkingspaceInfoModal'>

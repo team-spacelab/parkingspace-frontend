@@ -22,13 +22,13 @@ html, body{
 }
 .searchBar {
   text-align: center;
-  display: block;
+  display: flex;
   width: 90%;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: white;
   border-radius: 10px;
   box-sizing: content-box;
-  padding: 1px 4px;
+  padding: 3px 4px;
   position: absolute;
   top: 15px;
   left: 50%;
@@ -39,8 +39,7 @@ html, body{
     font-size: 1em;
     background-color: rgba(255, 255, 255, 0);
     padding: 10px;
-    min-width: 90px;
-    width: 78%;
+    width: 95%;
   }
   button{
     vertical-align: sub;
@@ -62,7 +61,13 @@ html, body{
   box-sizing: content-box;
   opacity: 0.9;
   border-radius: 10px;
+  p {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: inherit;
+  }
 }
+
 .bottomTab {
   position: absolute;
   bottom: 0px;
@@ -73,7 +78,6 @@ html, body{
   width: 100%;
   z-index: 1;
   background-color: $theme-color;
-  opacity: 0.8;
   padding: 4px 5px;
   button {
     background-color: rgba(255, 255, 255, 0);
@@ -82,6 +86,13 @@ html, body{
     color: white;
     margin: 4px 0;
     vertical-align: sub;
+  }
+  button > p {
+    font-size: 0.5em;
+    margin: 0;
+  }
+  svg {
+    margin-bottom: -2px;
   }
 }
 
@@ -119,7 +130,6 @@ html, body{
     justify-content: space-between;
     svg {
       font-size: 2em;
-      
     }
     h3 {
       display: inline-block;
@@ -380,6 +390,7 @@ html, body{
     }
   }
 }
+
 .backgroundModal {
   width: 100vw;
   height: 100vh;
@@ -448,10 +459,11 @@ html, body{
 }
 
 .registParkingspaceForm {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  p {
+    color: rgb(117, 116, 116);
+    font-size: 0.8em;
+    font-weight: 500;
+  }
   display: block;
   width: 92%;
   margin: 0 auto;
@@ -482,12 +494,12 @@ html, body{
       width: 48%;
       background-color: #6232d3ce;
       border: 1px solid $theme-color;
-        border-radius: 5px;
-        padding: 5px 8px;
-        margin-bottom: 0px;
-        font-size: 0.9em;
-        font-weight: 700;
-        color: white;
+      border-radius: 5px;
+      padding: 5px 8px;
+      margin-bottom: 0px;
+      font-size: 0.9em;
+      font-weight: 700;
+      color: white;
     }
     button:only-child {
       width: 100%;
@@ -500,23 +512,10 @@ html, body{
       font-weight: 700;
       color: white;
     }
-    }
-
-  }
-.kakaomap {
-  .updateBtn {
-    position: fixed;
-    bottom: 80px;
-    right: 10px;
-    font-size: 1.3em;
-    border: none;
-    padding: 5px 10px;
-    background: #6232d3d5;
-    color: white;
-    border-radius: 50px;
   }
 }
 
+<<<<<<< HEAD
 .Guide {
   width: 100vw;
   height: 100vh;
@@ -606,6 +605,8 @@ html, body{
   }
 }
 
+=======
+>>>>>>> a159acd (feat: change kakaomap sdk)
 @media screen and (max-width:768px) {
   .splashPage {
     height: 100vh;
