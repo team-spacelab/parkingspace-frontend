@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 
 const ParkingSpaceDetail = () => {
   const data = useLocation().state
-  console.log(data)
+  const [imgUrl, setImgUrl] = useState('')
   const [spaceInfo, setSpaceInfo] = useState({
     success: true,
     data: {
@@ -28,11 +28,15 @@ const ParkingSpaceDetail = () => {
       },
     },
   })
+
   useEffect(() => {
     fetch(`/api/space/v1/spaces/${data.spaceId}`)
       .then((res) => res.json())
       .then((res) => setSpaceInfo(res))
     // .then((res) => console.log(res))
+    fetch(`/api/space/v1/spaces/${data.spaceId}/files?type=SPACE_PICTURE`)
+      .then((res) => res.json())
+      .then((res) => setImgUrl(res.data.files[0].url))
   }, [])
 
   return (
@@ -48,8 +52,7 @@ const ParkingSpaceDetail = () => {
         <div
           className='image'
           style={{
-            backgroundImage:
-              "url('https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.jpg')",
+            backgroundImage: `url(${imgUrl})`,
           }}
         />
         <div className='detailInfo'>

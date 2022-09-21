@@ -256,6 +256,20 @@ html, body{
   background-color: $theme-color;
   border: 0;
   outline: 0;
+  &::before {
+    content: " ";
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: -7.5px;
+    left: 45%;
+    background-color: $theme-color;
+    transform: rotate(45deg) ;
+    z-index: 0;
+  }
+  & > .cost {
+    z-index: 2;
+  }
 }
 
 .label-size-1 {

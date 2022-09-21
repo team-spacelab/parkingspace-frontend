@@ -41,7 +41,7 @@ const RegistParkingSpaceResult = () => {
     }
     toastr.success('주차장 등록완료')
     window.location.href = '/parkingspace'
-    return <></>
+    return <Loading />
   } else {
     return <Loading />
   }

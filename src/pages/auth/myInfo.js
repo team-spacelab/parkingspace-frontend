@@ -9,6 +9,7 @@ import {
   FaToggleOff,
   FaToggleOn,
   FaUserAltSlash,
+  FaRoad,
 } from 'react-icons/fa'
 import BottomTab from '../../components/bottomTab'
 import Header from '../../components/header'
@@ -98,7 +99,12 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
       }
     }
 
-    if (isLoading) return <div></div>
+    const reshowGuide = () => {
+      localStorage.removeItem('guide')
+      window.location.reload()
+    }
+
+    if (isLoading) return <Loading />
 
     return (
       <>
@@ -118,10 +124,10 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
               ? userInfo.data.phone
               : '전화번호 인증을 해주세요'}
           </p> */}
-          <p onClick={() => localStorage.removeItem('guide')}>
-            <FaPhone /> 가이드 보기
+          <p onClick={reshowGuide}>
+            <FaRoad /> 가이드 다시보기
           </p>
-          <p className='myInfoFlexContainer'>
+          {/* <p className='myInfoFlexContainer'>
             <span>
               <FaRegLightbulb />
               &nbsp;전화번호 인증 여부 : {userInfo.data.isVerified
@@ -133,7 +139,7 @@ const MyInfo = ({ isLogged, userInfo, getUserInfo }) => {
                 <Link to='/'>전화번호 인증</Link>
               </button>
             )}
-          </p>
+          </p> */}
           {/* <p>
             <FaAward /> 생년월일 : {userInfo.data.birthday}
           </p> */}

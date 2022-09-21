@@ -132,6 +132,7 @@ const RegistParkingSpace = ({ isLogged }) => {
             })
           )
       )
+      .then(() => btnRef.current.click())
   }
 
   const verifiedCheck = (key) => {
