@@ -2,15 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import SimpleImageSlider from 'react-simple-image-slider'
 import Sheet from 'react-modal-sheet'
+import { useNavigate } from 'react-router-dom'
 import {
   FaMapMarkedAlt,
-  FaUserCircle,
-  FaRegClock,
-  FaQrcode,
-  FaCoins,
+  FaCoins
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
+  const navigate = useNavigate()
   const [images, setImages] = useState([])
   const [address, setAddress] = useState('')
 
@@ -63,10 +62,6 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
           <Sheet.Content>
             {/** 이미지 주소, 예약 버튼, desc, 이름 */}
             <div className='container'>
-              <div className='title'>
-                <h2>{parkInfo.name}</h2>
-                <h3>{parkInfo.description}</h3>
-              </div>
               <div className='image'>
                 {images.length > 0 && (
                   <SimpleImageSlider
@@ -80,22 +75,34 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                   />
                 )}
               </div>
+              <div className='title'>
+                <h2>{parkInfo.name}</h2>
+                <h3>{parkInfo.description}</h3>
+              </div>
               <div className='information'>
-                <div className='info'>
-                  <div className='info-title'>
-                    <FaMapMarkedAlt />
-                    <span>주소</span>
+                <div className="info-outer">
+                  <div>
+                    <div className='info'>
+                      <div className='info-title'>
+                        <FaMapMarkedAlt />
+                        <span>주소</span>
+                      </div>
+                      <p>{address}</p>
+                    </div>
+                    <div className='info'>
+                      <div className='info-title'>
+                        <FaCoins />
+                        <span>대여 금액</span>
+                      </div>
+                      <p>{parkInfo.defaultCost}원</p>
+                    </div>
                   </div>
-                  <p>{address}</p>
-                </div>
-                <div className='info'>
-                  <div className='info-title'>
-                    <FaCoins />
-                    <span>대여 금액</span>
+                  <div className='info grade'>
+                    <p><strong>5</strong><br />등급</p>
                   </div>
-                  <p>{parkInfo.defaultCost}원</p>
                 </div>
-                <div className='info'>
+
+                <div className='info' onClick={() => navigate('/order', { state: { spaceId: parkInfo.id, zoneId: parkInfo.childrenZones[0].id }})}>
                   <div className='info-title payBtn'>
                     <span>결제하기</span>
                   </div>
