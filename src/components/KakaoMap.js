@@ -126,7 +126,9 @@ const KakaoMap = () => {
     }
   }
 
-  useEffect(() => parseQR(), [])
+  useEffect(() => {
+    parseQR()
+  }, [])
 
   const onPlus = () => {
     setState((prev) => ({
