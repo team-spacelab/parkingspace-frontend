@@ -395,8 +395,10 @@ html, body{
     &:first-child {
       border-bottom: none;
       padding: 15px;
+      cursor: default;
     }
     padding: 10px 15px;
+    cursor: pointer;
     &:first-child > span {
       vertical-align: 40%;
       font-size: 1.2em;
