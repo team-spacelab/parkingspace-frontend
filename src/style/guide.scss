@@ -7,6 +7,20 @@
   color: white;
   img {
     width: 50vw;
+    margin: 15px 0;
+  }
+  .container {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    & > h2 {
+      text-align: center;
+    }
+    h2, img {
+      display: block;
+      margin: 0 auto;
+    }
   }
   .guideWindow {
     position: relative;
