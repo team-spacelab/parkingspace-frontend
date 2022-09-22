@@ -1,8 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk'
+import { MdGpsFixed } from 'react-icons/md'
+import { BsPlus, BsDash } from 'react-icons/bs'
 import toast from 'react-hot-toast'
 import ParkingspaceInfoModal from './SpaceInfoModal'
 import SearchBar from './SearchBar'
+import '../style/kakao.scss'
 
 const useDebouncedEffect = (func, delay, deps) => {
   const callback = useCallback(func, deps)
@@ -31,7 +34,7 @@ const KakaoMap = () => {
   })
   const [spaces, setSpaces] = useState([])
 
-  useEffect(() => {
+  const geoLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -62,6 +65,10 @@ const KakaoMap = () => {
         isLoading: false
       }))
     }
+  }
+
+  useEffect(() => {
+    geoLocation()
   }, [])
 
   useDebouncedEffect(
@@ -109,6 +116,20 @@ const KakaoMap = () => {
     }, 500)
   }
 
+  const onPlus = () => {
+    setState((prev) => ({
+      ...prev,
+      level:  state.level < 2 ? prev.level : prev.level - 1
+    }))
+  }
+
+  const onMinus = () => {
+    setState((prev) => ({
+      ...prev,
+      level: state.level > 6 ? prev.level : prev.level + 1
+    }))
+  }
+
   return (
     <>
       <SearchBar
@@ -145,6 +166,24 @@ const KakaoMap = () => {
             averageCenter={true} // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
             minLevel={4} // 클러스터 할 최소 지도 레벨
           >
+            <button className='reposition' onClick={() => geoLocation()}>
+              <MdGpsFixed />
+            </button>
+            <div className='zoom'>
+              <button
+                className='zoom-in'
+                onClick={() => onPlus() }
+              >
+                <BsPlus />
+              </button>
+              <hr style={{ color: '#fff' }} />
+              <button
+                className='zoom-out'
+                onClick={() => onMinus() }
+              >
+                <BsDash />
+              </button>
+            </div>
             {spaces.map((space) => (
               <CustomOverlayMap
                 key={`${space.lat}-${space.lng}`}

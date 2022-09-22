@@ -11,12 +11,8 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
 
   useEffect(() => {
     getUserInfo()
-  }, [])
-
-  useEffect(() => {
-    console.log(userInfo)
     setIsLoading(false)
-  }, [userInfo])
+  }, [])
 
   const logout = () => {
     // 모달 로그아웃 하시겠습니까?
