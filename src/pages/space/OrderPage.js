@@ -52,7 +52,8 @@ const Order = ({ state }) => {
       .then((res) => res.json())
       .then((data) => {
         if (!data.success) return
-        setOrder(data.data)
+        setPayments(data.data)
+        console.log(data.data)
       })
 
   const fetchAddress = () => {
@@ -78,6 +79,7 @@ const Order = ({ state }) => {
     fetchSpace()
     fetchCars()
     fetchMe()
+    fetchMethod()
   }, [])
 
   useEffect(() => {
