@@ -8,7 +8,7 @@ const ParkingspaceInfoModal = ({ methods, setShowModal, showModal, setMethod, se
     setShowModal(false)
   }
   
-  if (!showModal || !methods) <></>
+  if (!showModal || !methods) return <></>
   return (
     <>
       <Sheet
