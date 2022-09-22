@@ -5,6 +5,7 @@ import {
   FaRoad,
   FaUserCog,
   FaCar,
+  FaList,
 } from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
@@ -98,6 +99,9 @@ const MyInfo = () => {
         </p>
         <p className='menu' onClick={() => navigate('/registCar')}>
           <FaCar /> 자동차 등록
+        </p>
+        <p className='menu' onClick={() => navigate('/carLIst')}>
+          <FaList /> 자동차 목록
         </p>
         {/* <p className='myInfoFlexContainer'>
           <span>

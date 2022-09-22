@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/Layout'
 const RegistCar = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     alias: '',
     number: '',
@@ -28,6 +30,7 @@ const RegistCar = () => {
     }).then((res) => res.json())
     if (fetchData.success) {
       toast.success('자동차 등록을 완료하였습니다.')
+      navigate('/myInfo')
     } else {
       toast.error('자동차 등록 중 에러가 발생하였습니다.')
     }

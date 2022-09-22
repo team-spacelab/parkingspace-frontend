@@ -818,3 +818,38 @@ html, body{
     padding: 3px 5px;
   }
 }
+
+.carsList {
+
+  padding: 13px 14px;
+    .goBackBtn {
+      color: rgb(117, 116, 116);
+      font-size: 0.8em;
+      font-weight: 500;
+      cursor: pointer;
+      //margin: 0px 0px 2em;
+    
+  }
+  h2 {
+    color: $theme-color;
+    font-weight: 800;
+    // line-height: 30px;
+    font-size: 1.8em;
+    margin: 0px  0px 32px 0px;
+  }
+  ol {
+    margin: 0 15px;
+    list-style: none;
+  }
+  li {
+    background-color: $theme-color;
+    color: white;
+    margin: 5px 0;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  width: 92%;
+  display: block;
+  margin: 0 auto;
+}

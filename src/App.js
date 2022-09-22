@@ -19,6 +19,7 @@ import AuthRoute from './components/AuthRoute'
 import Root from './pages/root'
 import PaymentSetting from './components/PaymentSetting'
 import RegistCar from './pages/car/RegistCar'
+import CarList from './pages/car/CarList'
 
 const App = () => {
   const cookie = new Cookies()
@@ -68,27 +69,20 @@ const App = () => {
               />
               <Route path={'/myInfo'} element={<MyInfo />} />
               <Route path={'/order'} element={<Order />} />
-              <Route
-                path={'/myInfo'}
-                element={
-                  <MyInfo/>
-                }
-              />
-              <Route path={'/order'} element={<Order/>} />
+              <Route path={'/myInfo'} element={<MyInfo />} />
+              <Route path={'/order'} element={<Order />} />
               <Route
                 path='/registParkingspaceResultspace'
                 element={<RegistParkingSpaceResult />}
               />
-              <Route
-                path='/setting/payment'
-                element={<PaymentSetting />}
-              />
+              <Route path='/setting/payment' element={<PaymentSetting />} />
             </Route>
             <Route
               path='/parkingspaceDetail'
               element={<ParkingSpaceDetail />}
             />
             <Route path='/registCar' element={<RegistCar />} />
+            <Route path='/carList' element={<CarList />} />
           </Routes>
         </AnimatePresence>
       </>
