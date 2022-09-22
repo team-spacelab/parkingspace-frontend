@@ -21,7 +21,7 @@ const PaymentSetting = ({ userId }) => {
       setBrandPay(
         await loadBrandPay(
           process.env.REACT_APP_TOSS_CLIENT,
-          'user' + await fetchMe(),
+          'user' + userId,
           {
             rediectUrl: process.env.REACT_APP_TOSS_REDIRECT,
             ui: {

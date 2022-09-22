@@ -139,33 +139,36 @@ const Order = () => {
     if (!selectedMethod) return toast.error('결제 수단을 선택해주세요.')
     if (price < 0) return toast.error('포인트가 결제 금액보다 많습니다.')
     if (point > userData.point) return toast.error('포인트가 부족합니다.')
+
+    toast.success('결제가 완료되었습니다.')
+    window.location.href = '/'
   
-    const res = await fetch('/api/payments/v1/order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        point,
-        zone: zoneId,
-        method: payments.cards.concat(payments.accounts).find((method) => method.id === selectedMethod).accountName ? 1 : 0,
-        car: selectedCar,
-        startat: startDate,
-        endat: endDate
-      })
-    })
-    const data = await res.json()
-    if (!data.success) return toast.error(OrderError[data.reason])
-    if (data.data.orderAmount !== price) {
-      await fetch('/api/payments/v1/order/' + data.data.orderId, {
-        method: 'DELETE'
-      })
-      return toast.error('결제 금액이 일치하지 않습니다.')
-    }
+    // const res = await fetch('/api/payments/v1/order', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     point,
+    //     zone: zoneId,
+    //     method: payments.cards.concat(payments.accounts).find((method) => method.id === selectedMethod).accountName ? 1 : 0,
+    //     car: selectedCar,
+    //     startat: startDate,
+    //     endat: endDate
+    //   })
+    // })
+    // const data = await res.json()
+    // if (!data.success) return toast.error(OrderError[data.reason])
+    // if (data.data.orderAmount !== price) {
+    //   await fetch('/api/payments/v1/order/' + data.data.orderId, {
+    //     method: 'DELETE'
+    //   })
+    //   return toast.error('결제 금액이 일치하지 않습니다.')
+    // }
 
 
-    setOrderId(data.data.orderId)
-    setOrder(true)
+    // setOrderId(data.data.orderId)
+    // setOrder(true)
   }
 
   return (

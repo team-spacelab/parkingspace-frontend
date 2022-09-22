@@ -14,10 +14,10 @@ const Layout = ({ title, onSubmit, buttonText, children, subLink }) => {
         {children}
       </div>
       <div>
-        <button type='submit' onClick={onSubmit}>
+        <button type='submit' className='submit-button' onClick={onSubmit}>
           {buttonText}
         </button>
-        <p className='subLink'>{subLink()}</p>
+        <p className='subLink'>{subLink}</p>
       </div>
     </div>
   )
