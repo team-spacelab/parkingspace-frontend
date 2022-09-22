@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import BottomTab from '../components/BottomTab'
 import Header from '../components/Header'
+import Loading from '../components/Loading'
 const ParkingSpace = () => {
   const [isLoading, setIsLoading] = useState(1)
   const [parkingspace, setParkingspace] = useState({
@@ -33,7 +34,7 @@ const ParkingSpace = () => {
     console.log(parkingspace)
   }, [parkingspace])
 
-  if (isLoading) return <></>
+  if (isLoading) return <Loading />
   return (
     <>
       <Header />
