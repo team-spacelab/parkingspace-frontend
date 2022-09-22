@@ -178,7 +178,7 @@ const RegistParkingSpace = ({ isLogged }) => {
     const geocoder = new kakao.maps.services.Geocoder()
     try {
       geocoder.addressSearch(address, function (result, status) {
-        console.log(result[0])
+        console.log(result, 'hi')
         if (status === kakao.maps.services.Status.OK) {
           if (typeof result[0] === 'undefined') {
             toast.error('정확한 주소를 입력해주세요.')
@@ -194,6 +194,8 @@ const RegistParkingSpace = ({ isLogged }) => {
             toast.error('정확한 주소를 입력해주세요.')
             setPage(page)
           }
+        } else {
+            toast.error('정확한 주소를 입력해주세요.')
         }
       })
     } catch (error) {
