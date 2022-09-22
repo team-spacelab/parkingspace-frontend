@@ -74,7 +74,7 @@ const KakaoMap = () => {
       const { lat, lng } = state.center
       const { level } = state
 
-      if (level > 5) {
+      if (level > 6) {
         toast.remove()
         toast.error('보고계신 지도가 너무 큽니다.')
         setSpaces([])

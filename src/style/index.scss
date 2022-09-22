@@ -323,10 +323,22 @@ html, body{
       color: black;
       border-radius: 10px;
       padding: 20px 20px;
+      .info-outer {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
       .info {
         margin: 5px 0;
         font-size: 18px;
         width: 100%;
+        &.grade {
+          text-align: center;
+          strong{
+            font-size: 30px;
+            color: #7748fa;
+          }
+        }
         .info-title {
           display: flex;
           align-items: center;
