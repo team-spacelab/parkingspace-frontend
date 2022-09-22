@@ -94,9 +94,13 @@ html, body{
     background-color: rgba(255, 255, 255, 0);
     border: none;
     font-size: 1.4em;
-    color: white;
+    color: #ccc;
     margin: 4px 0;
     vertical-align: sub;
+    
+    &.selected {
+      color: white;
+    }
   }
   button > p {
     font-size: 0.5em;

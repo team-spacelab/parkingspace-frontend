@@ -5,14 +5,12 @@ const Root = () => {
   const navigation = useNavigate()
 
   useEffect(() => {
-if (window.localStorage.getItem('main') === '0') {
-      navigation('/main')
-      return
-    }
     if (window.localStorage.getItem('main') === '1') {
       navigation('/parkingspace')
       return
     }
+
+    navigation('/main')
   }, [])
 
   return (
