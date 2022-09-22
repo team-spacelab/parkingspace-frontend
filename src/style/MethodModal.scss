@@ -1,0 +1,47 @@
+@import './index.scss';
+
+.react-modal-sheet-container {
+  .container {
+    width: 100vw;
+    .title {
+      text-align: center;
+      margin-bottom: 10px;
+      h2 {
+        color: $theme-color;
+        font-size: 20px;
+      }
+    }
+    .method-container {
+      width: 100vw;
+      .method {
+        cursor: pointer;
+        height: 50px;
+        margin: 15px 20px;
+        border-radius: 10px;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.35);
+        .method-flex {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          .method-icon {
+            width: 30px;
+            margin-right: 10px;
+          }
+          .method-text {
+            .method-name {
+              font-size: 16px;
+              font-weight: 600;
+            }
+          }
+        }
+        .method-select {
+          font-size: 25px;
+          color: rgb(224, 224, 224);
+        }
+      }
+    }
+  }
+}

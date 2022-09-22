@@ -2,15 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import SimpleImageSlider from 'react-simple-image-slider'
 import Sheet from 'react-modal-sheet'
+import { useNavigate } from 'react-router-dom'
 import {
   FaMapMarkedAlt,
-  FaUserCircle,
-  FaRegClock,
-  FaQrcode,
-  FaCoins,
+  FaCoins
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
+  const navigate = useNavigate()
   const [images, setImages] = useState([])
   const [address, setAddress] = useState('')
 
@@ -95,7 +94,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                   </div>
                   <p>{parkInfo.defaultCost}원</p>
                 </div>
-                <div className='info'>
+                <div className='info' onClick={() => navigate('/order', { state: { spaceId: parkInfo.id, zoneId: parkInfo.childrenZones[0].id }})}>
                   <div className='info-title payBtn'>
                     <span>결제하기</span>
                   </div>
