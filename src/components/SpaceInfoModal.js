@@ -6,7 +6,8 @@ import {
   FaMapMarkedAlt,
   FaUserCircle,
   FaRegClock,
-  FaQrcode
+  FaQrcode,
+  FaCoins,
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
@@ -47,34 +48,26 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
       <Sheet
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        snapPoints={[850, 650]}
+        snapPoints={[600, 150]}
         initialSnap={1}
       >
-        <Sheet.Container>
+        <Sheet.Container
+          style={{
+            transform: 'translateY(30px)',
+            height: '80vh',
+            position: 'absolute',
+            bottom: '0px',
+          }}
+        >
           <Sheet.Header />
           <Sheet.Content>
+            {/** 이미지 주소, 예약 버튼, desc, 이름 */}
             <div className='container'>
               <div className='title'>
                 <h2>{parkInfo.name}</h2>
                 <h3>{parkInfo.description}</h3>
               </div>
-              <div className='information'>
-                <div className='info'>
-                  <div className='info-title'>
-                    <FaMapMarkedAlt />
-                    <span>주소</span>
-                  </div>
-                  <p>{address}</p>
-                </div>
-                <div className='info'>
-                  <div className='info-title'>
-                    <FaMapMarkedAlt />
-                    <span></span>
-                  </div>
-                  <p>{address}</p>
-                </div>
-              </div>
-              {/* <div className='image'>
+              <div className='image'>
                 {images.length > 0 && (
                   <SimpleImageSlider
                     width={'100%'}
@@ -86,7 +79,28 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                     autoPlayDelay={3000}
                   />
                 )}
-              </div> */}
+              </div>
+              <div className='information'>
+                <div className='info'>
+                  <div className='info-title'>
+                    <FaMapMarkedAlt />
+                    <span>주소</span>
+                  </div>
+                  <p>{address}</p>
+                </div>
+                <div className='info'>
+                  <div className='info-title'>
+                    <FaCoins />
+                    <span>대여 금액</span>
+                  </div>
+                  <p>{parkInfo.defaultCost}원</p>
+                </div>
+                <div className='info'>
+                  <div className='info-title payBtn'>
+                    <span>결제하기</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Sheet.Content>
         </Sheet.Container>
