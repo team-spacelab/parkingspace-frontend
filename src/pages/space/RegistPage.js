@@ -28,19 +28,18 @@ const RegistParkingSpace = ({ isLogged }) => {
   const [inputAddress, setInputAddress] = useState('')
   // 입력값이 다음 컴포넌트에 넘어가는 일 방지
   useEffect(() => {
-    if (isLogged) {
-      // page핸들링 제대로 못하면 오류남
-      if (page !== 4 && page !== 5) {
-        const value =
-          page !== 6
-            ? window.document.querySelector('input')
-            : window.document.querySelector('textarea')
-        if (value.value !== '' || value.value !== null) {
-          value.value = ''
-        }
+    // page핸들링 제대로 못하면 오류남
+    if (page !== 4 && page !== 5) {
+      const value =
+        page !== 6
+          ? window.document.querySelector('input')
+          : window.document.querySelector('textarea')
+      console.log(12, value.value)
+      if (value.value !== '' || value.value !== null) {
+        value.value = ''
       }
     }
-  }, [isLogged, page])
+  }, [page])
 
   useEffect(() => {
     console.log(registFileParkingspace.thumnail)
@@ -156,7 +155,7 @@ const RegistParkingSpace = ({ isLogged }) => {
         <input
           type={'text'}
           name='spaceName'
-          minLength={6}
+          minLength={5}
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
