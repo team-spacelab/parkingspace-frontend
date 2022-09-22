@@ -4,6 +4,7 @@ import {
   FaUserAltSlash,
   FaRoad,
   FaUserCog,
+  FaCar,
 } from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
@@ -11,8 +12,10 @@ import { useEffect, useState } from 'react'
 import { Cookies } from 'react-cookie'
 import toast from 'react-hot-toast'
 import Loading from '../../components/Loading'
+import { useNavigate } from 'react-router-dom'
 
 const MyInfo = () => {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState({})
   const cookie = new Cookies()
@@ -70,7 +73,7 @@ const MyInfo = () => {
     <>
       <Header />
       <div className='myInfo'>
-        <p>
+        <p className='menu'>
           <FaUserCircle /> <span>{user.nickname}님 안녕하세요.</span>
         </p>
         <div className='pointBox'>
@@ -84,11 +87,17 @@ const MyInfo = () => {
             ? userInfo.data.phone
             : '전화번호 인증을 해주세요'}
         </p> */}
-        <p onClick={reshowGuide}>
+        <p onClick={reshowGuide} className='menu'>
           <FaRoad /> 가이드 다시보기
         </p>
-        <p onClick={() => window.location.href = '/setting/payment'}>
+        <p
+          onClick={() => (window.location.href = '/setting/payment')}
+          className='menu'
+        >
           <FaUserCog /> 결제 관리
+        </p>
+        <p className='menu' onClick={() => navigate('/registCar')}>
+          <FaCar /> 자동차 등록
         </p>
         {/* <p className='myInfoFlexContainer'>
           <span>
@@ -117,16 +126,16 @@ const MyInfo = () => {
         </p>
           */}
 
-        <p className='warning' onClick={() => logout()}>
+        <p className='warning menu' onClick={() => logout()}>
           <FaSignInAlt />
           &nbsp;<span>로그아웃</span>
         </p>
-        <p className='warning' onClick={() => userDelete()}>
+        <p className='warning menu' onClick={() => userDelete()}>
           <FaUserAltSlash />
           &nbsp;<span>회원탈퇴</span>
         </p>
-        <BottomTab />
       </div>
+      <BottomTab />
     </>
   )
 }

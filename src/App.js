@@ -18,6 +18,7 @@ import Order from './pages/space/OrderPage'
 import AuthRoute from './components/AuthRoute'
 import Root from './pages/root'
 import PaymentSetting from './components/PaymentSetting'
+import RegistCar from './pages/car/RegistCar'
 
 const App = () => {
   const cookie = new Cookies()
@@ -25,9 +26,7 @@ const App = () => {
     cookie.get('SESSION_TOKEN') != null
   )
   const [showSplashPage, setShowSplashPage] = useState(0)
-  const [guide, setGuide] = useState(
-    localStorage.getItem('guide') === null
-  )
+  const [guide, setGuide] = useState(localStorage.getItem('guide') === null)
 
   const offline = () => {
     alert('네트워크를 확인해주세요.')
@@ -46,7 +45,7 @@ const App = () => {
     tel: '',
     verified_tel: false,
     birthday: '0',
-    point: 0
+    point: 0,
   })
   const getUserInfo = async () => {
     await fetch('/api/auth/v1/users/@me', { method: 'GET' })
@@ -60,42 +59,42 @@ const App = () => {
 
     return (
       <>
-        <Toaster position='bottom-center' containerStyle={{ marginBottom: '80px' }} />
+        <Toaster
+          position='bottom-center'
+          containerStyle={{ marginBottom: '80px' }}
+        />
         <AnimatePresence>
           <Routes>
-            <Route path={'/'} element={<Root />}/>
+            <Route path={'/'} element={<Root />} />
             <Route path={'/main'} element={<Main />} />
-            <Route path={'/login'} element={<Login setIsLogged={setAuthenticated} />} />
+            <Route
+              path={'/login'}
+              element={<Login setIsLogged={setAuthenticated} />}
+            />
             <Route path={'/register'} element={<Register />} />
-            <Route exact path='/' element={<AuthRoute authenticated={authenticated} />}>
-              <Route
-                path='/parkingspace'
-                element={<ParkingSpace />}
-              />
+            <Route
+              exact
+              path='/'
+              element={<AuthRoute authenticated={authenticated} />}
+            >
+              <Route path='/parkingspace' element={<ParkingSpace />} />
               <Route
                 path='/registParkingspace'
                 element={<RegistParkingSpace />}
               />
-              <Route
-                path={'/myInfo'}
-                element={
-                  <MyInfo/>
-                }
-              />
-              <Route path={'/order'} element={<Order/>} />
+              <Route path={'/myInfo'} element={<MyInfo />} />
+              <Route path={'/order'} element={<Order />} />
               <Route
                 path='/registParkingspaceResultspace'
                 element={<RegistParkingSpaceResult />}
               />
-              <Route
-                path='/setting/payment'
-                element={<PaymentSetting />}
-              />
+              <Route path='/setting/payment' element={<PaymentSetting />} />
             </Route>
             <Route
               path='/parkingspaceDetail'
               element={<ParkingSpaceDetail />}
             />
+            <Route path='/registCar' element={<RegistCar />} />
           </Routes>
         </AnimatePresence>
       </>

@@ -1,5 +1,7 @@
+$theme-color: #8254C4;
+
 .component {
-  p {
+  .goBackBtn {
     color: rgb(117, 116, 116);
     font-size: 1em;
     font-weight: 500;
@@ -9,10 +11,11 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  h2 {
+  .title {
+    white-space: pre-line;
     color: $theme-color;
-    font-weight: 900;
-    line-height: 45px;
-    font-size: 40px;
+    font-weight: 600;
+    //line-height: 45px;
+    font-size: 1.5em;
   }
 }

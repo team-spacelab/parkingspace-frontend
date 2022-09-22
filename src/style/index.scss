@@ -371,7 +371,7 @@ html, body{
     display: inline-block;
     margin: 0 1%;
   } */
-  & > p {
+  &  .menu {
     border-bottom: 1px solid #ccc;
     &:first-child {
       border-bottom: none;
@@ -408,7 +408,7 @@ html, body{
     color: #fff;
     padding: 32px 20px;
     border-radius: 8px;
-    p {
+    & > p {
       position: absolute;
       top: 10px;
       left: 10px;
