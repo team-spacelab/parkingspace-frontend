@@ -140,7 +140,6 @@ const Order = () => {
     if (price < 0) return toast.error('포인트가 결제 금액보다 많습니다.')
     if (point > userData.point) return toast.error('포인트가 부족합니다.')
 
-    toast.success('결제가 완료되었습니다.')
     window.location.href = '/'
   
     // const res = await fetch('/api/payments/v1/order', {

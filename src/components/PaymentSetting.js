@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Loading from './Loading'
 
-const PaymentSetting = ({ userId }) => {
+const PaymentSetting = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [brandPay, setBrandPay] = useState(null)
 
@@ -17,11 +17,12 @@ const PaymentSetting = ({ userId }) => {
         })
     
     // if (!userId) window.location.href = '/login'
-    const importTosspayment = async () =>
+    const importTosspayment = async () => {
+      const userId = await fetchMe()
       setBrandPay(
         await loadBrandPay(
           process.env.REACT_APP_TOSS_CLIENT,
-          'user' + userId,
+          'user-' + userId,
           {
             rediectUrl: process.env.REACT_APP_TOSS_REDIRECT,
             ui: {
@@ -33,8 +34,9 @@ const PaymentSetting = ({ userId }) => {
           }
         )
       )
+    }
     importTosspayment()
-  }, [userId])
+  }, [])
 
   useEffect(() => {
     if (brandPay) {
@@ -44,7 +46,6 @@ const PaymentSetting = ({ userId }) => {
           toast.error('결제 설정을 열 수 없습니다.')
           window.location.href = '/'
         }
-        toast.success('결제 설정을 취소하였습니다.')
         window.location.href = '/'
       })
     }

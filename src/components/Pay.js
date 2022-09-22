@@ -20,7 +20,7 @@ const Pay = ({ userId, orderId, orderName, amount, method }) => {
       setBrandPay(
         await loadBrandPay(
           process.env.REACT_APP_TOSS_CLIENT,
-          'user' + userId,
+          'user-' + userId,
           {
             rediectUrl: process.env.REACT_APP_TOSS_REDIRECT,
             ui: {
@@ -70,7 +70,7 @@ const Pay = ({ userId, orderId, orderName, amount, method }) => {
         window.location.href = '/'
       })
     }
-  }, [brandPay, amount, orderId, orderName])
+  }, [brandPay, amount, orderId, orderName, method])
 
   if (!isLoaded) return <Loading />
 

@@ -49,7 +49,7 @@ const KakaoMap = () => {
           }))
         },
         (err) => {
-          toast.error('위치 정보를 가져올 수 없습니다.')
+          toast.success('결제를 완료했습니다!')
           setState((prev) => ({
             ...prev,
             errMsg: err.message,
