@@ -1,17 +1,16 @@
 /* global kakao */
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Cookies } from 'react-cookie'
 import DatePicker from 'react-datepicker'
 import toast from 'react-hot-toast'
 import 'react-datepicker/dist/react-datepicker.css'
-import Pay from '../components/Pay'
+import Pay from '../../components/Pay'
 
 const Error = {
   USER_NOT_FOUND_OR_PASSWORD_INVALID: '계정 정보를 다시 확인해주세요.'
 }
 
-const Order = ({ userId, spaceId = 27, zoneId }) => {
+const Order = ({ state }) => {
   const [space, setSpace] = useState({})
   const [cars, setCars] = useState([])
   const [address, setAddress] = useState('')
@@ -20,6 +19,7 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
   const [price, setPrice] = useState(0)
   const [order, setOrder] = useState(false)
   const [userData, setUserData] = useState({})
+  const { spaceId, zoneId } = state.params.data
 
   const navigation = useNavigate()
   const fetchSpace = () =>
@@ -68,6 +68,7 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
   useEffect(() => {
     fetchSpace()
     fetchCars()
+    fetchMe()
   }, [])
 
   useEffect(() => {
@@ -100,7 +101,7 @@ const Order = ({ userId, spaceId = 27, zoneId }) => {
           <DatePicker onChange={changeEndDate} selected={endDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <div className='button_area'>
             <input onClick={() => setOrder(true)} disabled={!price} style={!price ? { backgroundColor: '#ccc' } : {}} type={'submit'} value={price + '원 결제'}/>
-            {order && <Pay amount={price} orderName={'[파킹스페이스] ' + space.name} userId={userData.id} />}
+            {order && <Pay amount={price} orderName={'[파킹스페이스] ' + space.name} userId={userData.id}  />}
           </div>
         </form>
       </div>

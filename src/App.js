@@ -14,9 +14,10 @@ import './style/index.scss'
 import { Cookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import Guide from './pages/GuidePage'
-import Order from './pages/OrderPage'
+import Order from './pages/space/OrderPage'
 import AuthRoute from './components/AuthRoute'
 import Root from './pages/root'
+import PaymentSetting from './components/PaymentSetting'
 
 const App = () => {
   const cookie = new Cookies()
@@ -78,16 +79,17 @@ const App = () => {
               <Route
                 path={'/myInfo'}
                 element={
-                  <MyInfo
-                    getUserInfo={getUserInfo}
-                    userInfo={userInfo}
-                  />
+                  <MyInfo/>
                 }
               />
               <Route path={'/order'} element={<Order/>} />
               <Route
-                path='/registParkingspaceResult'
+                path='/registParkingspaceResultspace'
                 element={<RegistParkingSpaceResult />}
+              />
+              <Route
+                path='/setting/payment'
+                element={<PaymentSetting />}
               />
             </Route>
             <Route

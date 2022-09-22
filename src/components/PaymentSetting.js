@@ -1,18 +1,27 @@
 import { loadBrandPay } from '@tosspayments/brandpay-sdk'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import Loading from './Loading'
 
-const Pay = ({ userId, orderId, orderName, amount }) => {
+const PaymentSetting = ({ userId }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [brandPay, setBrandPay] = useState(null)
 
   useEffect(() => {
-    if (!userId || !amount || !orderId || !orderName) return <div>결제 정보가 올바르지 않습니다.</div>
+    const fetchMe = () =>
+      fetch('/api/auth/v1/users/@me')
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.success) return
+          return data.data.id
+        })
+    
+    // if (!userId) window.location.href = '/login'
     const importTosspayment = async () =>
       setBrandPay(
         await loadBrandPay(
           process.env.REACT_APP_TOSS_CLIENT,
-          'user' + userId,
+          'user' + await fetchMe(),
           {
             rediectUrl: process.env.REACT_APP_TOSS_REDIRECT,
             ui: {
@@ -25,37 +34,25 @@ const Pay = ({ userId, orderId, orderName, amount }) => {
         )
       )
     importTosspayment()
-  }, [amount, orderId, orderName, userId])
+  }, [userId])
 
   useEffect(() => {
     if (brandPay) {
       setIsLoaded(true)
-      brandPay.requestPayment({
-        amount,
-        orderId,
-        orderName
-      }).then((res) => {
-        fetch('/api/payments/v1/order/confirm', 'POST', {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderId,
-            amount,
-            paymentId: res.paymentId
-          })
-        })
-        window.location.href = '/'
-      }).catch((err) => {
-        alert('결제가 취소되었습니다.')
+      brandPay.openSettings().catch((err) => {
+        if (err.code !== 'USER_CANCEL') {
+          toast.error('결제 설정을 열 수 없습니다.')
+          window.location.href = '/'
+        }
+        toast.success('결제 설정을 취소하였습니다.')
         window.location.href = '/'
       })
     }
-  }, [brandPay, amount, orderId, orderName])
+  }, [brandPay])
 
   if (!isLoaded) return <Loading />
 
   return <div></div>
 }
 
-export default Pay
+export default PaymentSetting

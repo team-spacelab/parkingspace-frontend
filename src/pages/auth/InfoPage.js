@@ -3,20 +3,30 @@ import {
   FaSignInAlt,
   FaUserAltSlash,
   FaRoad,
+  FaUserCog,
 } from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
 import { useEffect, useState } from 'react'
 import { Cookies } from 'react-cookie'
 import toast from 'react-hot-toast'
+import Loading from '../../components/Loading'
 
-const MyInfo = ({ userInfo, getUserInfo }) => {
+const MyInfo = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState({})
   const cookie = new Cookies()
 
   useEffect(() => {
-    getUserInfo()
-    setIsLoading(false)
+    const fetchMe = () =>
+      fetch('/api/auth/v1/users/@me')
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.success) return
+          setUser(data.data)
+          setIsLoading(false)
+        })
+    fetchMe()
   }, [])
 
   const logout = () => {
@@ -54,18 +64,18 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
     }
   }
 
-  if (isLoading) return <div></div>
+  if (isLoading) return <Loading />
 
   return (
     <>
       <Header />
       <div className='myInfo'>
         <p>
-          <FaUserCircle /> <span>{userInfo.nickname}님 안녕하세요.</span>
+          <FaUserCircle /> <span>{user.nickname}님 안녕하세요.</span>
         </p>
         <div className='pointBox'>
           <p>잔여 포인트량</p>
-          <h2>{userInfo.point}P</h2>
+          <h2>{user.point}P</h2>
         </div>
         {/* <p>
           <FaPhone />
@@ -77,6 +87,11 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
         <p onClick={reshowGuide}>
           <FaRoad /> 가이드 다시보기
         </p>
+        <p onClick={() => window.location.href = '/setting/payment'}>
+          <FaUserCog /> 결제 관리
+        </p>
+        {/* <p className='myInfoFlexContainer'>
+          <span>
         {/* <p className='myInfoFlexContainer'>
           <span>
             <FaRegLightbulb />

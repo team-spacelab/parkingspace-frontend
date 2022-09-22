@@ -48,7 +48,6 @@ const KakaoMap = () => {
           }))
         },
         (err) => {
-          toast.remove()
           toast.error('위치 정보를 가져올 수 없습니다.')
           setState((prev) => ({
             ...prev,
@@ -58,7 +57,6 @@ const KakaoMap = () => {
         }
       )
     } else {
-      toast.remove()
       toast.error('위치 정보를 가져올 수 없습니다.')
       setState((prev) => ({
         ...prev,
