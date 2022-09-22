@@ -19,6 +19,7 @@ const Order = ({ state }) => {
   const [price, setPrice] = useState(0)
   const [order, setOrder] = useState(false)
   const [userData, setUserData] = useState({})
+  const [payments, setPayments] = useState({})
   const { spaceId, zoneId } = state.params.data
 
   const navigation = useNavigate()
@@ -44,6 +45,14 @@ const Order = ({ state }) => {
       .then((data) => {
         if (!data.success) return
         setUserData(data.data.success)
+      })
+  
+  const fetchMethod = () =>
+    fetch('/api/payment/v1/order/payments')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) return
+        setOrder(data.data)
       })
 
   const fetchAddress = () => {
@@ -78,6 +87,25 @@ const Order = ({ state }) => {
 
   if (!space || !cars) return <></>
 
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    
+    const res = await fetch('/api/payment/v1/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+
+        zoneId,
+        carId: e.target.car.value,
+        startat: startDate,
+        endat: endDate,
+        price
+      })
+    })
+  }
+
   return (
     <>
       <div className='order'>
@@ -86,7 +114,7 @@ const Order = ({ state }) => {
           진행해주세요
         </h2>
         <p onClick={() => window.history.back()}>돌아가기</p>
-        <form>
+        <form onSubmit={onSubmit}>
           <h3>결제할 주차장</h3>
           <p>{space.name} ({address})</p>
           <p></p>

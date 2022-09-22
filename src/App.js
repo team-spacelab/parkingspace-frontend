@@ -38,22 +38,6 @@ const App = () => {
     fetch('/api/auth/v1/health').catch(offline)
   }, [])
 
-  const [userInfo, setUserInfo] = useState({
-    id: 0,
-    name: '',
-    nickname: '',
-    tel: '',
-    verified_tel: false,
-    birthday: '0',
-    point: 0,
-  })
-  const getUserInfo = async () => {
-    await fetch('/api/auth/v1/users/@me', { method: 'GET' })
-      .then((res) => res.json())
-      .then((res) => setUserInfo(res.data))
-      .catch()
-  }
-
   if (showSplashPage) {
     if (guide) return <Guide setGuide={setGuide} />
 
@@ -85,10 +69,20 @@ const App = () => {
               <Route path={'/myInfo'} element={<MyInfo />} />
               <Route path={'/order'} element={<Order />} />
               <Route
+                path={'/myInfo'}
+                element={
+                  <MyInfo/>
+                }
+              />
+              <Route path={'/order'} element={<Order/>} />
+              <Route
                 path='/registParkingspaceResultspace'
                 element={<RegistParkingSpaceResult />}
               />
-              <Route path='/setting/payment' element={<PaymentSetting />} />
+              <Route
+                path='/setting/payment'
+                element={<PaymentSetting />}
+              />
             </Route>
             <Route
               path='/parkingspaceDetail'
