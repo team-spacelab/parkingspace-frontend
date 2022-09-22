@@ -33,9 +33,17 @@ const RegistCar = () => {
     }
   }
 
+  const subLink = () => {
+    return <></>
+  }
   return (
     <>
-      <Layout title={`자동차를 등록하고${'\n'}주차장을 대여하세요`} onSubmit={fetchRegistCar} buttonText={'자동차 등록'}>
+      <Layout
+        title={`자동차를 등록하고${'\n'}주차장을 대여하세요`}
+        onSubmit={fetchRegistCar}
+        buttonText={'자동차 등록'}
+        subLink={subLink}
+      >
         <div className='registCar'>
           <label>자동차 별칭</label>
           <input
