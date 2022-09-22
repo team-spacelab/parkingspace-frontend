@@ -181,7 +181,7 @@ const RegistParkingSpace = ({ isLogged }) => {
         console.log(result[0])
         if (status === kakao.maps.services.Status.OK) {
           if (typeof result[0] === 'undefined') {
-            toast.error('정확한 주소를 입력해주세요.11')
+            toast.error('정확한 주소를 입력해주세요.')
             setPage(page)
           } else if (result[0].y !== 0 && result[0].x !== 0) {
             setRegistParkingspace({
