@@ -1,3 +1,4 @@
+/* global kakao */
 import { useLocation } from 'react-router-dom'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
@@ -14,6 +15,7 @@ import toast from 'react-hot-toast'
 const ParkingSpaceDetail = () => {
   const data = useLocation().state
   const [imgUrl, setImgUrl] = useState('')
+  const [address, setAddress] = useState('')
   const [spaceInfo, setSpaceInfo] = useState({
     success: true,
     data: {
@@ -44,7 +46,7 @@ const ParkingSpaceDetail = () => {
   }
   useEffect(() => {
     getAdress()
-  }, [])
+  }, [spaceInfo])
 
   useEffect(() => {
     fetch(`/api/space/v1/spaces/${data.spaceId}`)
@@ -88,7 +90,7 @@ const ParkingSpaceDetail = () => {
           <FaParking /> {spaceInfo.data.space.name} ( #{spaceInfo.data.space.id}{' '}
           )
         </h3>
-        <p> 경상북도 의성군 봉양면 봉호로 75-1</p>
+        <p>{address}</p>
         {/** 주차장 이미지 */}
         <div
           className='image'
