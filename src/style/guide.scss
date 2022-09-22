@@ -62,7 +62,10 @@
     cursor: pointer;
     outline: 0;
     border: 0;
+    display: flex;
+    gap: 10px;
     width: 100%;
+    align-items: center;
     text-align: left;
     background-color: rgb(173, 173, 173);
     color: $theme-color;
@@ -70,6 +73,14 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 5px 5px 15px 5px #00000025;
+    .icon {
+      object-position: center;
+    }
+    .divider {
+      background-color: $theme-color;
+      align-self: stretch;
+      width: 1px;
+    }
     .selectTitle {
       display: flex;
       align-items: center;

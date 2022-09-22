@@ -16,6 +16,7 @@ import { Toaster } from 'react-hot-toast'
 import Guide from './pages/GuidePage'
 import Order from './pages/OrderPage'
 import AuthRoute from './components/AuthRoute'
+import Root from './pages/root'
 
 const App = () => {
   const cookie = new Cookies()
@@ -61,7 +62,8 @@ const App = () => {
         <Toaster position='bottom-center' containerStyle={{ marginBottom: '80px' }} />
         <AnimatePresence>
           <Routes>
-            <Route path={'/'} element={<Main />} />
+            <Route path={'/'} element={<Root />}/>
+            <Route path={'/main'} element={<Main />} />
             <Route path={'/login'} element={<Login setIsLogged={setAuthenticated} />} />
             <Route path={'/register'} element={<Register />} />
             <Route exact path='/' element={<AuthRoute authenticated={authenticated} />}>

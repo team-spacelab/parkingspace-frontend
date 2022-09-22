@@ -57,21 +57,28 @@ const Guide = ({ setGuide }) => {
             className={'selectItem ' + (!purpose && 'selected')}
             onClick={() => setPurpose(0)}
           >
-            <div className='selectTitle'>
-              <FaHandshake />
-              <h3>대여</h3>
+              <FaHandshake className="icon" />
+            <div className='divider'/>
+            <div className="">
+              <div className='selectTitle'>
+                <h3>빌릴래요</h3>
+              </div>
+                <p>등록된 주차장을 예약하고 주차장을 이용</p>
+                <p>자신의 소유의 주차장을 판매 또는 홍보</p>
             </div>
-            <p>등록된 주차장을 예약하고 주차장을 이용</p>
           </button>
           <button
             className={'selectItem ' + (purpose && 'selected')}
             onClick={() => setPurpose(1)}
           >
-            <div className='selectTitle'>
-              <FaMoneyBill />
-              <h3>차용</h3>
+            <FaMoneyBill className="icon" />
+            <div className='divider'/>
+            <div className="">
+              <div className='selectTitle'>
+                <h3>빌려줄래요</h3>
+              </div>
+              <p>자신의 소유의 주차장을 판매 또는 홍보</p>
             </div>
-            <p>자신의 소유의 주차장을 판매 또는 홍보</p>
           </button>
         </div>
       </div>
