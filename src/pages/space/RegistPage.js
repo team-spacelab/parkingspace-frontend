@@ -30,7 +30,7 @@ const RegistParkingSpace = ({ isLogged }) => {
   useEffect(() => {
     if (isLogged) {
       // page핸들링 제대로 못하면 오류남
-      if (page !== 0 && page !== 4 && page !== 5) {
+      if (page !== 4 && page !== 5) {
         const value =
           page !== 6
             ? window.document.querySelector('input')
@@ -120,16 +120,16 @@ const RegistParkingSpace = ({ isLogged }) => {
     if (typeof data === 'number') {
       setPage(page + 1)
     } else if (typeof data === 'string') {
-      if (key == 'name' && data) {
-        toast.error('주차장 이름은 5글자 이상이여야 합니다.')
-        return false
-      }
       if (data === '' || (data === 'address' && inputAddress === '')) {
         toast.error('정보를 입력해주세요')
         return false
+      } else if (key == 'name' && data.length < 5) {
+        toast.error('주차장 이름은 5글자 이상이여야 합니다.')
+        return false
+      } else {
+        setPage(page + 1)
+        return true
       }
-      setPage(page + 1)
-      return true
     }
   }
   const cancle = () => {
