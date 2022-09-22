@@ -1,4 +1,9 @@
-import { FaUserCircle, FaSignInAlt, FaUserAltSlash } from 'react-icons/fa'
+import {
+  FaUserCircle,
+  FaSignInAlt,
+  FaUserAltSlash,
+  FaRoad,
+} from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
 import { useEffect, useState } from 'react'
@@ -25,6 +30,11 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
       cookie.remove('SESSION_TOKEN')
       window.location.href = '/'
     }
+  }
+
+  const reshowGuide = () => {
+    localStorage.removeItem('guide')
+    window.location.reload()
   }
 
   const userDelete = () => {
@@ -68,9 +78,9 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
             ? userInfo.data.phone
             : '전화번호 인증을 해주세요'}
         </p> */}
-        {/* <p onClick={reshowGuide}>
+        <p onClick={reshowGuide}>
           <FaRoad /> 가이드 다시보기
-        </p> */}
+        </p>
         {/* <p className='myInfoFlexContainer'>
           <span>
             <FaRegLightbulb />

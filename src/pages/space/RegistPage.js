@@ -405,7 +405,7 @@ const RegistParkingSpace = ({ isLogged }) => {
       {isLoading && <Loading />}
       <Header />
       <div className='registParkingspaceForm'>
-        {page <= 3 ? <h2>Step.{page + 1}</h2> : null}
+        {page <= 3 ? <h2>Step.{page}</h2> : null}
         {inputComponents[page]}
       </div>
       <BottomTab />
