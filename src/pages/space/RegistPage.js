@@ -1,6 +1,6 @@
 /* global kakao */
 import React, { useEffect, useRef, useState } from 'react'
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
+import { FaArrowRight, FaArrowLeft, FaUpload, FaFile } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
@@ -229,7 +229,7 @@ const RegistParkingSpace = ({ isLogged }) => {
       let result = []
       for (let i = 0; i < registFileParkingspace.thumnail.length; i++) {
         console.log(12, typeof registFileParkingspace.thumnail.item(i).name)
-        result += `${registFileParkingspace.thumnail.item(i).name}`
+        result.push(`${registFileParkingspace.thumnail.item(i).name}`)
       }
       return result
     }
@@ -239,8 +239,11 @@ const RegistParkingSpace = ({ isLogged }) => {
     return (
       <>
         <h3>등록하실 주차장의 사진을 등록해주세요.</h3>
-        <label htmlFor='thumnail'>
-          <div>사진 업로드</div>
+        <label className='filebutton' htmlFor='thumnail'>
+          <div>
+          <FaUpload />
+            사진 업로드
+            </div>
         </label>
         <input
           type={'file'}
@@ -256,7 +259,12 @@ const RegistParkingSpace = ({ isLogged }) => {
           }
         />
         <div className='inputFiles'>
-          {registFileParkingspace.thumnail !== null ? getFiles() : null}
+          {registFileParkingspace.thumnail !== null ? getFiles().slice(0, 5).map((v) => (
+            <div><FaFile /> {v}</div>
+          )) : null}
+          {registFileParkingspace.thumnail !== null && getFiles().length > 5 && (
+            <div>+{getFiles().length - 5}...</div>
+          )}
         </div>
         <div className='btnGroup'>
           <button onClick={() => setPage(page - 1)}>
@@ -274,8 +282,8 @@ const RegistParkingSpace = ({ isLogged }) => {
     return (
       <>
         <h3>등록하실 주차장의 소유를 증명할 파일을 등록해주세요.</h3>
-        <label htmlFor='ownershipDocs'>
-          <div>파일 업로드</div>
+        <label className="filebutton" htmlFor='ownershipDocs'>
+          <div><FaUpload /> 파일 업로드</div>
         </label>
         <input
           type={'file'}
@@ -288,6 +296,9 @@ const RegistParkingSpace = ({ isLogged }) => {
             })
           }
         />
+        <div className='inputFiles'>
+          {registFileParkingspace.ownerDocs !== null && <div><FaFile /> {registFileParkingspace.ownerDocs[0].name}</div>}
+        </div>
         <div className='btnGroup'>
           <button onClick={() => setPage(page - 1)}>
             <FaArrowLeft />

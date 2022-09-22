@@ -756,3 +756,29 @@ html, body{
     }
   }
 }
+
+.filebutton {
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+
+  div {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 0px;
+    border: #7748fa dashed 2px;
+    background-color: #7748fa33;
+    border-radius: 5px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.inputFiles {
+  div {
+    padding: 3px 5px;
+  }
+}
