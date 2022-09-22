@@ -130,14 +130,15 @@ const Order = () => {
         <form onSubmit={onSubmit}>
           <h3>결제할 주차장</h3>
           <p>{space.name} ({address})</p>
-          <p></p>
-          <label htmlFor='car'>차량</label>
+          
+          <label htmlFor='car'>차량</label><br/>
           <select>
             {cars.length < 1 && <option>등록된 차량이 없습니다.</option>}
             {cars.map(car => (
               <option value={car.id}>{car.alias} ({car.num})</option>
             ))}
           </select>
+
           <DatePicker onChange={changeStartDate} selected={startDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <DatePicker onChange={changeEndDate} selected={endDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <button type={'button'} onClick={() => setShowMethodModal(true)}>결제 단수</button>

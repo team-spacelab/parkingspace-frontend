@@ -44,6 +44,7 @@ const KakaoMap = () => {
               lat: position.coords.latitude, // 위도
               lng: position.coords.longitude // 경도
             },
+            level: 2,
             isLoading: false
           }))
         },
@@ -148,7 +149,7 @@ const KakaoMap = () => {
     <>
       <SearchBar
         map={state}
-        setMap={(lat, lng) => setState({ ...state, center: { lat, lng } })}
+        setMap={(lat, lng) => setState({ ...state, center: { lat, lng }, level: 2 })}
       />
       <div className='kakaomap'>
         <ParkingspaceInfoModal
