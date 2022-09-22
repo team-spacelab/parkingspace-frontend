@@ -8,7 +8,7 @@ import {
   FaRegClock,
   FaQrcode,
   FaXing,
-  FaExclamationCircle
+  FaExclamationCircle,
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
@@ -16,7 +16,9 @@ const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
   const [address, setAddress] = useState([])
 
   const getAdress = async () => {
-    const addresses = await Promise.all(parkInfo.map((v) => getAddressPromise(v)))
+    const addresses = await Promise.all(
+      parkInfo.map((v) => getAddressPromise(v))
+    )
     console.log(addresses)
     setAddress(addresses)
   }
@@ -44,34 +46,35 @@ const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
 
   return (
     <>
-      <Sheet isOpen={showModal} onClose={() => setShowModal(false)} snapPoints={[850, 650]} initialSnap={ 1 }>
-        <Sheet.Container >
+      <Sheet
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        snapPoints={[850, 650]}
+        initialSnap={1}
+      >
+        <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            <div className="searchmodal">
+            <div className='searchmodal'>
               {!parkInfo.length && (
-                <div className="notfound">
-                  <div className="icon">
+                <div className='notfound'>
+                  <div className='icon'>
                     <FaExclamationCircle />
                   </div>
-                  <div>
-                    검색 결과가 없습니다.
-                  </div>
-                  <button onClick={() => setShowModal(false)}>
-                    닫기
-                  </button>
+                  <div>검색 결과가 없습니다.</div>
+                  <button onClick={() => setShowModal(false)}>닫기</button>
                 </div>
               )}
               {parkInfo.map((v) => (
-                <div className="result">
-                  <div className="info">
-                    <div className="name">{v.name}</div>
-                    <div className="price"><strong>{v.defaultCost * 2}</strong>원/시간</div>
+                <div className='result'>
+                  <div className='info'>
+                    <div className='name'>{v.name}</div>
+                    <div className='price'>
+                      <strong>{v.defaultCost}</strong>원/30분
+                    </div>
                   </div>
 
-                  <button onClick={onClick(v.id)}>
-                    이동하기
-                  </button>
+                  <button onClick={onClick(v.id)}>이동하기</button>
                 </div>
               ))}
             </div>

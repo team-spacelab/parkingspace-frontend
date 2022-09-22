@@ -194,7 +194,7 @@ const RegistParkingSpace = ({ isLogged }) => {
             setPage(page)
           }
         } else {
-            toast.error('정확한 주소를 입력해주세요.')
+          toast.error('정확한 주소를 입력해주세요.')
         }
       })
     } catch (error) {
@@ -382,7 +382,7 @@ const RegistParkingSpace = ({ isLogged }) => {
             취소
           </button>
           <Link
-            to={'/registParkingspaceResult'}
+            to={'/registParkingspaceResultspace'}
             ref={btnRef}
             state={{ result: result }}
           />

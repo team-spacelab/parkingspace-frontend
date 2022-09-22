@@ -7,16 +7,16 @@ const ParkingSpace = () => {
   const [isLoading, setIsLoading] = useState(1)
   const [parkingspace, setParkingspace] = useState({
     data: {
-      spaces: []
-    }
+      spaces: [],
+    },
   })
   const getMyParkingspcae = () => {
     fetch('/api/space/v1/spaces/@me', {
       method: 'GET',
       headers: {
         Accept: '*/*',
-        'Access-Control-Allow-Origin': 'no-cors'
-      }
+        'Access-Control-Allow-Origin': 'no-cors',
+      },
     })
       .then((res) => res.json())
       .then((res) => setParkingspace(res))
@@ -37,8 +37,7 @@ const ParkingSpace = () => {
   return (
     <>
       <Header />
-      <div className='parkingspace'>
-        <div className='park-card'></div>
+      <div className='parkingspace' style={{ overflowY: 'scroll' }}>
         {parkingspace.data.spaces.map((item) => {
           return (
             <Link to='/parkingspaceDetail' state={{ spaceId: item.id }}>
