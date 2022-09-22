@@ -114,6 +114,20 @@ const KakaoMap = () => {
     }, 500)
   }
 
+  async function parseQR () {
+    const url = new URL(window.location.href)
+    const spaceId = url.searchParams.get('spaceId')
+
+    if (spaceId){
+      const data = await fetch('/api/space/v1/spaces/' + parseInt(spaceId)).then((res) => res.json())
+      if (data.success) {
+        onClick(data.data.space)
+      }
+    }
+  }
+
+  useEffect(() => parseQR(), [])
+
   const onPlus = () => {
     setState((prev) => ({
       ...prev,
