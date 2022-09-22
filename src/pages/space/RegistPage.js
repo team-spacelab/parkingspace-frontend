@@ -18,12 +18,12 @@ const RegistParkingSpace = ({ isLogged }) => {
     defaultCost: 3000,
     timeUnit: 30, // 30분당 가격 체크
     type: 'MANUALLY',
-    description: '' // 주차장 설명
+    description: '', // 주차장 설명
     // file: null,
   })
   const [registFileParkingspace, setRegistFileParkingSpace] = useState({
     thumnail: null,
-    ownerDocs: null
+    ownerDocs: null,
   })
   const [inputAddress, setInputAddress] = useState('')
   // 입력값이 다음 컴포넌트에 넘어가는 일 방지
@@ -60,7 +60,7 @@ const RegistParkingSpace = ({ isLogged }) => {
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'no-cors'
+        'Access-Control-Allow-Origin': 'no-cors',
       },
       body: JSON.stringify(registParkingSpace),
     }).then((res) => res.json())
@@ -120,8 +120,12 @@ const RegistParkingSpace = ({ isLogged }) => {
     if (typeof data === 'number') {
       setPage(page + 1)
     } else if (typeof data === 'string') {
+      if (key == 'name' && data) {
+        toast.error('주차장 이름은 5글자 이상이여야 합니다.')
+        return false
+      }
       if (data === '' || (data === 'address' && inputAddress === '')) {
-        toast.info('정보를 입력해주세요')
+        toast.error('정보를 입력해주세요')
         return false
       }
       setPage(page + 1)
@@ -156,7 +160,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              name: e.target.value
+              name: e.target.value,
             })
           }
         />
@@ -183,7 +187,7 @@ const RegistParkingSpace = ({ isLogged }) => {
             setRegistParkingspace({
               ...registParkingSpace,
               lat: result[0].y * 1,
-              lng: result[0].x * 1
+              lng: result[0].x * 1,
             })
             setPage(page + 1)
           } else {
@@ -241,9 +245,9 @@ const RegistParkingSpace = ({ isLogged }) => {
         <h3>등록하실 주차장의 사진을 등록해주세요.</h3>
         <label className='filebutton' htmlFor='thumnail'>
           <div>
-          <FaUpload />
+            <FaUpload />
             사진 업로드
-            </div>
+          </div>
         </label>
         <input
           type={'file'}
@@ -254,17 +258,22 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistFileParkingSpace({
               ...registFileParkingspace,
-              thumnail: e.target.files
+              thumnail: e.target.files,
             })
           }
         />
         <div className='inputFiles'>
-          {registFileParkingspace.thumnail !== null ? getFiles().slice(0, 5).map((v) => (
-            <div><FaFile /> {v}</div>
-          )) : null}
-          {registFileParkingspace.thumnail !== null && getFiles().length > 5 && (
-            <div>+{getFiles().length - 5}...</div>
-          )}
+          {registFileParkingspace.thumnail !== null
+            ? getFiles()
+                .slice(0, 5)
+                .map((v) => (
+                  <div>
+                    <FaFile /> {v}
+                  </div>
+                ))
+            : null}
+          {registFileParkingspace.thumnail !== null &&
+            getFiles().length > 5 && <div>+{getFiles().length - 5}...</div>}
         </div>
         <div className='btnGroup'>
           <button onClick={() => setPage(page - 1)}>
@@ -282,8 +291,10 @@ const RegistParkingSpace = ({ isLogged }) => {
     return (
       <>
         <h3>등록하실 주차장의 소유를 증명할 파일을 등록해주세요.</h3>
-        <label className="filebutton" htmlFor='ownershipDocs'>
-          <div><FaUpload /> 파일 업로드</div>
+        <label className='filebutton' htmlFor='ownershipDocs'>
+          <div>
+            <FaUpload /> 파일 업로드
+          </div>
         </label>
         <input
           type={'file'}
@@ -292,12 +303,16 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistFileParkingSpace({
               ...registFileParkingspace,
-              ownerDocs: e.target.files
+              ownerDocs: e.target.files,
             })
           }
         />
         <div className='inputFiles'>
-          {registFileParkingspace.ownerDocs !== null && <div><FaFile /> {registFileParkingspace.ownerDocs[0].name}</div>}
+          {registFileParkingspace.ownerDocs !== null && (
+            <div>
+              <FaFile /> {registFileParkingspace.ownerDocs[0].name}
+            </div>
+          )}
         </div>
         <div className='btnGroup'>
           <button onClick={() => setPage(page - 1)}>
@@ -322,7 +337,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              defaultCost: e.target.value * 1
+              defaultCost: e.target.value * 1,
             })
           }
         />
@@ -351,7 +366,7 @@ const RegistParkingSpace = ({ isLogged }) => {
           onChange={(e) =>
             setRegistParkingspace({
               ...registParkingSpace,
-              description: e.target.value
+              description: e.target.value,
             })
           }
         ></textarea>
@@ -382,7 +397,7 @@ const RegistParkingSpace = ({ isLogged }) => {
     costInput(),
     parkingspaceThumnailInput(),
     ownershipDocsInput(),
-    descInput()
+    descInput(),
   ]
 
   return (

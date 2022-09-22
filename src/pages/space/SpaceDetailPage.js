@@ -5,7 +5,7 @@ import {
   FaParking,
   FaCoins,
   FaShareAltSquare,
-  FaStoreSlash
+  FaStoreSlash,
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 
@@ -23,9 +23,9 @@ const ParkingSpaceDetail = () => {
         lng: 0,
         defaultCost: 0,
         type: 1,
-        status: 0
-      }
-    }
+        status: 0,
+      },
+    },
   })
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const ParkingSpaceDetail = () => {
         <div
           className='image'
           style={{
-            backgroundImage: `url(${imgUrl})`
+            backgroundImage: `url(${imgUrl})`,
           }}
         />
         <div className='detailInfo'>
@@ -61,13 +61,11 @@ const ParkingSpaceDetail = () => {
           </p>
           <p>
             <FaShareAltSquare /> 대여 상태 :{' '}
-            {spaceInfo.data.space.status
-              ? (
+            {spaceInfo.data.space.status ? (
               <span className='greenBtn'>승인 됨</span>
-                )
-              : (
+            ) : (
               <span className='redBtn'>승인 대기 중</span>
-                )}
+            )}
           </p>
           <p className='warning'>
             <FaStoreSlash /> 주차장 삭제하기

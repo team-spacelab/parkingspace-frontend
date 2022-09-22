@@ -6,7 +6,7 @@ import {
   FaCoins,
   FaShareAltSquare,
   FaStar,
-  FaStoreSlash
+  FaStoreSlash,
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -25,10 +25,26 @@ const ParkingSpaceDetail = () => {
         lng: 0,
         defaultCost: 0,
         type: 1,
-        status: 0
-      }
-    }
+        status: 0,
+      },
+    },
   })
+
+  const getAdress = async () => {
+    const geocoder = new kakao.maps.services.Geocoder()
+    geocoder.coord2Address(
+      spaceInfo.data.space.lng,
+      spaceInfo.data.space.lat,
+      (result, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          setAddress(result[0].address.address_name)
+        }
+      }
+    )
+  }
+  useEffect(() => {
+    getAdress()
+  }, [])
 
   useEffect(() => {
     fetch(`/api/space/v1/spaces/${data.spaceId}`)
@@ -41,22 +57,27 @@ const ParkingSpaceDetail = () => {
   }, [data])
 
   const delParkingspace = () => {
-    fetch(`/api/space/v1/spaces/${data.spaceId}`, {
-      method: 'DELETE',
-    })
-      .then(() => (window.location.href = '/parkingspace'))
-      .then(() => {
-        toast.remove()
-        toast.success('주차장을 삭제하였습니다.', {
-          style: { marginBottom: '80px' },
-        })
+    const doParkingspaceDelete =
+      window.confirm('정말 주차장을 삭제하시겠습니까?')
+
+    if (doParkingspaceDelete) {
+      fetch(`/api/space/v1/spaces/${data.spaceId}`, {
+        method: 'DELETE',
       })
-      .catch(() => {
-        toast.remove()
-        toast.error('주차장을 가져올 수 없습니다.', {
-          style: { marginBottom: '80px' },
+        .then(() => (window.location.href = '/parkingspace'))
+        .then(() => {
+          toast.remove()
+          toast.success('주차장을 삭제하였습니다.', {
+            style: { marginBottom: '80px' },
+          })
         })
-      })
+        .catch(() => {
+          toast.remove()
+          toast.error('주차장을 가져올 수 없습니다.', {
+            style: { marginBottom: '80px' },
+          })
+        })
+    }
   }
 
   return (
@@ -85,15 +106,13 @@ const ParkingSpaceDetail = () => {
           </p>
           <p>
             <FaShareAltSquare /> 대여 상태 :{' '}
-            {spaceInfo.data.space.status
-              ? (
+            {spaceInfo.data.space.status ? (
               <span className='greenBtn'>승인 됨</span>
-                )
-              : (
+            ) : (
               <span className='redBtn'>승인 대기 중</span>
-                )}
+            )}
           </p>
-          *<p className='warning' onClick={delParkingspace}>
+          <p className='warning' onClick={delParkingspace}>
             <FaStoreSlash /> 주차장 삭제하기
           </p>
         </div>

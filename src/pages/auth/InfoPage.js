@@ -1,8 +1,4 @@
-import {
-  FaUserCircle,
-  FaSignInAlt,
-  FaUserAltSlash
-} from 'react-icons/fa'
+import { FaUserCircle, FaSignInAlt, FaUserAltSlash } from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
 import { useEffect, useState } from 'react'
@@ -15,7 +11,7 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
 
   useEffect(() => {
     getUserInfo()
-  }, [getUserInfo])
+  }, [])
 
   useEffect(() => {
     console.log(userInfo)
@@ -37,8 +33,8 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
       fetch('api/auth/v1/users/@me', {
         method: 'DELETE',
         body: JSON.stringify({
-          password: doUserDelete
-        })
+          password: doUserDelete,
+        }),
       })
         .then((response) => response.json())
         .then((data) => {
@@ -100,17 +96,17 @@ const MyInfo = ({ userInfo, getUserInfo }) => {
         </p>
           */}
 
-      <p className='warning' onClick={() => logout()}>
-        <FaSignInAlt />
-        &nbsp;<span>로그아웃</span>
-      </p>
-      <p className='warning' onClick={() => userDelete()}>
-        <FaUserAltSlash />
-        &nbsp;<span>회원탈퇴</span>
-      </p>
-      <BottomTab />
-    </div>
-  </>
+        <p className='warning' onClick={() => logout()}>
+          <FaSignInAlt />
+          &nbsp;<span>로그아웃</span>
+        </p>
+        <p className='warning' onClick={() => userDelete()}>
+          <FaUserAltSlash />
+          &nbsp;<span>회원탈퇴</span>
+        </p>
+        <BottomTab />
+      </div>
+    </>
   )
 }
 
