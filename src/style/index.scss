@@ -152,6 +152,7 @@ html, body{
     }
   }
 }
+/*
 .login, .register {
   p {
     color: rgb(117, 116, 116);
@@ -199,6 +200,7 @@ html, body{
     }
   }
 }
+*/
 .parkingspace {
   .addPark {
     width: 92%;
@@ -814,31 +816,5 @@ html, body{
 .inputFiles {
   div {
     padding: 3px 5px;
-  }
-}
-.registCar {
-  overflow: hidden;
-  label {
-    display: block;
-    color: rgb(99, 99, 99);
-  }
-  input {
-    margin-bottom: 14px;
-    padding: 3px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    display: block;
-    width: 100%;
-  }
-  button[type=submit] {
-    width: 100%;
-    background-color: $theme-color;
-    border-radius: 5px;
-    padding: 8px;
-    margin-bottom: 0px;
-    font-size: 1em;
-    font-weight: 500;
-    color: white;
-    cursor: pointer;
   }
 }

@@ -1,6 +1,24 @@
 $theme-color: #8254C4;
 
 .component {
+  overflow: hidden;
+  label {
+    display: block;
+    color: rgb(99, 99, 99);
+  }
+  input {
+    margin-bottom: 14px;
+    padding: 3px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    width: 100%;
+  }
+  .subLink {
+    text-align: center;
+      color: rgba(0, 0, 0, 0.322);
+      font-size: 0.8em;
+  }
   .goBackBtn {
     color: rgb(117, 116, 116);
     font-size: 0.8em;
@@ -37,3 +55,4 @@ $theme-color: #8254C4;
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.35);
   }
 }
+

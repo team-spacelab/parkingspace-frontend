@@ -1,6 +1,6 @@
 import '../style/component.scss'
-
-const Layout = ({ title, onSubmit, buttonText, children }) => {
+import { Link } from 'react-router-dom'
+const Layout = ({ title, onSubmit, buttonText, children, subLink }) => {
   return (
     <div className='component'>
       <div>
@@ -10,9 +10,12 @@ const Layout = ({ title, onSubmit, buttonText, children }) => {
         <h2 className='title'>{title}</h2>
         {children}
       </div>
-      <button type='submit' onClick={onSubmit}>
-        {buttonText}
-      </button>
+      <div>
+        <button type='submit' onClick={onSubmit}>
+          {buttonText}
+        </button>
+        <p className='subLink'>{subLink()}</p>
+      </div>
     </div>
   )
 }
