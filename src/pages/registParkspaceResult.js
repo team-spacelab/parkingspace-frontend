@@ -5,7 +5,7 @@ import Loading from '../components/Loading'
 
 const RegistParkingSpaceResult = () => {
   const state = useLocation().state
-  const [isFinished, setIsFinished] = useState(0)
+  const [isFinished, setIsFinished] = useState(1)
   const navigate = useNavigate()
   useEffect(() => {
     //  fetch
@@ -20,22 +20,20 @@ const RegistParkingSpaceResult = () => {
         costDiffrence: 0, // 고정
       }),
     })
-      .then(() => setIsFinished(1))
       .catch(() => {
         toast.remove()
         toast.error('주차장 등록에 실패하였습니다.')
       })
+      .then(() => {
+        toast.remove()
+        toast.success('주차장을 등록하였습니다.', {
+          style: { marginBottom: '80px' },
+        })
+        navigate('/parkingspace')
+      })
   }, [state])
-  if (isFinished) {
-    toast.remove()
-    toast.success('주차장을 등록하였습니다.', {
-      style: { marginBottom: '80px' },
-    })
-    navigate('/parkingspace')
-    return <Loading />
-  } else {
-    return <Loading />
-  }
+
+  return <Loading />
 }
 
 export default RegistParkingSpaceResult
