@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import Component from '../../components/Component'
+import Layout from '../../components/Layout'
 const RegistCar = () => {
   const [formData, setFormData] = useState({
     alias: '',
@@ -9,6 +9,16 @@ const RegistCar = () => {
   })
 
   const fetchRegistCar = async () => {
+    if (formData.alias.length < 2) {
+      toast.error('자동차 별칭은 2자 이상이여야 합니다.')
+      return
+    }
+
+    if (formData.number.length < 7) {
+      toast.error('자동차 번호는 7자 이상이여야 합니다.')
+      return
+    }
+
     const fetchData = await fetch(`/api/auth/v1/cars/@me`, {
       method: 'POST',
       headers: {
@@ -25,9 +35,9 @@ const RegistCar = () => {
 
   return (
     <>
-      <Component title={`자동차를 등록하고${'\n'}주차장을 대여하세요`}>
+      <Layout title={`자동차를 등록하고${'\n'}주차장을 대여하세요`} onSubmit={fetchRegistCar} buttonText={'자동차 등록'}>
         <div className='registCar'>
-          <label>자동차 차종</label>
+          <label>자동차 별칭</label>
           <input
             onChange={(e) =>
               setFormData({
@@ -47,11 +57,8 @@ const RegistCar = () => {
             }
             placeholder='ex) 31가 5884'
           />
-          <button type='submit' onClick={fetchRegistCar}>
-            자동차 등록
-          </button>
         </div>
-      </Component>
+      </Layout>
     </>
   )
 }

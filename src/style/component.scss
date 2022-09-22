@@ -5,18 +5,35 @@ $theme-color: #8254C4;
     color: rgb(117, 116, 116);
     font-size: 0.8em;
     font-weight: 500;
+    cursor: pointer;
     //margin: 0px 0px 2em;
   }
   padding: 13px 14px;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  height: 100vh;
   box-sizing: border-box;
   .title {
     white-space: pre-line;
     color: $theme-color;
-    font-weight: 600;
-    //line-height: 45px;
-    font-size: 1.5em;
+    font-weight: 800;
+    // line-height: 30px;
+    font-size: 1.8em;
     margin: 10px  0px 32px 0px;
+  }
+
+  button {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 0px;
+    border: none;
+    background-color: $theme-color;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.35);
   }
 }
