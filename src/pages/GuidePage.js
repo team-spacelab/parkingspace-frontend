@@ -1,5 +1,11 @@
 import { useRef, useState } from 'react'
-import { FaAngleLeft, FaAngleRight, FaCheck, FaHandshake, FaMoneyBill } from 'react-icons/fa'
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaCheck,
+  FaHandshake,
+  FaMoneyBill,
+} from 'react-icons/fa'
 import mapPage from '../assets/map.png'
 import myPage from '../assets/My.png'
 import parkingspacePage from '../assets/parkingspace.png'
@@ -9,7 +15,6 @@ import '../style/guide.scss'
 const Guide = ({ setGuide }) => {
   const [page, setPage] = useState(0)
   const [purpose, setPurpose] = useState(0)
-  const guideWindow = useRef()
 
   const completeGuide = () => {
     const doComplete = window.confirm('가이드를 종료하시겠습니까?')
@@ -35,21 +40,33 @@ const Guide = ({ setGuide }) => {
       </div>
     )
   }
-  
+
   const setMainPage = () => {
     return (
       <div className='select container' key={'select'}>
-        <h2>서비스를 이용하시는<br/>목적을 선택해주세요</h2>
-        <small><b>마이페이지 &gt; 메인페이지</b> 에서 변경하실수 있습니다.</small>
+        <h2>
+          서비스를 이용하시는
+          <br />
+          목적을 선택해주세요
+        </h2>
+        <small>
+          <b>마이페이지 &gt; 메인페이지</b> 에서 변경하실수 있습니다.
+        </small>
         <div className='selectBox'>
-          <button className={'selectItem ' + (!purpose && 'selected')} onClick={() => setPurpose(0)}>
+          <button
+            className={'selectItem ' + (!purpose && 'selected')}
+            onClick={() => setPurpose(0)}
+          >
             <div className='selectTitle'>
               <FaHandshake />
               <h3>대여</h3>
             </div>
             <p>등록된 주차장을 예약하고 주차장을 이용</p>
           </button>
-          <button className={'selectItem ' + (purpose && 'selected') } onClick={() => setPurpose(1)}>
+          <button
+            className={'selectItem ' + (purpose && 'selected')}
+            onClick={() => setPurpose(1)}
+          >
             <div className='selectTitle'>
               <FaMoneyBill />
               <h3>차용</h3>
@@ -89,7 +106,11 @@ const Guide = ({ setGuide }) => {
   }
   const myInfoGuide = () => {
     return (
-      <div className='guidePage container' key={'myInfoGuide'} onClick={completeGuide}>
+      <div
+        className='guidePage container'
+        key={'myInfoGuide'}
+        onClick={completeGuide}
+      >
         <h2>내 정보 페이지</h2>
         <img src={myPage} alt='주차장 페이지 예시' />
         <ul>
@@ -104,7 +125,13 @@ const Guide = ({ setGuide }) => {
     )
   }
 
-  const guideList = [Intro(), setMainPage(), mapGuide(), parkingspaceGuide(), myInfoGuide()]
+  const guideList = [
+    Intro(),
+    setMainPage(),
+    mapGuide(),
+    parkingspaceGuide(),
+    myInfoGuide(),
+  ]
 
   const scrollNext = () => {
     if (page > 2) {
@@ -112,26 +139,22 @@ const Guide = ({ setGuide }) => {
       return
     }
     setPage(page + 1)
-
-    guideWindow.current.scrollLeft += window.innerWidth
   }
   const scrollPrev = () => {
     setPage(page - 1)
-
-    guideWindow.current.scrollLeft -= window.innerWidth
   }
 
   return (
     <div className='Guide'>
       <div className='guideWindow'>
-        <div className='guideContainer'>
-          { guideList[page] }
-        </div>
+        <div className='guideContainer'>{guideList[page]}</div>
       </div>
       <div className='skipContainer'>
-        { page > 0 && <span onClick={scrollPrev}>
-          <FaAngleLeft />
-        </span> }
+        {page > 0 && (
+          <span onClick={scrollPrev}>
+            <FaAngleLeft />
+          </span>
+        )}
         <span onClick={scrollNext}>
           {page < 3 ? <FaAngleRight /> : <FaCheck />}
         </span>
