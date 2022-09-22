@@ -1,8 +1,16 @@
 import { loadBrandPay } from '@tosspayments/brandpay-sdk'
 import { useEffect, useState } from 'react'
 import Loading from './Loading'
+import toast from 'react-hot-toast'
 
-const Pay = ({ userId, orderId, orderName, amount }) => {
+const confirmError = {
+  'ORDER_NOTFOUND': '주문을 찾을 수 없습니다.',
+  'ORDER_UNAVAILABLE': '주문을 찾을 수 없습니다.',
+  'ORDER_ALREADY_CONFIRMED': '이미 결제가 완료된 주문입니다.',
+  'ORDER_TEMPARING': '주문을 찾을 수 없습니다.'
+}
+
+const Pay = ({ userId, orderId, orderName, amount, method }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [brandPay, setBrandPay] = useState(null)
 
@@ -33,9 +41,10 @@ const Pay = ({ userId, orderId, orderName, amount }) => {
       brandPay.requestPayment({
         amount,
         orderId,
-        orderName
-      }).then((res) => {
-        fetch('/api/payments/v1/order/confirm', 'POST', {
+        orderName,
+        methodId: method
+      }).then(async (res) => {
+        const response = await fetch('/api/payments/v1/order/confirm', 'POST', {
           headers: {
             'Content-Type': 'application/json'
           },
@@ -45,9 +54,19 @@ const Pay = ({ userId, orderId, orderName, amount }) => {
             paymentId: res.paymentId
           })
         })
-        window.location.href = '/'
-      }).catch((err) => {
-        alert('결제가 취소되었습니다.')
+        const data = await response.json()
+        if (data.success) {
+          toast.success('결제가 완료되었습니다.')
+          window.location.href = '/myinfo'
+        } else {
+          toast.error(confirmError[data.reason] || '결제를 완료할 수 없습니다.')
+          window.location.href = '/'
+        }
+      }).catch(async (err) => {
+        if (err.code === 'USER_CANCEL') {
+          toast.error('결제를 취소했습니다.')
+        }
+        await fetch('/api/payments/v1/order/' + orderId, 'DELETE')
         window.location.href = '/'
       })
     }
