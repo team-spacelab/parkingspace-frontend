@@ -56,7 +56,7 @@ const Register = () => {
   return (
     <Layout
       subLink={subLink}
-      title={`정보를 입력하고${'\n'}버튼을 눌러 회원가입해주세요`}
+      title={`회원가입 하고 ${'\n'}모든 서비스를 이용하세요`}
       onSubmit={onSubmit}
       buttonText={'회원가입'}
     >

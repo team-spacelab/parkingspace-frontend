@@ -41,13 +41,7 @@ const Login = ({ setIsLogged }) => {
     else toast.error(Error[response.reason])
   }
 
-  const subLink = () => {
-    return (
-      <>
-        <Link to={'/register'}>계정이 없으신가요? 회원가입</Link>
-      </>
-    )
-  }
+  const subLink = <Link to={'/register'}>계정이 없으신가요? 회원가입</Link>
 
   return (
     <Layout
