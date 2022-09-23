@@ -38,7 +38,7 @@ const Order = () => {
   const [point, setPoint] = useState(0)
 
   // Cars
-  const [cars, setCars] = useState([])
+  const [cars, setCars] = useState()
   const [selectedCar, setSelectedCar] = useState(null)
 
   // Methods
@@ -63,7 +63,7 @@ const Order = () => {
       .then(data => {
         if (!data.success) return
         setCars(data.data.cars)
-        if (data.data.cars.length === 1) setSelectedCar(data.data.cars[0].id)
+        if (data.data.cars.length > 0) setSelectedCar(data.data.cars[0].id)
       })
 
   const fetchMe = () =>
@@ -102,7 +102,6 @@ const Order = () => {
       return
     }
     setStartDate(date)
-    setPrice(Math.floor((endDate.getTime() - startDate.getTime()) / (space.timeUnit * 60 * 1000) * space.defaultCost) - point)
   }
 
   function changeEndDate (date) {
@@ -115,8 +114,13 @@ const Order = () => {
       return
     }
     setEndDate(date)
-    setPrice(Math.floor((endDate.getTime() - startDate.getTime()) / (space.timeUnit * 60 * 1000) * space.defaultCost) - point)
   }
+
+  useEffect(() => {
+    if (endDate && startDate) {
+      setPrice(Math.floor((endDate.getTime() - startDate.getTime()) / (space.timeUnit * 60 * 1000) * space.defaultCost) - point)
+    }
+  }, [startDate, endDate, space.timeUnit, space.defaultCost, point])
 
   useEffect(() => {
     fetchSpace()
@@ -135,39 +139,42 @@ const Order = () => {
   const onSubmit = async () => {
     console.log(userData)
     if (!startDate || !endDate) return toast.error('시작 시간과 종료 시간을 선택해주세요.')
+    if (startDate === endDate) return toast.error('시작 시간과 종료 시간이 같습니다.')
     if (!selectedCar) return toast.error('차량을 선택해주세요.')
     if (!selectedMethod) return toast.error('결제 수단을 선택해주세요.')
     if (price < 0) return toast.error('포인트가 결제 금액보다 많습니다.')
     if (point > userData.point) return toast.error('포인트가 부족합니다.')
 
-    window.location.href = '/'
+    // window.location.href = '/'
+    const endat = new Date(endDate.getTime() + 32400000)
+    const startat = new Date(startDate.getTime() + 32400000)
   
-    // const res = await fetch('/api/payments/v1/order', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     point,
-    //     zone: zoneId,
-    //     method: payments.cards.concat(payments.accounts).find((method) => method.id === selectedMethod).accountName ? 1 : 0,
-    //     car: selectedCar,
-    //     startat: startDate,
-    //     endat: endDate
-    //   })
-    // })
-    // const data = await res.json()
-    // if (!data.success) return toast.error(OrderError[data.reason])
-    // if (data.data.orderAmount !== price) {
-    //   await fetch('/api/payments/v1/order/' + data.data.orderId, {
-    //     method: 'DELETE'
-    //   })
-    //   return toast.error('결제 금액이 일치하지 않습니다.')
-    // }
+    const res = await fetch('/api/payments/v1/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        point,
+        zone: zoneId,
+        method: payments.cards.concat(payments.accounts).find((method) => method.id === selectedMethod).accountName ? 1 : 0,
+        car: selectedCar,
+        startat,
+        endat
+      })
+    })
+    const data = await res.json()
+    if (!data.success) return toast.error(OrderError[data.reason])
+    if (data.data.orderAmount !== price) {
+      await fetch('/api/payments/v1/order/' + data.data.orderId, {
+        method: 'DELETE'
+      })
+      return toast.error('결제 금액이 일치하지 않습니다.')
+    }
 
 
-    // setOrderId(data.data.orderId)
-    // setOrder(true)
+    setOrderId(data.data.orderId)
+    setOrder(true)
   }
 
   return (
@@ -186,17 +193,17 @@ const Order = () => {
           
           <label htmlFor='car'>차량</label><br/>
           <select onChange={(e) => setCars(e.target.value)}>
-            {cars.length < 1 && <option>등록된 차량이 없습니다.</option>}
-            {cars.map(car => (
+            {cars.length < 1 && <option disabled>등록된 차량이 없습니다.</option>}
+            {cars.length > 0 ? cars.map(car => (
               <option value={car.id}>{car.alias} ({car.num})</option>
-            ))}
+            )) : null}
           </select>
 
           <DatePicker onChange={changeStartDate} selected={startDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <DatePicker onChange={changeEndDate} selected={endDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
           <button type={'button'} onClick={() => setShowMethodModal(true)}>결제 수단</button>
           <div className='button_area'>
-            {order && <Pay amount={price} orderName={'[파킹스페이스] ' + space.name} orderId userId={userData.id} method={payments.cards.concat(payments.accounts).find((method) => method.id === selectedMethod).methodKey} />}
+            {order && <Pay amount={price} orderName={'[파킹스페이스] ' + space.name} orderId={orderId} userId={userData.id} method={selectedMethod} />}
           </div>
         </form>
       </Layout>

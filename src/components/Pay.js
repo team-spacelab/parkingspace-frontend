@@ -43,31 +43,35 @@ const Pay = ({ userId, orderId, orderName, amount, method }) => {
         orderId,
         orderName,
         methodId: method
-      }).then(async (res) => {
-        const response = await fetch('/api/payments/v1/order/confirm', 'POST', {
+      }).then(async (callback) => {
+        const confirm = await fetch('/api/payments/v1/order/confirm', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             orderId,
-            amount,
-            paymentId: res.paymentId
+            amount: callback.amount,
+            paymentKey: callback.paymentKey
           })
-        })
-        const data = await response.json()
-        if (data.success) {
+        }).then(res => res.json())
+
+        if (confirm.success) {
           toast.success('결제가 완료되었습니다.')
           window.location.href = '/myinfo'
         } else {
-          toast.error(confirmError[data.reason] || '결제를 완료할 수 없습니다.')
+          toast.error(confirmError[confirm.reason] || '결제를 완료할 수 없습니다.')
           window.location.href = '/'
         }
       }).catch(async (err) => {
+        console.log(err)
         if (err.code === 'USER_CANCEL') {
           toast.error('결제를 취소했습니다.')
         }
-        await fetch('/api/payments/v1/order/' + orderId, 'DELETE')
-        window.location.href = '/'
+        const deleted = await fetch('/api/payments/v1/order/' + orderId, { method: 'DELETE' })
+        if (deleted.success) {
+          window.location.href = '/'
+        }
       })
     }
   }, [brandPay, amount, orderId, orderName, method])
