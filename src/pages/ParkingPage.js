@@ -5,13 +5,8 @@ import BottomTab from '../components/BottomTab'
 import Header from '../components/Header'
 import Loading from '../components/Loading'
 const ParkingSpace = () => {
-  const [isLoading, setIsLoading] = useState(1)
-  const [parkingspace, setParkingspace] = useState({
-    data: {
-      spaces: [],
-    },
-  })
-  const getMyParkingspcae = () => {
+  const [parkingspace, setParkingspace] = useState()
+  const getMyParkingspace = () => 
     fetch('/api/space/v1/spaces/@me', {
       method: 'GET',
       headers: {
@@ -22,22 +17,18 @@ const ParkingSpace = () => {
       .then((res) => res.json())
       .then((res) => setParkingspace(res))
       .catch((err) => console.log(1, err))
-  }
+
   useEffect(() => {
-    // 내 추자장 목록을 가져옴
-    setIsLoading(1)
-    getMyParkingspcae()
-    setIsLoading(0)
+    getMyParkingspace()
   }, [])
 
   useEffect(() => {
     console.log(parkingspace)
   }, [parkingspace])
 
-  if (isLoading) return <Loading />
+  if (!parkingspace) return <Loading />
   return (
     <>
-      <Header />
       <div className='parkingspace' style={{ overflowY: 'scroll' }}>
         {parkingspace.data.spaces.map((item) => {
           return (

@@ -1,16 +1,15 @@
 /* global kakao */
 import React, { useEffect, useRef, useState } from 'react'
-import { FaArrowRight, FaArrowLeft, FaUpload, FaFile } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import BottomTab from '../../components/BottomTab'
-import Header from '../../components/Header'
-import Loading from '../../components/Loading'
+import { FaUpload, FaFile } from 'react-icons/fa'
+import Layout from '../../components/Layout'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
-const RegistParkingSpace = ({ isLogged }) => {
+const RegistParkingSpace = () => {
+  const navigate = useNavigate()
   const addressRef = useRef()
-  const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(1)
+  const [disable, onDisable] = useState(false)
+  const [page, setPage] = useState(0)
   const [registParkingSpace, setRegistParkingspace] = useState({
     name: '',
     lat: 0,
@@ -25,22 +24,7 @@ const RegistParkingSpace = ({ isLogged }) => {
     thumnail: null,
     ownerDocs: null,
   })
-  const [inputAddress, setInputAddress] = useState('')
-  // 입력값이 다음 컴포넌트에 넘어가는 일 방지
-  useEffect(() => {
-    // page핸들링 제대로 못하면 오류남
-    if (page !== 4 && page !== 5) {
-      const value =
-        page !== 6
-          ? window.document.querySelector('input')
-          : window.document.querySelector('textarea')
-      console.log(12, value.value)
-      if (value.value !== '' || value.value !== null) {
-        value.value = ''
-      }
-    }
-  }, [page])
-
+  const [address, setAddress] = useState('')
   useEffect(() => {
     console.log(registFileParkingspace.thumnail)
     if (registFileParkingspace.thumnail !== null) {
@@ -50,10 +34,10 @@ const RegistParkingSpace = ({ isLogged }) => {
     }
   }, [registFileParkingspace])
 
-  const btnRef = useRef()
   const result = useRef()
   const regist = async () => {
-    // console.log(registFileParkingspace.ownerDocs[0].name)
+    onDisable(true)
+    toast.loading('정보를 등록중입니다.')
     const data1 = await fetch(`/api/space/v1/spaces`, {
       method: 'POST',
       headers: {
@@ -107,91 +91,54 @@ const RegistParkingSpace = ({ isLogged }) => {
         })
       )
 
-    console.log(result.current)
-    btnRef.current.click()
+    navigate('/registParkingspaceResultspace', { state: { result } })
   }
 
-  const verifiedCheck = (key) => {
-    // if
-    const data = key === 'address' ? key : registParkingSpace[key]
-    // console.log(1, typeof registParkingSpace['defaultCost'])
-    // console.log(typeof data)
-    if (typeof data === 'number') {
-      setPage(page + 1)
-    } else if (typeof data === 'string') {
-      if (data === '' || (data === 'address' && inputAddress === '')) {
-        toast.error('정보를 입력해주세요')
-        return false
-      } else if (key == 'name' && data.length < 5) {
-        toast.error('주차장 이름은 5글자 이상이여야 합니다.')
-        return false
-      } else {
-        setPage(page + 1)
-        return true
+  const verifyName = () => {
+    if (!registParkingSpace.name) {
+      toast.error('주차장 이름을 입력해주세요')
+      return
+    }
+    if (registParkingSpace.name.length < 5) {
+      toast.error('주차장 이름은 5글자 이상 입력해주세요')
+      return
+    }
+    setPage(page + 1)
+  }
+
+  const nameInput =
+    <input
+      type={'text'}
+      placeholder='ex) 경북소프트웨어고등학교 뒷문 주차장'
+      value={registParkingSpace.name}
+      minLength={5}
+      onChange={(e) =>
+        setRegistParkingspace({
+          ...registParkingSpace,
+          name: e.target.value,
+        })
       }
-    }
-  }
-  const cancle = () => {
-    const doCancle = window.confirm(
-      '정말 나가시겠습니까? (이때까지의 작성이 초기화 됩니다.)'
-    )
-    if (doCancle) {
-      window.location.href = '/registParkingspace'
-    }
-  }
+    />
 
-  const registPay = () => {
-    return (
-      <div>
-        <p>주차장을 등록하고 싶으면 돈을 내라..!</p>
-      </div>
-    )
-  }
-
-  const nameInput = () => {
-    return (
-      <>
-        <h3>등록하실 주차장의 이름을 입력해주세요.</h3>
-        <input
-          type={'text'}
-          name='spaceName'
-          minLength={5}
-          onChange={(e) =>
-            setRegistParkingspace({
-              ...registParkingSpace,
-              name: e.target.value,
-            })
-          }
-        />
-        <div className='btnGroup'>
-          <button onClick={() => verifiedCheck('name')}>
-            <FaArrowRight />
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  const getLatLng = (address) => {
-    console.log(1, address)
+  const getLatLng = () => {
     const geocoder = new kakao.maps.services.Geocoder()
     try {
       geocoder.addressSearch(address, function (result, status) {
-        console.log(result, 'hi')
         if (status === kakao.maps.services.Status.OK) {
           if (typeof result[0] === 'undefined') {
             toast.error('정확한 주소를 입력해주세요.')
-            setPage(page)
           } else if (result[0].y !== 0 && result[0].x !== 0) {
+            const answer = window.confirm(result[0].address_name + ' 주소가 맞나요?')
+            if (!answer) return
             setRegistParkingspace({
               ...registParkingSpace,
               lat: result[0].y * 1,
               lng: result[0].x * 1,
             })
+            setAddress(result[0].address_name)
             setPage(page + 1)
           } else {
             toast.error('정확한 주소를 입력해주세요.')
-            setPage(page)
           }
         } else {
           toast.error('정확한 주소를 입력해주세요.')
@@ -201,33 +148,14 @@ const RegistParkingSpace = ({ isLogged }) => {
       console.log('error')
     }
   }
-  const addressInput = () => {
-    return (
-      <>
-        <h3>등록하실 주차장의 주소를 입력해주세요.</h3>
-        <input
-          ref={addressRef}
-          type={'text'}
-          name='spaceAddress'
-          placeholder='정확한 도로명주소를 입력해주세요'
-          onChange={(e) => setInputAddress(e.target.value)}
-        />
-        <div>
-          <div className='btnGroup'>
-            <button onClick={() => setPage(page - 1)}>
-              <FaArrowLeft />
-            </button>
-            <button onClick={() => getLatLng(inputAddress)}>
-              <FaArrowRight />
-            </button>
-          </div>
-          <button className='cancleBtn' onClick={() => cancle()}>
-            취소
-          </button>
-        </div>
-      </>
-    )
-  }
+  const addressInput = 
+    <input
+      ref={addressRef}
+      type={'text'}
+      placeholder='정확한 도로명주소를 입력해주세요'
+      value={address}
+      onChange={(e) => setAddress(e.target.value)}
+    />
 
   const getFiles = () => {
     if (registFileParkingspace.thumnail !== null) {
@@ -240,176 +168,133 @@ const RegistParkingSpace = ({ isLogged }) => {
     }
   }
 
-  const parkingspaceThumnailInput = () => {
-    return (
-      <>
-        <h3>등록하실 주차장의 사진을 등록해주세요.</h3>
-        <label className='filebutton' htmlFor='thumnail'>
-          <div>
-            <FaUpload />
-            사진 업로드
-          </div>
-        </label>
-        <input
-          type={'file'}
-          name='spaceThum'
-          id='thumnail'
-          multiple
-          accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) =>
-            setRegistFileParkingSpace({
-              ...registFileParkingspace,
-              thumnail: e.target.files,
-            })
-          }
-        />
-        <div className='inputFiles'>
-          {registFileParkingspace.thumnail !== null
-            ? getFiles()
-                .slice(0, 5)
-                .map((v) => (
-                  <div>
-                    <FaFile /> {v}
-                  </div>
-                ))
-            : null}
-          {registFileParkingspace.thumnail !== null &&
-            getFiles().length > 5 && <div>+{getFiles().length - 5}...</div>}
-        </div>
-        <div className='btnGroup'>
-          <button onClick={() => setPage(page - 1)}>
-            <FaArrowLeft />
-          </button>
-          <button onClick={() => setPage(page + 1)}>
-            <FaArrowRight />
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  const ownershipDocsInput = () => {
-    return (
-      <>
-        <h3>등록하실 주차장의 소유를 증명할 파일을 등록해주세요.</h3>
-        <label className='filebutton' htmlFor='ownershipDocs'>
-          <div>
-            <FaUpload /> 파일 업로드
-          </div>
-        </label>
-        <input
-          type={'file'}
-          name='spaceownershipDocs'
-          id='ownershipDocs'
-          onChange={(e) =>
-            setRegistFileParkingSpace({
-              ...registFileParkingspace,
-              ownerDocs: e.target.files,
-            })
-          }
-        />
-        <div className='inputFiles'>
-          {registFileParkingspace.ownerDocs !== null && (
-            <div>
-              <FaFile /> {registFileParkingspace.ownerDocs[0].name}
-            </div>
-          )}
-        </div>
-        <div className='btnGroup'>
-          <button onClick={() => setPage(page - 1)}>
-            <FaArrowLeft />
-          </button>
-          <button onClick={() => setPage(page + 1)}>
-            <FaArrowRight />
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  const costInput = () => {
-    return (
-      <>
-        <h3>주차장의 30분당 대여가격을 입력해주세요.</h3>
-        <input
-          type={'number'}
-          name='spaceCost'
-          placeholder='＊미 작성시 30분당 3000원으로 기본입력됩니다.'
-          onChange={(e) =>
-            setRegistParkingspace({
-              ...registParkingSpace,
-              defaultCost: e.target.value * 1,
-            })
-          }
-        />
+  const parkingspaceThumnailInput = 
+    <>
+      <label className='filebutton' htmlFor='thumnail'>
         <div>
-          <div className='btnGroup'>
-            <button onClick={() => setPage(page - 1)}>
-              <FaArrowLeft />
-            </button>
-            <button onClick={() => verifiedCheck('defaultCost')}>
-              <FaArrowRight />
-            </button>
-          </div>
-          <button className='cancleBtn' onClick={() => cancle()}>
-            취소
-          </button>
+          <FaUpload />
+          사진 업로드
         </div>
-      </>
-    )
-  }
+      </label>
+      <input
+        type={'file'}
+        name='spaceThum'
+        id='thumnail'
+        multiple
+        accept='image/jpg, image/png, image/jpeg'
+        style={{ display: 'none' }}
+        onChange={(e) =>
+          setRegistFileParkingSpace({
+            ...registFileParkingspace,
+            thumnail: e.target.files,
+          })
+        }
+      />
+      <div className='inputFiles'>
+        {registFileParkingspace.thumnail !== null
+          ? getFiles()
+              .slice(0, 5)
+              .map((v) => (
+                <div>
+                  <FaFile /> {v}
+                </div>
+              ))
+          : null}
+        {registFileParkingspace.thumnail !== null &&
+          getFiles().length > 5 && <div>+{getFiles().length - 5}...</div>}
+      </div>
+    </>
 
-  const descInput = () => {
-    return (
-      <>
-        <h3>주차장에 대한 설명 및 주의사항 등을 적어주세요.</h3>
-        <textarea
-          onChange={(e) =>
-            setRegistParkingspace({
-              ...registParkingSpace,
-              description: e.target.value,
-            })
-          }
-        ></textarea>
+  const ownershipDocsInput = 
+    <>
+      <label className='filebutton' htmlFor='ownershipDocs'>
         <div>
-          <div className='btnGroup'>
-            <button onClick={() => setPage(page - 1)}>
-              <FaArrowLeft />
-            </button>
-            <button onClick={() => regist()}>주차장 등록</button>
-          </div>
-          <button className='cancleBtn' onClick={() => cancle()}>
-            취소
-          </button>
-          <Link
-            to={'/registParkingspaceResultspace'}
-            ref={btnRef}
-            state={{ result: result }}
-          />
+          <FaUpload /> 파일 업로드
         </div>
-      </>
-    )
-  }
+      </label>
+      <input
+        type={'file'}
+        name='spaceownershipDocs'
+        id='ownershipDocs'
+        style={{ display: 'none' }}
+        onChange={(e) =>
+          setRegistFileParkingSpace({
+            ...registFileParkingspace,
+            ownerDocs: e.target.files,
+          })
+        }
+      />
+      <div className='inputFiles'>
+        {registFileParkingspace.ownerDocs !== null && (
+          <div>
+            <FaFile /> {registFileParkingspace.ownerDocs[0].name}
+          </div>
+        )}
+      </div>
+    </>
 
+  const costInput =
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <input
+        type={'number'}
+        name='spaceCost'
+        placeholder='미 작성시 3000원으로 설정됩니다.'
+        value={registParkingSpace.defaultCost}
+        onChange={(e) =>
+          setRegistParkingspace({
+            ...registParkingSpace,
+            defaultCost: e.target.value * 1,
+          })
+        }
+      />
+      <p style={{ fontSize: '1.5em' }}>원</p>
+    </div>
+
+  const descInput = 
+    <textarea
+      onChange={(e) =>
+        setRegistParkingspace({
+          ...registParkingSpace,
+          description: e.target.value,
+        })
+      }
+      value={registParkingSpace.description}
+    ></textarea>
   const inputComponents = [
-    registPay(),
-    nameInput(),
-    addressInput(),
-    costInput(),
-    parkingspaceThumnailInput(),
-    ownershipDocsInput(),
-    descInput(),
+    nameInput,
+    addressInput,
+    costInput,
+    parkingspaceThumnailInput,
+    ownershipDocsInput,
+    descInput,
   ]
 
+  const onSubmit = () => {
+    if (page === 0) return verifyName()
+    if (page === 1) return getLatLng()
+    if (page === 5) return regist()
+    setPage(page + 1)
+  }
+
+  const onReturn = () => {
+    if (page !== 0) return setPage(page - 1)
+    
+    const answer = window.confirm('주차장 등록을 취소하시겠습니까?')
+    if (answer) return navigator('/')
+  }
   return (
     <>
-      {isLoading && <Loading />}
-      <Header />
-      <div className='registParkingspaceForm'>
-        {page <= 3 ? <h2>Step.{page}</h2> : null}
-        {inputComponents[page]}
-      </div>
-      <BottomTab />
+      <Layout
+        title={['주차장의\n이름을 입력해주세요.', '주차장의\n주소를 입력해주세요.', '주차장의 30분당\n대여가격을 입력해주세요.', '주차장의 사진을\n등록해주세요.', '주차장의 소유를 증명할\n파일을 등록해주세요.', '주차장에 대한 설명 및\n주의사항 등을 적어주세요.'][page]}
+        buttonText={ page === 5 ? '완료' : '다음' }
+        onSubmit={onSubmit}
+        onReturn={onReturn}
+        onDisable={disable}
+      >
+        <div className='registParkingspaceForm'>
+          {inputComponents[page]}
+        </div>
+      </Layout>
     </>
   )
 }

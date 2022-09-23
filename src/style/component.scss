@@ -1,18 +1,25 @@
 $theme-color: #8254C4;
 
 .component {
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none; 
+  }
   overflow: hidden;
   label {
     display: block;
     color: rgb(99, 99, 99);
   }
-  input {
+  input, textarea {
     margin-bottom: 14px;
-    padding: 3px;
+    padding: 10px 3px;
     border: none;
     border-bottom: 1px solid #ccc;
     display: block;
     width: 100%;
+    font-size: 1em;
   }
   .subLink {
     text-align: center;

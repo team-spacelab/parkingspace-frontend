@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import ParkingspaceInfoModal from './SpaceInfoModal'
 import SearchBar from './SearchBar'
 import '../style/kakao.scss'
+import AroundSpaceModal from './AroundSpaceModal'
 
 const useDebouncedEffect = (func, delay, deps) => {
   const callback = useCallback(func, deps)
@@ -23,6 +24,7 @@ const useDebouncedEffect = (func, delay, deps) => {
 
 const KakaoMap = () => {
   const [showModal, setShowModal] = useState(false)
+  const [showAroundModal, setShowAroundModal] = useState(true)
   const [parkInfo, setParkInfo] = useState({})
   const [state, setState] = useState({
     center: {
@@ -145,12 +147,31 @@ const KakaoMap = () => {
     }))
   }
 
+  const onAroundClick = (select) => {
+    setState((prev) => ({
+      ...prev,
+      center: {
+        lat: select.lat,
+        lng: select.lng
+      },
+      level: 1
+    }))
+    setParkInfo(select)
+    setShowModal(true)
+  }
+
   return (
     <>
       <SearchBar
         map={state}
         setMap={(lat, lng) => setState({ ...state, center: { lat, lng }, level: 2 })}
       />
+        <AroundSpaceModal
+          spaces={spaces}
+          onClick={onAroundClick}
+          close={showAroundModal}
+          setClose={setShowAroundModal}
+        />
       <div className='kakaomap'>
         <ParkingspaceInfoModal
           setShowModal={setShowModal}

@@ -1,7 +1,8 @@
 /* global kakao */
 import { useLocation } from 'react-router-dom'
 import BottomTab from '../../components/BottomTab'
-import Header from '../../components/Header'
+import Loading from '../../components/Loading'
+import SimpleImageSlider from 'react-simple-image-slider'
 import {
   FaParking,
   FaCoins,
@@ -11,10 +12,11 @@ import {
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import Layout from '../../components/Layout'
 
 const ParkingSpaceDetail = () => {
   const data = useLocation().state
-  const [imgUrl, setImgUrl] = useState('')
+  const [image, setImage] = useState([])
   const [address, setAddress] = useState('')
   const [spaceInfo, setSpaceInfo] = useState({
     success: true,
@@ -55,7 +57,7 @@ const ParkingSpaceDetail = () => {
     // .then((res) => console.log(res))
     fetch(`/api/space/v1/spaces/${data.spaceId}/files?type=SPACE_PICTURE`)
       .then((res) => res.json())
-      .then((res) => setImgUrl(res.data.files[0].url))
+      .then((res) => setImage(res.data.files))
   }, [data])
 
   const delParkingspace = () => {
@@ -82,22 +84,35 @@ const ParkingSpaceDetail = () => {
     }
   }
 
+  if (!address) return <Loading />
+
   return (
-    <>
-      <Header />
+    <Layout
+      title='내 주차장 정보'
+      buttonShow={false}
+    >
       <div className='parkingspaceDetail'>
         <h3>
-          <FaParking /> {spaceInfo.data.space.name} ( #{spaceInfo.data.space.id}{' '}
-          )
+          <FaParking /> {spaceInfo.data.space.name}
         </h3>
         <p>{address}</p>
-        {/** 주차장 이미지 */}
-        <div
+        {/* <div
           className='image'
           style={{
             backgroundImage: `url('${imgUrl}')`,
           }}
-        />
+        /> */}
+        {/* {  image.length > 0 && 
+          <SimpleImageSlider
+            width={'100%'}
+            height={'200px'}
+            images={image}
+            showNavs={image.length < 1}
+            loop={true}
+            autoPlay={true}
+            autoPlayDelay={3000}
+          />
+        } */}
         <div className='detailInfo'>
           <p>{spaceInfo.data.space.description}</p>
           <p>
@@ -120,7 +135,7 @@ const ParkingSpaceDetail = () => {
         </div>
       </div>
       <BottomTab />
-    </>
+    </Layout>
   )
 }
 

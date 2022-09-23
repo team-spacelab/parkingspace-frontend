@@ -47,7 +47,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
       <Sheet
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        snapPoints={[600, 150]}
+        snapPoints={[650, 400]}
         initialSnap={1}
       >
         <Sheet.Container

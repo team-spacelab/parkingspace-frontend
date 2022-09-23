@@ -72,7 +72,6 @@ const MyInfo = () => {
 
   return (
     <>
-      <Header />
       <div className='myInfo'>
         <p className='menu'>
           <FaUserCircle /> <span>{user.nickname}님 안녕하세요.</span>
@@ -132,12 +131,13 @@ const MyInfo = () => {
 
         <p className='warning menu' onClick={() => logout()}>
           <FaSignInAlt />
-          &nbsp;<span>로그아웃</span>
+          로그아웃
         </p>
         <p className='warning menu' onClick={() => userDelete()}>
           <FaUserAltSlash />
-          &nbsp;<span>회원탈퇴</span>
+          회원탈퇴
         </p>
+        <p className='email'>문의: <a href="mailto://contact@spacelab.work">contact@spacelab.work</a></p>
       </div>
       <BottomTab />
     </>

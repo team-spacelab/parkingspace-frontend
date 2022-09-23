@@ -88,7 +88,7 @@ html, body{
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  z-index: 1;
+  z-index: 9999999999999;
   background-color: $theme-color;
   padding: 4px 5px;
   button {
@@ -203,6 +203,7 @@ html, body{
 }
 */
 .parkingspace {
+  margin-top: 15px;
   .addPark {
     width: 92%;
     display: block;
@@ -396,16 +397,27 @@ html, body{
   &  .menu {
     border-bottom: 1px solid #ccc;
     &:first-child {
+      justify-content: left;
       border-bottom: none;
-      padding: 15px;
+      padding: 20px 0px;
       cursor: default;
     }
-    padding: 10px 15px;
+    padding: 13px 15px;
+    align-items: center;
+    display: flex;
+    text-align: left;
     cursor: pointer;
+    gap: 8px;
     &:first-child > span {
       vertical-align: 40%;
       font-size: 1.2em;
     }
+  }
+  .email {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    color: #4e4e4e
   }
   .myInfoFlexContainer {
     display: flex;
@@ -551,7 +563,7 @@ html, body{
 
 .parkingspaceDetail {
   display: block;
-  width: 92%;
+  // width: 92%;
   margin: 0 auto;
   h3 {color: $theme-color;}
   * {
@@ -603,60 +615,60 @@ html, body{
 }
 
 .registParkingspaceForm {
-  p {
-    color: rgb(117, 116, 116);
-    font-size: 0.8em;
-    font-weight: 500;
-  }
-  display: block;
-  width: 92%;
-  margin: 0 auto;
-  & > :is(input, textarea) {
-    border: none;
-    border-bottom: 1px solid rgb(184, 184, 184);
-    width: 96%;
-    padding: 2%;
-  }
-  & > input[type=file] {
-    //position: relative;
-    display: none;
-  }
-  .cancleBtn {
-    display: block;
-    width: 100%;
-    border: none;
-    background-color: rgba(255, 255, 255, 0);
-    margin: 5px 0;
-    opacity: 0.5;
-  }
-  .btnGroup {
-    display: flex;
-    justify-content: space-around;
-    margin: 4px 0;
-    button{
-      display: block;
-      width: 48%;
-      background-color: #6232d3ce;
-      border: 1px solid $theme-color;
-      border-radius: 5px;
-      padding: 5px 8px;
-      margin-bottom: 0px;
-      font-size: 0.9em;
-      font-weight: 700;
-      color: white;
-    }
-    button:only-child {
-      width: 100%;
-      background-color: #6232d3ce;
-      border: 1px solid $theme-color;
-      border-radius: 5px;
-      padding: 5px 8px;
-      margin-bottom: 0px;
-      font-size: 1em;
-      font-weight: 700;
-      color: white;
-    }
-  }
+  // p {
+  //   color: rgb(117, 116, 116);
+  //   font-size: 0.8em;
+  //   font-weight: 500;
+  // }
+  // display: block;
+  // width: 92%;
+  // margin: 0 auto;
+  // & > :is(input, textarea) {
+  //   border: none;
+  //   border-bottom: 1px solid rgb(184, 184, 184);
+  //   width: 96%;
+  //   padding: 2%;
+  // }
+  // & > input[type=file] {
+  //   //position: relative;
+  //   display: none;
+  // }
+  // .cancleBtn {
+  //   display: block;
+  //   width: 100%;
+  //   border: none;
+  //   background-color: rgba(255, 255, 255, 0);
+  //   margin: 5px 0;
+  //   opacity: 0.5;
+  // }
+  // .btnGroup {
+  //   display: flex;
+  //   justify-content: space-around;
+  //   margin: 4px 0;
+  //   button{
+  //     display: block;
+  //     width: 48%;
+  //     background-color: #6232d3ce;
+  //     border: 1px solid $theme-color;
+  //     border-radius: 5px;
+  //     padding: 5px 8px;
+  //     margin-bottom: 0px;
+  //     font-size: 0.9em;
+  //     font-weight: 700;
+  //     color: white;
+  //   }
+  //   button:only-child {
+  //     width: 100%;
+  //     background-color: #6232d3ce;
+  //     border: 1px solid $theme-color;
+  //     border-radius: 5px;
+  //     padding: 5px 8px;
+  //     margin-bottom: 0px;
+  //     font-size: 1em;
+  //     font-weight: 700;
+  //     color: white;
+  //   }
+  // }
 }
 
 .order {

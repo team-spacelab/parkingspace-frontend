@@ -54,7 +54,8 @@ const SearchModal = ({ setMap, parkInfo, setShowModal, showModal }) => {
       >
         <Sheet.Container>
           <Sheet.Header />
-          <Sheet.Content>
+          <Sheet.Content 
+          >
             <div className='searchmodal'>
               {!parkInfo.length && (
                 <div className='notfound'>
