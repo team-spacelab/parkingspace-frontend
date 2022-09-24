@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import SimpleImageSlider from 'react-simple-image-slider'
 import Sheet from 'react-modal-sheet'
+import Loading from './Loading'
 import { useNavigate } from 'react-router-dom'
 import {
   FaMapMarkedAlt,
@@ -10,8 +11,17 @@ import {
 import toast from 'react-hot-toast'
 const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
   const navigate = useNavigate()
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState()
   const [address, setAddress] = useState('')
+  const [rating, setRating] = useState(10)
+
+  const fetchSpace = () =>
+    fetch(`/api/space/v1/spaces/${parkInfo.id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) return toast.error(data.reason)
+        setRating((Number(data.data.space.avgRating).toFixed(1)))
+      })
 
   const fetchImage = async () => {
     const res = await fetch(
@@ -38,10 +48,13 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
 
   useEffect(() => {
     if (!showModal) return
+    fetchSpace()
     fetchImage()
     getAdress()
   }, [showModal, parkInfo])
 
+  if (!showModal) return null
+  if (rating === 10 || !images || !address) return <Loading />
   return (
     <>
       <Sheet
@@ -98,7 +111,7 @@ const ParkingspaceInfoModal = ({ parkInfo, setShowModal, showModal }) => {
                     </div>
                   </div>
                   <div className='info grade'>
-                    <p><strong>5</strong><br />등급</p>
+                    <p><strong>{rating}</strong><br />등급</p>
                   </div>
                 </div>
 
