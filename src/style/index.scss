@@ -202,6 +202,48 @@ html, body{
   }
 }
 */
+
+.orderpage {
+  label {
+    margin-top: 20px;
+    margin-bottom: 1px;
+  }
+  select {
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    background-color: #444444;
+  }
+  .method {
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 5px #00000031;
+    .method-title {
+      margin-bottom: 10px;
+      display: flex;
+      font-weight: bold;
+      font-size: 20px;
+      align-items: center;
+      gap: 5px;
+      img {
+        height: 30px;
+      }
+    }
+    .method-change {
+      width: 100%;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      margin-top: 15px;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
 .parkingspace {
   margin-top: 15px;
   .addPark {
@@ -254,6 +296,20 @@ html, body{
   justify-content: space-evenly;
   & > p {
     display: inline-block;
+  }
+}
+
+.historyCard {
+  background-color: $theme-color;
+  padding: 10px;
+  color: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  .id {
+    font-weight: bold;
+    font-size: 0.9em;
+    text-align: center;
+    border-bottom: 1px #fff solid;
   }
 }
 
@@ -834,28 +890,11 @@ html, body{
 
 
 .carsList {
-
-  padding: 13px 14px;
-    .goBackBtn {
-      color: rgb(117, 116, 116);
-      font-size: 0.8em;
-      font-weight: 500;
-      cursor: pointer;
-      //margin: 0px 0px 2em;
-    
-  }
-  h2 {
-    color: $theme-color;
-    font-weight: 800;
-    // line-height: 30px;
-    font-size: 1.8em;
-    margin: 0px  0px 32px 0px;
-  }
   ol {
-    margin: 0 15px;
     list-style: none;
   }
   li {
+    cursor: pointer;
     background-color: $theme-color;
     color: white;
     margin: 5px 0;
@@ -863,7 +902,6 @@ html, body{
     border-radius: 5px;
     font-weight: 500;
   }
-  width: 92%;
   display: block;
   margin: 0 auto;
 }

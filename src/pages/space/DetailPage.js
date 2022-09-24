@@ -9,12 +9,15 @@ import {
   FaShareAltSquare,
   FaStar,
   FaStoreSlash,
+  FaMoneyBill,
 } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Layout from '../../components/Layout'
+import { useNavigate } from 'react-router-dom'
 
 const ParkingSpaceDetail = () => {
+  const navigate = useNavigate()
   const data = useLocation().state
   const [image, setImage] = useState([])
   const [address, setAddress] = useState('')
@@ -128,6 +131,9 @@ const ParkingSpaceDetail = () => {
             ) : (
               <span className='redBtn'>승인 대기 중</span>
             )}
+          </p>
+          <p onClick={() => navigate('/space/profit', { state: { id: spaceInfo.id } })}>
+            <FaMoneyBill /> 주차장 수익
           </p>
           <p className='warning' onClick={delParkingspace}>
             <FaStoreSlash /> 주차장 삭제하기

@@ -6,6 +6,8 @@ import {
   FaUserCog,
   FaCar,
   FaList,
+  FaBook,
+  FaMoneyCheck,
 } from 'react-icons/fa'
 import BottomTab from '../../components/BottomTab'
 import Header from '../../components/Header'
@@ -88,7 +90,7 @@ const MyInfo = () => {
             : '전화번호 인증을 해주세요'}
         </p> */}
         <p onClick={reshowGuide} className='menu'>
-          <FaRoad /> 가이드 다시보기
+          <FaBook /> 가이드 다시보기
         </p>
         <p
           onClick={() => (window.location.href = '/setting/payment')}
@@ -96,11 +98,17 @@ const MyInfo = () => {
         >
           <FaUserCog /> 결제 관리
         </p>
-        <p className='menu' onClick={() => navigate('/registCar')}>
-          <FaCar /> 자동차 등록
+        <p
+          onClick={() => (window.location.href = '/orderhistory')}
+          className='menu'
+        >
+          <FaMoneyCheck /> 결제 기록
         </p>
+        {/* <p className='menu' onClick={() => navigate('/registCar')}>
+          <FaCar /> 자동차 등록
+        </p> */}
         <p className='menu' onClick={() => navigate('/carLIst')}>
-          <FaList /> 자동차 목록
+          <FaCar /> 자동차 관리
         </p>
         {/* <p className='myInfoFlexContainer'>
           <span>

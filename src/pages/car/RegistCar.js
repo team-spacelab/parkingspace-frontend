@@ -30,7 +30,7 @@ const RegistCar = () => {
     }).then((res) => res.json())
     if (fetchData.success) {
       toast.success('자동차 등록을 완료하였습니다.')
-      navigate('/myInfo')
+      navigate('/carlist')
     } else {
       toast.error('자동차 등록 중 에러가 발생하였습니다.')
     }
@@ -40,37 +40,35 @@ const RegistCar = () => {
     return <></>
   }
   return (
-    <>
-      <Layout
-        title={`자동차를 등록하고${'\n'}주차장을 대여하세요`}
-        onSubmit={fetchRegistCar}
-        buttonText={'자동차 등록'}
-        subLink={subLink}
-      >
-        <div className='registCar'>
-          <label>자동차 별칭</label>
-          <input
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                alias: e.target.value,
-              })
-            }
-            placeholder='ex) 카니발'
-          />
-          <label>자동차 번호</label>
-          <input
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                number: e.target.value,
-              })
-            }
-            placeholder='ex) 31가 5884'
-          />
-        </div>
-      </Layout>
-    </>
+    <Layout
+      title={`자동차를 등록하고${'\n'}주차장을 대여하세요`}
+      onSubmit={fetchRegistCar}
+      buttonText={'자동차 등록'}
+      subLink={subLink}
+    >
+      <div className='registCar'>
+        <label>자동차 별칭</label>
+        <input
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              alias: e.target.value,
+            })
+          }
+          placeholder='ex) 카니발'
+        />
+        <label>자동차 번호</label>
+        <input
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              number: e.target.value,
+            })
+          }
+          placeholder='ex) 31가 5884'
+        />
+      </div>
+    </Layout>
   )
 }
 

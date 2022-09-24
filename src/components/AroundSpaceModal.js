@@ -3,16 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import {
   FaExclamationCircle
 } from 'react-icons/fa'
-const AroundSpaceModal = ({ spaces, onClick, close, setClose }) => {
+import { useRef, useState } from 'react'
+const AroundSpaceModal = ({ spaces, onClick }) => {
   const sorted = spaces ? spaces.sort((a, b) => a.defaultCost > b.defaultCost ? 1 : -1) : []
+  const [close, setClose] = useState(true)
+  const sheetRef = useRef()
+  const snapTo = (i) => sheetRef.current?.snapTo(i);
+
+  const onMove = (v) => {
+    snapTo(1)
+    onClick(v)
+  }
 
   return (
     <>
       <Sheet
+        ref={sheetRef}
         isOpen={close}
         snapPoints={[650, 105]}
         initialSnap={1}
-        onCloseEnd={() => setClose(false)}
+        onCloseEnd={() => setClose(true)}
         style={{ zIndex: -100, position: 'relative' }}
       >
         <Sheet.Container>
@@ -37,7 +47,7 @@ const AroundSpaceModal = ({ spaces, onClick, close, setClose }) => {
                     </div>
                   </div>
 
-                  <button onClick={() => onClick(v)}>이동하기</button>
+                  <button onClick={() => onMove(v)}>이동하기</button>
                 </div>
               ))}
             </div>

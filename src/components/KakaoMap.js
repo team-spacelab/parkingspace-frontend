@@ -24,7 +24,6 @@ const useDebouncedEffect = (func, delay, deps) => {
 
 const KakaoMap = () => {
   const [showModal, setShowModal] = useState(false)
-  const [showAroundModal, setShowAroundModal] = useState(true)
   const [parkInfo, setParkInfo] = useState({})
   const [state, setState] = useState({
     center: {
@@ -169,8 +168,6 @@ const KakaoMap = () => {
         <AroundSpaceModal
           spaces={spaces}
           onClick={onAroundClick}
-          close={showAroundModal}
-          setClose={setShowAroundModal}
         />
       <div className='kakaomap'>
         <ParkingspaceInfoModal

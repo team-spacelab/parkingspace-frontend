@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion'
 import Login from './pages/auth/LoginPage'
 import Main from './pages/MainPage'
 import MyInfo from './pages/auth/InfoPage'
-import ParkingSpace from './pages/ParkingPage'
+import ParkingSpace from './pages/space/ListPage'
 import ParkingSpaceDetail from './pages/space/DetailPage'
 import Register from './pages/auth/RegisterPage'
 import RegistParkingSpace from './pages/space/RegistPage'
@@ -20,6 +20,8 @@ import Root from './pages/root'
 import PaymentSetting from './components/PaymentSetting'
 import RegistCar from './pages/car/RegistCar'
 import CarList from './pages/car/CarList'
+import CarDetail from './pages/car/CarDetail'
+import History from './pages/auth/HistoryPage'
 
 const App = () => {
   const cookie = new Cookies()
@@ -76,13 +78,15 @@ const App = () => {
                 element={<RegistParkingSpaceResult />}
               />
               <Route path='/setting/payment' element={<PaymentSetting />} />
+              <Route path='/registCar' element={<RegistCar />} />
+              <Route path='/carList' element={<CarList />} />
+              <Route path='/carDetail' element={<CarDetail />} />
+              <Route path='/orderhistory' element={<History />} />
             </Route>
             <Route
               path='/parkingspaceDetail'
               element={<ParkingSpaceDetail />}
             />
-            <Route path='/registCar' element={<RegistCar />} />
-            <Route path='/carList' element={<CarList />} />
           </Routes>
         </AnimatePresence>
       </>

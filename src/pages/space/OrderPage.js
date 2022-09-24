@@ -62,8 +62,9 @@ const Order = () => {
       .then(res => res.json())
       .then(data => {
         if (!data.success) return
-        setCars(data.data.cars)
-        if (data.data.cars.length > 0) setSelectedCar(data.data.cars[0].id)
+        setCars(data.data.cars.filter(v => !v.status))
+        if (data.data.cars.filter(v => !v.status).length > 0)
+          setSelectedCar(data.data.cars.filter(v => !v.status)[0].id)
       })
 
   const fetchMe = () =>
@@ -135,7 +136,8 @@ const Order = () => {
   }, [space])
 
   if (!space || !cars || !payments || !address) return <Loading />
-
+  const selectedMethodInfo = payments.cards.concat(payments.accounts).filter(v => v.id === selectedMethod)[0]
+  
   const onSubmit = async () => {
     console.log(userData)
     if (!startDate || !endDate) return toast.error('시작 시간과 종료 시간을 선택해주세요.')
@@ -187,21 +189,32 @@ const Order = () => {
         selectedMethod={selectedMethod}
       />
       <Layout buttonText={price + '원 결제'} onSubmit={() => onSubmit()} title={'주차장을 결제하기 위해\n아래 정보를 입력해주세요.'}>
-        <form onSubmit={onSubmit}>
+        <form className='orderpage'>
           <h3>결제할 주차장</h3>
           <p>{space.name} ({address})</p>
           
-          <label htmlFor='car'>차량</label><br/>
-          <select onChange={(e) => setCars(e.target.value)}>
+          <label htmlFor='car'>차량 선택</label>
+          <select onChange={(e) => setSelectedCar(e.target.value)} value={selectedCar}>
             {cars.length < 1 && <option disabled>등록된 차량이 없습니다.</option>}
             {cars.length > 0 ? cars.map(car => (
               <option value={car.id}>{car.alias} ({car.num})</option>
             )) : null}
           </select>
 
+          <label htmlFor='car'>예약 시작시간 선택</label>
           <DatePicker onChange={changeStartDate} selected={startDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
+          
+          <label htmlFor='car'>예약 종료시간 선택</label>
           <DatePicker onChange={changeEndDate} selected={endDate} showTimeSelect dateFormat="Pp" timeIntervals={10} />
-          <button type={'button'} onClick={() => setShowMethodModal(true)}>결제 수단</button>
+          
+          <div className='method' style={{ backgroundColor: selectedMethodInfo.color.background, color: selectedMethodInfo.color.text }}>
+            <div className='method-title'>
+              <img src={selectedMethodInfo.iconUrl} alt='아이콘'/>
+              <p>{selectedMethodInfo.alias ? selectedMethodInfo.alias + ' / ' : ''}{selectedMethodInfo.cardName || selectedMethodInfo.accountName}</p>
+            </div>
+            <p>{selectedMethodInfo.cardNumber || selectedMethodInfo.accountNumber}</p>
+            <button type={'button'} className='method-change' onClick={() => setShowMethodModal(true)}>결제 수단 변경</button>
+          </div>
           <div className='button_area'>
             {order && <Pay amount={price} orderName={'[파킹스페이스] ' + space.name} orderId={orderId} userId={userData.id} method={selectedMethod} />}
           </div>

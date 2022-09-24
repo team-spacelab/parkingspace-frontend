@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import BottomTab from '../components/BottomTab'
-import Header from '../components/Header'
-import Loading from '../components/Loading'
+import BottomTab from '../../components/BottomTab'
+import Header from '../../components/Header'
+import Loading from '../../components/Loading'
 const ParkingSpace = () => {
   const [parkingspace, setParkingspace] = useState()
   const getMyParkingspace = () => 
